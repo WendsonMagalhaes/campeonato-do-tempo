@@ -1,0 +1,342 @@
+{
+  "adriel": {
+    "archetype": "Boxeador / Street Fighter (Gola Polo Verde)",
+    "idle": "Excelente - postura de guarda com punhos fechados e leve respiração lateral.",
+    "walk": "Bom - passada firme alternada, pés firmes no piso.",
+    "attack": "Muito bom - jab direto alongado com corpo projetado para frente (+179px alcance).",
+    "hurt": "Bom - tronco recuado e queixo erguido. Pé recuado ligeiramente suspenso (-22px, natural no recuo).",
+    "victory": "Excelente - braços erguidos em comemoração triunfante com troféu/punho cerrado.",
+    "lying": "Atenção - corpo deitado com ligeira elevação do chão (96px), renderizado centralizado.",
+    "verdict": "Alta qualidade e estilo anos 90 consistente."
+  },
+  "alexandre": {
+    "archetype": "Karateca / Lutador Kimono/Camisa Azul",
+    "idle": "Excelente - guarda clássica de karatê, respiração sutil sem jitter (0px drift).",
+    "walk": "Excelente - passada dinâmica com avanço de base e troca de peso equilibrada.",
+    "attack": "Excelente - soco frontal reto com extensão total de braço.",
+    "hurt": "Excelente - impacto forte no peito, flexão de joelho mantendo grounding.",
+    "victory": "Excelente - pose de vitória clássica com punho apontando ao alto.",
+    "lying": "Excelente - caído horizontal rente ao chão (108px altura, 463px largura).",
+    "verdict": "Perfeito. Animação fluida e muito coesa."
+  },
+  "ana": {
+    "archetype": "Lutadora / Atleta Street (Top Vermelho / Cabelo Preso)",
+    "idle": "Excelente - base atlética ligeiramente agachada, respiração suave e simétrica.",
+    "walk": "Excelente - marcha esportiva fluida.",
+    "attack": "Excelente - gancho de direita explosivo com boa rotação de quadril.",
+    "hurt": "Excelente - absorção de golpe com cabeça e ombros virados para trás.",
+    "victory": "Excelente - braços em V celebrando com energia.",
+    "lying": "Excelente - repouso horizontal completo no chão.",
+    "verdict": "Perfeita. Fluidez e silhueta impecáveis."
+  },
+  "caio": {
+    "archetype": "Lutador Forte / Jiu-Jitsu (Camisa Escura)",
+    "idle": "Excelente - guarda alta e ombros largos estáveis.",
+    "walk": "Excelente - marcha firme de combate com passos largos.",
+    "attack": "Excelente - cruzado potente com transferência de massa.",
+    "hurt": "Excelente - recoil dramático preservando o contato com o chão.",
+    "victory": "Excelente - pose confiante de campeão.",
+    "lying": "Excelente - deitado no solo com leitura clara de K.O.",
+    "verdict": "Excelente coesão visual e dinâmica pesada."
+  },
+  "daniel": {
+    "archetype": "Lutador Casual / Strike (Camiseta)",
+    "idle": "Excelente - guarda de boxe tradicional.",
+    "walk": "Bom - passada dinâmica; ligeira elevação de calcanhar no walk_02 (14px, característico do passo).",
+    "attack": "Muito bom - soco direto frontal preciso.",
+    "hurt": "Excelente - reação de impacto nítida.",
+    "victory": "Excelente - braço levantado em saudação.",
+    "lying": "Excelente - deitado plano no piso.",
+    "verdict": "Muito bom, movimentos limpos e proporcionais."
+  },
+  "david": {
+    "archetype": "Lutador Ágil (Regata / Shorts)",
+    "idle": "Excelente - guarda fechada com postura compacta.",
+    "walk": "Excelente - passo leve e cadenciado.",
+    "attack": "Excelente - golpe veloz com linha de impacto limpa.",
+    "hurt": "Excelente - desequilíbrio para trás expressivo.",
+    "victory": "Excelente - pose vibrante com punho cerrado ao alto.",
+    "lying": "Excelente - no piso perfeitamente assentado.",
+    "verdict": "Muito ágil e bem animado."
+  },
+  "dinarte": {
+    "archetype": "Veterano / Mestre de Combate (Traje Escuro)",
+    "idle": "Excelente - base sólida tradicional inabalável.",
+    "walk": "Excelente - caminhada metódica e firme.",
+    "attack": "Excelente - soco clássico em linha reta.",
+    "hurt": "Excelente - arqueamento defensivo após absorção do golpe.",
+    "victory": "Excelente - comemoração sóbria e imponente.",
+    "lying": "Excelente - deitado alinhado ao piso.",
+    "verdict": "Excelente e expressivo."
+  },
+  "erikson": {
+    "archetype": "Lutador Robusto / Brawler (Camisa Polo)",
+    "idle": "Excelente - guarda frontal com leve oscilação (3px de drift natural na respiração).",
+    "walk": "Excelente - passada pesada e intimidadora.",
+    "attack": "Excelente - swing amplo com grande área de impacto (+174px largura).",
+    "hurt": "Excelente - recuo expressivo com queixo protegido.",
+    "victory": "Excelente - punho erguido celebrando o round.",
+    "lying": "Excelente - K.O. dramático no chão.",
+    "verdict": "Excelente sensação de impacto e peso."
+  },
+  "evellyn": {
+    "archetype": "Lutadora Rápida / TaeKwonDo (Visual Moderno)",
+    "idle": "Excelente - guarda dinâmica com leve movimento de tronco.",
+    "walk": "Excelente - passos elegantes e prontos para avanço.",
+    "attack": "Excelente - golpe veloz e focado.",
+    "hurt": "Excelente - rotação de impacto e cabeça jogada para trás.",
+    "victory": "Excelente - comemoração alegre com pose aberta.",
+    "lying": "Excelente - deitada com clareza visual total.",
+    "verdict": "Fluidez excepcional e frames muito limpos."
+  },
+  "fabio": {
+    "archetype": "Lutador Clássico (Camiseta Branca / Jeans)",
+    "idle": "Excelente - guarda neutra e postura relaxada porém alerta.",
+    "walk": "Excelente - marcha confiante para frente.",
+    "attack": "Excelente - golpe de punho direto bem estendido.",
+    "hurt": "Excelente - tronco arqueado para trás com bom efeito de atordoamento.",
+    "victory": "Excelente - braço levantado apontando para cima.",
+    "lying": "Excelente - repouso completo no chão.",
+    "verdict": "Muito sólido e tradicional de arcade."
+  },
+  "fatinha": {
+    "archetype": "Lutadora Veterana / Técnica (Traje Esportivo)",
+    "idle": "Excelente - guarda concentrada e postura firme.",
+    "walk": "Excelente - passos curtos e rápidos.",
+    "attack": "Excelente - golpe focado e rápido.",
+    "hurt": "Excelente - recuo sob controle.",
+    "victory": "Excelente - sorriso e celebração calorosa.",
+    "lying": "Excelente - deitada com proporção correta.",
+    "verdict": "Muito expressiva e harmoniosa."
+  },
+  "fernando": {
+    "archetype": "Lutador Forte / Brawler (Camisa Social / Óculos)",
+    "idle": "Bom - postura imponente; sutil ajuste de base entre frames (5px).",
+    "walk": "Excelente - marcha imponente e pesada.",
+    "attack": "Excelente - soco forte estilo Street Brawler.",
+    "hurt": "Excelente - recuo de cabeça mantendo estabilidade.",
+    "victory": "Excelente - pose vitoriosa confiante.",
+    "lying": "Excelente - K.O. estirado no piso.",
+    "verdict": "Excelente presença de palco e estilo arcade vintage."
+  },
+  "izaias": {
+    "archetype": "Lutador Disciplinado (Camisa Polo Listrada)",
+    "idle": "Excelente - guarda clássica sem desvio de base.",
+    "walk": "Excelente - avanço constante e cadenciado.",
+    "attack": "Excelente - soco lateral com rotação de ombro.",
+    "hurt": "Excelente - reação corporal proporcional ao impacto.",
+    "victory": "Excelente - punho para o alto com sorriso vitorioso.",
+    "lying": "Excelente - deitado no solo perfeitamente.",
+    "verdict": "Muito coeso e preciso."
+  },
+  "jailson": {
+    "archetype": "Lutador Street / Camisa Estampada",
+    "idle": "Excelente - base ágil e atenta.",
+    "walk": "Excelente - passadas sincronizadas.",
+    "attack": "Excelente - cruzado rápido.",
+    "hurt": "Excelente - tronco dobrado na absorção.",
+    "victory": "Excelente - braços abertos festejando.",
+    "lying": "Excelente - K.O. clássico.",
+    "verdict": "Excelente execução e silhueta bem definida."
+  },
+  "joao": {
+    "archetype": "Lutador Ágil / Casual",
+    "idle": "Excelente - guarda de boxe compacta.",
+    "walk": "Bom - passada atlética (walk_02 ligeiramente mais vertical por conta do joelho erguido).",
+    "attack": "Excelente - jab veloz com boa extensão.",
+    "hurt": "Excelente - recuo rápido de cabeça.",
+    "victory": "Excelente - celebração com punho cerrado.",
+    "lying": "Excelente - deitado plano no chão.",
+    "verdict": "Muito bom, visual dinâmico."
+  },
+  "joemerson": {
+    "archetype": "Lutador Técnico / Óculos e Camisa",
+    "idle": "Excelente - respiração imperceptível e base muito sólida.",
+    "walk": "Excelente - marcha determinada.",
+    "attack": "Excelente - soco frontal de precisão cirúrgica.",
+    "hurt": "Excelente - recuo comedido e bem grounded.",
+    "victory": "Excelente - pose orgulhosa de triunfo.",
+    "lying": "Excelente - caído deitado horizontal.",
+    "verdict": "Impecável. Movimentos e silhuetas perfeitas."
+  },
+  "lailson": {
+    "archetype": "Lutador Dinâmico / Camisa e Calça Jeans",
+    "idle": "Bom - guarda bem desenhada; pé esquerdo oscila 12px entre frames (ajuste sutil de ponta de pé).",
+    "walk": "Excelente - caminhada contínua.",
+    "attack": "Excelente - soco de impacto alto.",
+    "hurt": "Excelente - recoil expressivo.",
+    "victory": "Excelente - vitória expansiva.",
+    "lying": "Excelente - repouso completo.",
+    "verdict": "Muito bom, com leve balanço de ponta de pé no idle."
+  },
+  "leandro": {
+    "archetype": "Lutador Clássico (Regata Esportiva / Boné)",
+    "idle": "Excelente - guarda fechada e pés cravados no piso.",
+    "walk": "Excelente - passos sincronizados.",
+    "attack": "Excelente - gancho forte com avanço.",
+    "hurt": "Excelente - tronco empurrado para trás.",
+    "victory": "Excelente - pose marcante apontando o boné/céu.",
+    "lying": "Excelente - K.O. estirado no piso.",
+    "verdict": "Excelente visual retrô de arcade."
+  },
+  "leonardo": {
+    "archetype": "Lutador Focado / Camisa Escura",
+    "idle": "Excelente - guarda clássica perfeita.",
+    "walk": "Excelente - deslocamento suave.",
+    "attack": "Excelente - soco potente com boa silhueta.",
+    "hurt": "Excelente - recuo sob pressão.",
+    "victory": "Excelente - saudação de campeão.",
+    "lying": "Excelente - deitado no solo.",
+    "verdict": "Excelente em todos os aspectos."
+  },
+  "livia": {
+    "archetype": "Lutadora Ágil / Vestido Vermelho / Cabelo Escuro",
+    "idle": "Excelente - base equilibrada e estilosa (526px altura).",
+    "walk": "Excelente - caminhada elegante e fluida.",
+    "attack": "Excelente - golpe de mão aberta/fechada veloz.",
+    "hurt": "Excelente - rotação de tronco expressiva.",
+    "victory": "Excelente - celebração cheia de energia.",
+    "lying": "Excelente - deitada com suavidade no piso.",
+    "verdict": "Arte belíssima e movimentos muito fluidos."
+  },
+  "manasses": {
+    "archetype": "Lutador Forte / Brawler (Barba e Camisa Escura)",
+    "idle": "Excelente - presença imponente e guarda pesada.",
+    "walk": "Excelente - passos firmes e intimidador.",
+    "attack": "Excelente - soco demolidor.",
+    "hurt": "Excelente - recuo pesado.",
+    "victory": "Excelente - pose de vitória com peito estufado.",
+    "lying": "Excelente - K.O. deitado.",
+    "verdict": "Muito imponente e bem estruturado."
+  },
+  "marconi": {
+    "archetype": "Lutador Alto / Porte Grande (Camisa Vermelha)",
+    "idle": "Bom - o lutador mais alto do set (560px); idle_02 sobe ligeiramente a cabeça (18px) na inspiração.",
+    "walk": "Excelente - marcha de passadas largas.",
+    "attack": "Excelente - soco longo com alcance devastador.",
+    "hurt": "Excelente - recuo de gigante com tronco inclinado.",
+    "victory": "Excelente - vitória alta e dominante.",
+    "lying": "Excelente - deitado cobrindo boa extensão horizontal.",
+    "verdict": "Porte majestoso de brawler pesado."
+  },
+  "monalisa": {
+    "archetype": "Lutadora Rápida / Camisa Branca e Jeans",
+    "idle": "Excelente - guarda compacta e centrada.",
+    "walk": "Excelente - passos ágeis e leves.",
+    "attack": "Excelente - jab rápido.",
+    "hurt": "Excelente - recuo expressivo.",
+    "victory": "Excelente - celebração animada com braço erguido.",
+    "lying": "Excelente - deitada no piso.",
+    "verdict": "Muito graciosa e limpa."
+  },
+  "neto": {
+    "archetype": "Lutador Ágil / Camisa Polo Listrada",
+    "idle": "Excelente - base curta de combate.",
+    "walk": "Excelente - marcha esportiva com elevação natural de passada.",
+    "attack": "Excelente - soco direto veloz.",
+    "hurt": "Excelente - impacto no queixo com recuo nítido.",
+    "victory": "Excelente - comemoração com punho ao ar.",
+    "lying": "Excelente - repouso completo.",
+    "verdict": "Muito bem articulado."
+  },
+  "radja": {
+    "archetype": "Lutadora Ágil / Camisa Estampada / Cabelos Longos",
+    "idle": "Excelente - guarda esportiva e cabelo solto animado.",
+    "walk": "Excelente - passada dinâmica.",
+    "attack": "Excelente - golpe direto e ágil.",
+    "hurt": "Excelente - absorção de choque lateral.",
+    "victory": "Excelente - celebração com energia radiante.",
+    "lying": "Excelente - deitada no chão.",
+    "verdict": "Excelente expressividade e movimento de cabelos."
+  },
+  "rhussiana": {
+    "archetype": "Lutadora Elegante / Vestido e Cabelos Longos",
+    "idle": "Excelente - postura refinada e guarda atenta.",
+    "walk": "Excelente - passos firmes e equilibrados.",
+    "attack": "Excelente - golpe frontal limpo.",
+    "hurt": "Excelente - recuo suave mantendo elegância.",
+    "victory": "Excelente - vitória triunfante.",
+    "lying": "Excelente - K.O. estirada no solo.",
+    "verdict": "Muito fluida e detalhada."
+  },
+  "ricardo": {
+    "archetype": "Lutador Forte / Barba e Camisa Escura",
+    "idle": "Excelente - postura firme e guarda compacta.",
+    "walk": "Excelente - marcha constante de aproximação.",
+    "attack": "Excelente - soco de direita destruidor (+153px largura).",
+    "hurt": "Excelente - recoil de tronco com absorção pesada.",
+    "victory": "Excelente - celebração firme de veterano.",
+    "lying": "Excelente - deitado no piso.",
+    "verdict": "Excelente peso visual e força nos golpes."
+  },
+  "ryan": {
+    "archetype": "Lutador Jovem / Jaqueta / Boné",
+    "idle": "Excelente - base leve e moderna.",
+    "walk": "Excelente - passada urbana descontraída.",
+    "attack": "Excelente - jab de direita esticado.",
+    "hurt": "Excelente - recuo sob golpe com bom arco.",
+    "victory": "Excelente - pose comemorativa estilosa.",
+    "lying": "Excelente - caído no piso.",
+    "verdict": "Excelente estilo e fluidez juvenil."
+  },
+  "samara": {
+    "archetype": "Lutadora Focada / Top Esportivo",
+    "idle": "Excelente - guarda fechada e base firme.",
+    "walk": "Excelente - passada atlética.",
+    "attack": "Excelente - soco veloz.",
+    "hurt": "Excelente - tronco arqueado para trás.",
+    "victory": "Excelente - punho erguido celebrando.",
+    "lying": "Excelente - deitada plana.",
+    "verdict": "Muito consistente e atlética."
+  },
+  "tiago": {
+    "archetype": "Lutador Ágil / Camisa Polo e Óculos",
+    "idle": "Excelente - guarda alta e respiração sincronizada.",
+    "walk": "Excelente - passada tática.",
+    "attack": "Excelente - cruzado amplo (+243px largura).",
+    "hurt": "Excelente - recuo mantendo foco visual.",
+    "victory": "Excelente - celebração entusiasmada.",
+    "lying": "Excelente - deitado plano.",
+    "verdict": "Muito dinâmico e expressivo."
+  },
+  "wendson": {
+    "archetype": "Lutador Técnico / Camiseta e Calça Jeans",
+    "idle": "Excelente - guarda centralizada e sólida.",
+    "walk": "Excelente - passada uniforme.",
+    "attack": "Excelente - soco em linha reta potente.",
+    "hurt": "Excelente - reação a golpe limpa.",
+    "victory": "Excelente - pose de vitória clássica.",
+    "lying": "Excelente - K.O. deitado.",
+    "verdict": "Muito equilibrado e profissional."
+  },
+  "wesley": {
+    "archetype": "Lutador Brawler / Barba e Camisa Escura",
+    "idle": "Excelente - guarda aberta intimidadora.",
+    "walk": "Excelente - passos firmes e pesados.",
+    "attack": "Excelente - golpe expansivo devastating punch.",
+    "hurt": "Excelente - absorção de dano com tronco curvado.",
+    "victory": "Excelente - braços para o alto em euforia.",
+    "lying": "Excelente - K.O. estirado.",
+    "verdict": "Excelente densidade e sensação arcade."
+  },
+  "hiago": {
+    "archetype": "Criança / Prodígio Mirim (Camiseta Azul e Shorts)",
+    "idle": "Excelente - postura jovem, guarda ágil e rápida (no PNG cru mede 546px, necessita escala 0.654x / 0.85x para porte infantil).",
+    "walk": "Excelente - passos saltitantes e ligeiros.",
+    "attack": "Excelente - soco estendido com entusiasmo mirim.",
+    "hurt": "Excelente - recoil expressivo.",
+    "victory": "Excelente - comemoração eufórica de garoto campeão.",
+    "lying": "Excelente - deitado horizontal no piso.",
+    "verdict": "Perfeito para porte infantil quando aplicado o scale factor proporcional no FighterSprite!"
+  },
+  "kelvin": {
+    "archetype": "Criança / Prodígio Mirim (Regata e Calção Esportivo)",
+    "idle": "Excelente - guarda mirim vibrante e atenta (no PNG cru mede 547px, necessita escala 0.653x / 0.85x para porte infantil).",
+    "walk": "Excelente - marcha dinâmica de criança.",
+    "attack": "Excelente - golpe direto veloz.",
+    "hurt": "Excelente - absorção com recuo dramático.",
+    "victory": "Excelente - comemoração cheia de energia e alegria.",
+    "lying": "Excelente - deitado no chão com nitidez.",
+    "verdict": "Perfeito para porte infantil com o multiplicador de escala proporcional!"
+  }
+}

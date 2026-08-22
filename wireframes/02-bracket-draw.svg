@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+<rect width="1600" height="900" fill="#07110d"/>
+<rect x="28" y="28" width="1544" height="844" rx="14" fill="none" stroke="#00A060" stroke-width="4"/>
+<text x="60" y="88" fill="#fff" font-family="Arial, sans-serif" font-size="34">SORTEIO REAL — CONFRONTOS</text>
+
+<text x="580" y="180" fill="#fff" font-family="monospace" font-size="40">SORTEANDO A CHAVE</text>
+<rect x="180" y="250" width="500" height="110" fill="none" stroke="#00A060" stroke-width="3"/>
+<rect x="920" y="250" width="500" height="110" fill="none" stroke="#00A060" stroke-width="3"/>
+<text x="330" y="318" fill="#fff" font-family="monospace" font-size="28">DUPLA 07</text>
+<text x="1070" y="318" fill="#fff" font-family="monospace" font-size="28">DUPLA 12</text>
+<text x="735" y="325" fill="#fff" font-family="monospace" font-size="48">VS</text>
+<text x="610" y="520" fill="#fff" font-family="monospace" font-size="30">CONFRONTO #01</text>
+<rect x="580" y="650" width="440" height="80" fill="none" stroke="#fff" stroke-width="2"/>
+<text x="650" y="700" fill="#fff" font-family="monospace" font-size="25">CONFIRMAR CHAVE</text>
+</svg>

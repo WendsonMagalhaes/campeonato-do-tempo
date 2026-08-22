@@ -1,0 +1,535 @@
+.ce-scene-host{width:100vw;height:100vh;background:#020706}
+.ce-center{display:flex;align-items:center;justify-content:center;overflow:visible}
+
+/* ---- Team Formation: structural screen PNG (hybrid exception) ---- */
+.ce-team-formation-bg{
+  position:absolute;
+  left:0;
+  top:0;
+  width:1920px;
+  height:1080px;
+  object-fit:fill;
+  image-rendering:auto;
+  pointer-events:none;
+  user-select:none;
+  z-index:0;
+}
+.ce-cover-photo{z-index:2}
+.ce-cover-photo__fallback{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  background:rgba(6,14,18,.72);
+  color:#d8dee6;
+  font:700 28px/1 monospace;
+}
+.ce-team-grid-photo{z-index:2}
+.ce-team-grid-photo .ce-cover-photo__fallback{font-size:36px;background:rgba(6,14,18,.55)}
+.ce-team-large-photo{z-index:4}
+.ce-team-large-photo img{
+  object-fit:cover;
+  object-position:50% 15%;
+}
+.ce-team-nameplate{z-index:5;overflow:hidden;background:transparent}
+.ce-team-lower-panel{z-index:8;overflow:hidden;padding:8px 16px;box-sizing:border-box}
+.ce-team-lower-panel.is-reveal{animation:ce-duo-reveal .55s ease-out}
+
+/* TF CSS slot highlight — replaces SelectionCursor sprite overlays.
+   Outline (not border) sits on the photo-hole edge and blooms outward onto the
+   metallic frame / green corner LEDs — same neon thickness as Round 3. */
+.ce-slot-highlight{
+  z-index:20;
+  pointer-events:none;
+  box-sizing:border-box;
+  border:none;
+  border-radius:2px;
+  outline:5px solid transparent;
+  outline-offset:0;
+}
+.ce-slot-highlight--p1{
+  outline-color:rgba(110,210,255,1);
+  box-shadow:
+    0 0 0 2px rgba(40,140,255,.85),
+    0 0 10px 2px rgba(46,200,255,.95),
+    0 0 28px 6px rgba(46,168,255,.75),
+    0 0 48px 10px rgba(30,140,255,.4),
+    inset 0 0 14px rgba(80,200,255,.35);
+}
+.ce-slot-highlight--p2{
+  outline-color:rgba(255,110,90,1);
+  box-shadow:
+    0 0 0 2px rgba(220,50,40,.85),
+    0 0 10px 2px rgba(255,90,70,.95),
+    0 0 28px 6px rgba(255,74,53,.75),
+    0 0 48px 10px rgba(200,40,30,.4),
+    inset 0 0 14px rgba(255,120,100,.35);
+}
+.ce-slot-highlight--idle{
+  animation:ce-slot-highlight-pulse .9s ease-in-out infinite;
+}
+.ce-slot-highlight--lock{
+  outline-width:6px;
+  animation:none;
+  filter:brightness(1.1);
+}
+
+@keyframes ce-slot-highlight-pulse{
+  0%,100%{opacity:1}
+  50%{opacity:.72}
+}
+@keyframes ce-cursor-pulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.88;transform:scale(1.04)}
+}
+@keyframes ce-duo-reveal{
+  0%{opacity:0;transform:scale(.92)}
+  60%{opacity:1;transform:scale(1.04)}
+  100%{opacity:1;transform:scale(1)}
+}
+
+/* ---- Other screens: stage BG layers (screens/* are reference only) ---- */
+.ce-round3-stage-bg,
+.ce-versus-stage-bg,
+.ce-opening-stage-bg,
+.ce-qualified-stage-bg{
+  position:absolute;
+  left:0;
+  top:0;
+  width:1920px;
+  height:1080px;
+  object-fit:cover;
+  object-position:center center;
+  image-rendering:auto;
+  pointer-events:none;
+  user-select:none;
+  z-index:0;
+}
+/* Opening cinematic (Intro Pack v2) — nearest-neighbor, no blur. */
+.ce-opening-host{
+  overflow:hidden;
+}
+.ce-opening-layer{
+  position:absolute;
+  left:0;
+  top:0;
+  width:1920px;
+  height:1080px;
+  object-fit:fill;
+  object-position:center center;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  pointer-events:none;
+  user-select:none;
+}
+.ce-opening-stage-bg{z-index:0}
+/* Continuous tall strip scroll in unified world camera */
+.ce-opening-camera{
+  position:absolute;
+  left:0;
+  top:0;
+  width:1920px;
+  height:2400px;
+  z-index:0;
+  will-change:transform;
+  pointer-events:none;
+}
+.ce-opening-tall-strip{
+  position:absolute;
+  left:0;
+  top:0;
+  width:1920px;
+  height:2400px;
+  object-fit:fill;
+  object-position:top center;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  pointer-events:none;
+  user-select:none;
+  z-index:0;
+}
+.ce-opening-sky-logo{
+  position:absolute;
+  left:360px;
+  top:160px;
+  width:1200px;
+  height:400px;
+  object-fit:contain;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  pointer-events:none;
+  user-select:none;
+  z-index:1;
+}
+.ce-opening-street-world{
+  position:absolute;
+  left:0;
+  width:1920px;
+  height:1080px;
+  z-index:2;
+  pointer-events:none;
+}
+.ce-opening-crowd-stack{
+  position:absolute;
+  left:0;
+  top:0;
+  width:1920px;
+  height:1080px;
+  pointer-events:none;
+}
+.ce-opening-crowd-group{
+  position:absolute;
+  object-fit:fill;
+  object-position:center center;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  pointer-events:none;
+  user-select:none;
+  will-change:transform;
+}
+.ce-opening-crowd-group--upperLeft{z-index:1}
+.ce-opening-crowd-group--upperRight{z-index:2}
+.ce-opening-fighters{
+  z-index:4;
+}
+.ce-opening-crowd-group--foreground{z-index:6}
+.ce-opening-host .ce-center{
+  z-index:8;
+}
+/* PRESS START frontmost above crowd. */
+.ce-opening-host .ce-opening-press-start{
+  z-index:10;
+}
+/* Stage BGs render at authored brightness — no crush/dim filters. */
+.ce-round3-stage-bg,
+.ce-versus-stage-bg,
+.ce-opening-stage-bg,
+.ce-qualified-stage-bg{filter:none}
+
+/* Vignette layers kept in DOM for z-order, but must not darken the scene. */
+.ce-qualified-vignette{
+  background:transparent;
+}
+
+.ce-qualified-fighter{
+  z-index:3;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  pointer-events:none;
+}
+.ce-qualified-fighter__sprite,
+.ce-qualified-fighter .ce-fighter-wrap{
+  width:100%;
+  height:100%;
+}
+
+/* Confetti mid-layer — below photos/HUD, above background fighters; soft drift only. */
+.ce-celebration-confetti{
+  position:absolute;
+  left:0;
+  top:0;
+  width:1920px;
+  height:1080px;
+  z-index:4;
+  pointer-events:none;
+  image-rendering:pixelated;
+  animation:ce-confetti-drift 5.5s ease-in-out infinite alternate;
+}
+@keyframes ce-confetti-drift{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(0,10px,0)}
+}
+
+/* Foreground back-facing crowd — occludes fighter feet/legs, not title/names. */
+.ce-celebration-crowd{
+  position:absolute;
+  left:0;
+  top:0;
+  width:1920px;
+  height:1080px;
+  z-index:8;
+  pointer-events:none;
+  overflow:hidden;
+  image-rendering:pixelated;
+  filter:drop-shadow(0 3px 0 rgba(0,0,0,.4));
+}
+.ce-celebration-crowd__img{
+  position:absolute;
+  user-select:none;
+  pointer-events:none;
+  image-rendering:pixelated;
+}
+
+.ce-qualified-hud{
+  z-index:10;
+}
+
+/* Duo Qualified — winner.png title (~734×409). Slot ~760×230 → ~0.56 via contain. */
+.ce-qualified-winner-title{
+  overflow:visible;
+  pointer-events:none;
+}
+.ce-qualified-winner-title__img{
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  image-rendering:pixelated;
+  filter:drop-shadow(0 4px 0 rgba(0,0,0,.45));
+}
+
+/* Battle — large ROUND/FIGHT/KO callouts (natural ~750px, scale via inline transform). */
+.ce-battle-callout{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:visible;
+  pointer-events:none;
+}
+.ce-battle-callout__img{
+  width:auto;
+  height:auto;
+  max-width:none;
+  object-fit:contain;
+  image-rendering:pixelated;
+  transform-origin:center center;
+  filter:drop-shadow(0 6px 0 rgba(0,0,0,.5));
+}
+
+.ce-team-vignette{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:transparent;
+}
+.ce-team-vignette::after{content:none}
+.ce-opening-vignette{
+  background:transparent;
+}
+
+.ce-fixed-portrait{position:relative;width:100%;height:100%;isolation:isolate}
+.ce-fixed-portrait__content{position:absolute;left:9%;top:9%;width:82%;height:82%;overflow:hidden;background:linear-gradient(145deg,#071c18,#0c2620);z-index:1}
+.ce-fixed-portrait__frame{position:absolute;left:50%;top:51.4%;transform:translate(-50%,-50%);width:123.5%;height:127.2%;max-width:none;max-height:none;object-fit:fill;z-index:2;image-rendering:pixelated;pointer-events:none}
+.ce-fixed-portrait.is-selected{filter:drop-shadow(0 0 14px rgba(255,207,52,.92))}
+.ce-fixed-portrait__fallback{width:100%;height:100%;display:grid;place-items:center;background:radial-gradient(circle,#12372d,#06100e);color:#ffc928;font:700 44px monospace}
+.ce-random-cell{width:100%;height:100%;display:grid;place-items:center;border:2px solid rgba(255,201,40,.58);background:rgba(8,18,16,.72);box-shadow:0 0 18px rgba(255,201,40,.18)}
+
+.ce-nameplate-slot{position:relative;z-index:5;overflow:hidden}
+.ce-qualified-host .ce-nameplate-slot.ce-qualified-hud,
+.ce-champion-host .ce-nameplate-slot.ce-qualified-hud{
+  z-index:10;
+  overflow:visible;
+}
+.ce-nameplate-art{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:fill;
+  image-rendering:pixelated;pointer-events:none;z-index:0;opacity:.92;
+}
+.ce-nameplate-slot > canvas,
+.ce-nameplate-slot > .ce-bitmap-root{position:relative;z-index:1}
+
+/* Shared plate padding (DuoQualified / Champion still use name_plate_base). */
+.ce-versus-nameplate .ce-nameplate-art{object-fit:contain;opacity:.95}
+.ce-versus-nameplate__label{
+  position:relative;z-index:1;display:grid;place-items:center;
+  width:100%;height:100%;box-sizing:border-box;padding:22% 14%;
+}
+/* Nudge duo name up so glyph bottoms clear the WIN plate spikes (Qualified) / crest base. */
+.ce-qualified-host .ce-versus-nameplate__label,
+.ce-champion-host .ce-versus-nameplate__label{
+  transform:translateY(-8px);
+}
+
+.ce-vs{z-index:6;image-rendering:pixelated;pointer-events:none}
+
+/* Versus intro — soft entrance + VS pulse (no vignette/scanlines). */
+.ce-versus-phase{
+  z-index:5;
+  animation:ce-versus-fade-in .75s ease-out both;
+}
+.ce-versus-member-name{z-index:5;overflow:visible}
+.ce-versus-enter-left{
+  animation:ce-versus-enter-left .7s cubic-bezier(.22,.9,.3,1) both;
+}
+.ce-versus-enter-right{
+  animation:ce-versus-enter-right .7s cubic-bezier(.22,.9,.3,1) both;
+}
+@keyframes ce-versus-enter-left{
+  from{opacity:0;transform:translate3d(-56px,0,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes ce-versus-enter-right{
+  from{opacity:0;transform:translate3d(56px,0,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes ce-versus-fade-in{
+  from{opacity:0}
+  to{opacity:1}
+}
+.ce-versus-host .ce-versus-vs{
+  z-index:6;
+  filter:drop-shadow(0 0 14px rgba(255,201,40,.45));
+  animation:ce-versus-vs-pulse 2.2s ease-in-out infinite;
+}
+@keyframes ce-versus-vs-pulse{
+  0%,100%{transform:scale(1);filter:drop-shadow(0 0 12px rgba(255,201,40,.4)) brightness(1)}
+  50%{transform:scale(1.06);filter:drop-shadow(0 0 22px rgba(255,201,40,.7)) brightness(1.12)}
+}
+.ce-versus-status{
+  z-index:5;
+  animation:ce-versus-fade-in .9s ease-out .35s both;
+}
+.ce-versus-status.is-waiting{
+  animation:ce-press-blink 1.35s steps(2,end) infinite;
+}
+
+/* ---- Round 3 / Versus / Opening / Qualified / Champion / Bracket ---- */
+.ce-r3-host,
+.ce-versus-host,
+.ce-opening-host,
+.ce-qualified-host,
+.ce-champion-host,
+.ce-bracket-host{background:#061018}
+
+.ce-bracket-stage-bg{
+  position:absolute;left:0;top:0;width:1920px;height:1080px;
+  object-fit:fill;pointer-events:none;user-select:none;z-index:0;
+}
+.ce-bracket-vignette{
+  background:transparent;
+}
+.ce-bracket-round-label{z-index:5}
+.ce-bracket-logo{
+  z-index:5;pointer-events:none;user-select:none;
+  image-rendering:pixelated;
+  filter:drop-shadow(0 2px 10px rgba(0,0,0,.55));
+  opacity:.96;
+}
+.ce-bracket-connectors{
+  position:absolute;inset:0;width:1920px;height:1080px;
+  z-index:2;pointer-events:none;overflow:visible;
+}
+.ce-bracket-connector{
+  fill:none;stroke:#ffc928;stroke-width:2.5;opacity:.85;
+  vector-effect:non-scaling-stroke;shape-rendering:crispEdges;
+}
+.ce-bracket-trophy{
+  z-index:3;pointer-events:none;image-rendering:pixelated;
+  filter:drop-shadow(0 0 18px rgba(255,201,40,.45));
+  opacity:.92;
+}
+.ce-bracket-card{
+  z-index:4;box-sizing:border-box;
+  display:flex;flex-direction:column;justify-content:center;gap:4px;
+  padding:6px 10px;
+  border:2px solid rgba(0,180,120,.75);
+  background:linear-gradient(145deg, rgba(4,22,20,.88), rgba(2,10,12,.9));
+  box-shadow:0 0 12px rgba(0,0,0,.45);
+}
+/* FINAL finalists — distinct gold/dourado treatment (hierarchy over green R16/QF). */
+.ce-bracket-card.is-final{
+  border-color:rgba(255,201,40,.95);
+  background:linear-gradient(145deg, rgba(42,32,8,.92), rgba(14,10,4,.94));
+  box-shadow:
+    0 0 20px rgba(255,201,40,.55),
+    0 0 4px rgba(255,220,120,.7),
+    inset 0 0 14px rgba(255,180,40,.14);
+}
+/* SEMIS — milder warm accent (optional hierarchy step). */
+.ce-bracket-card.is-semi{
+  border-color:rgba(210,170,70,.72);
+  box-shadow:0 0 12px rgba(255,180,40,.28);
+}
+.ce-bracket-card.is-winner{
+  border-color:#ffc928;
+  box-shadow:0 0 16px rgba(255,201,40,.55);
+}
+.ce-bracket-card.is-final.is-winner{
+  box-shadow:
+    0 0 24px rgba(255,201,40,.7),
+    0 0 6px rgba(255,230,140,.85),
+    inset 0 0 16px rgba(255,200,60,.2);
+}
+.ce-bracket-card.is-eliminated{opacity:.42;filter:grayscale(.55)}
+.ce-bracket-card--tbd{
+  align-items:center;
+  justify-content:center;
+}
+.ce-bracket-card__tbd{
+  width:100%;display:flex;align-items:center;justify-content:center;
+}
+.ce-bracket-card__member{display:flex;align-items:center;gap:8px;}
+.ce-bracket-card__portrait{width:32px;height:32px;flex:0 0 32px}
+.ce-bracket-card__portrait .ce-fixed-portrait__fallback{font-size:14px}
+.ce-bracket-card__label{
+  flex:1 1 auto;min-width:0;display:flex;align-items:center;overflow:hidden;
+}
+
+.ce-r3-portrait-slot,
+.ce-versus-portrait{z-index:3;overflow:visible}
+.ce-qualified-portrait{z-index:6;overflow:visible}
+
+/* Round 3 / Versus: larger fallback "?" inside 360px selection portraits. */
+.ce-r3-portrait-slot .ce-fixed-portrait__fallback,
+.ce-versus-portrait .ce-fixed-portrait__fallback{font:700 96px monospace}
+
+/* Round 3 candidate names — plain BitmapText under slots (no name_plate chrome). */
+.ce-r3-candidate-name{z-index:5;overflow:visible}
+
+/* Round 3 draft: neon ring glued to the green photo hole (.ce-fixed-portrait__content
+   is inset 9% — matching portrait_frame_base). ::after sits above the frame PNG;
+   outline sits on the hole edge (no gap to the green square). */
+.ce-r3-portrait-slot.is-draft-p1,
+.ce-r3-portrait-slot.is-draft-p2{
+  position:relative;
+  animation:ce-slot-highlight-pulse .9s ease-in-out infinite;
+}
+.ce-r3-portrait-slot.is-draft-p1::after,
+.ce-r3-portrait-slot.is-draft-p2::after{
+  content:'';
+  position:absolute;
+  left:9%;
+  top:9%;
+  width:82%;
+  height:82%;
+  box-sizing:border-box;
+  pointer-events:none;
+  z-index:10;
+  border-radius:2px;
+  outline:5px solid transparent;
+  outline-offset:0;
+}
+.ce-r3-portrait-slot.is-draft-p1::after{
+  outline-color:rgba(110,210,255,1);
+  box-shadow:
+    0 0 0 2px rgba(40,140,255,.85),
+    0 0 10px 2px rgba(46,200,255,.95),
+    0 0 28px 6px rgba(46,168,255,.75),
+    0 0 48px 10px rgba(30,140,255,.4),
+    inset 0 0 14px rgba(80,200,255,.35);
+}
+.ce-r3-portrait-slot.is-draft-p2::after{
+  outline-color:rgba(255,110,90,1);
+  box-shadow:
+    0 0 0 2px rgba(220,50,40,.85),
+    0 0 10px 2px rgba(255,90,70,.95),
+    0 0 28px 6px rgba(255,74,53,.75),
+    0 0 48px 10px rgba(200,40,30,.4),
+    inset 0 0 14px rgba(255,120,100,.35);
+}
+
+.ce-qualified-host.is-blue .ce-qualified-portrait{filter:drop-shadow(0 0 16px rgba(46,168,255,.75))}
+.ce-qualified-host.is-red .ce-qualified-portrait{filter:drop-shadow(0 0 16px rgba(255,74,53,.75))}
+.ce-qualified-portrait.accent-gold{filter:drop-shadow(0 0 18px rgba(255,207,52,.9))}
+
+.ce-press-start{animation:ce-press-blink 1.2s steps(2,end) infinite}
+@keyframes ce-press-blink{
+  0%,100%{opacity:1}
+  50%{opacity:.35}
+}
+
+.ce-opening-logo{
+  object-fit:contain;
+  image-rendering:pixelated;
+  z-index:3;
+  pointer-events:none;
+}

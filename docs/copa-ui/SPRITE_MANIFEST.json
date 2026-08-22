@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 2,
+  "project": "Copa Esperança",
+  "rendering": {
+    "imageRendering": "pixelated",
+    "sourceType": "sprite-sheet-atlas",
+    "frameExtraction": "crop-regions-per-state in CSS/Canvas or preprocessed at build time",
+    "important": "Never render the whole sheet as one image on the battle screen."
+  },
+  "participantContract": {
+    "fighterVariant": [
+      "male",
+      "female"
+    ],
+    "rule": "fighterVariant must be explicit participant data; never infer from participant name."
+  },
+  "teams": {
+    "blue": {
+      "battleSide": "left",
+      "faces": "right",
+      "male": {
+        "sheet": "assets/sprites/fighter_male_blue_sheet.png",
+        "status": "AVAILABLE",
+        "states": [
+          "idle",
+          "walk",
+          "attack",
+          "hurt",
+          "fall_or_ko",
+          "victory"
+        ]
+      },
+      "female": {
+        "sheet": "assets/sprites/fighter_female_blue_sheet.png",
+        "status": "AVAILABLE",
+        "states": [
+          "idle",
+          "walk",
+          "attack",
+          "hurt",
+          "fall_or_ko",
+          "victory"
+        ]
+      }
+    },
+    "red": {
+      "battleSide": "right",
+      "faces": "left",
+      "male": {
+        "sheet": "assets/sprites/fighter_male_red_sheet.png",
+        "status": "AVAILABLE",
+        "states": [
+          "idle",
+          "walk",
+          "attack",
+          "hurt",
+          "fall_or_ko",
+          "victory"
+        ]
+      },
+      "female": {
+        "sheet": "assets/sprites/fighter_female_red_sheet.png",
+        "status": "AVAILABLE",
+        "states": [
+          "idle",
+          "walk",
+          "attack",
+          "hurt",
+          "fall_or_ko",
+          "victory"
+        ]
+      }
+    }
+  },
+  "nonFighterSprites": {
+    "crowd": {
+      "sheet": "assets/sprites/crowd_sheet.png",
+      "status": "AVAILABLE",
+      "usage": [
+        "ambient",
+        "cheer",
+        "reaction"
+      ]
+    },
+    "selectionCursor": {
+      "sheet": "assets/ui/selection_cursor_sheet.png",
+      "status": "AVAILABLE_REFERENCE_SOURCE",
+      "states": [
+        "idle",
+        "move",
+        "lock",
+        "selected",
+        "miniHudPointer",
+        "fighterIndicator",
+        "confirm",
+        "highlight"
+      ]
+    }
+  },
+  "mandatoryBattleRule": "Every public battle round renders exactly two fighter sprites: active participant A on the left/blue side and active participant B on the right/red side."
+}

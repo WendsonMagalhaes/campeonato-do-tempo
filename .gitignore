@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Build
+dist/
+dist-ssr/
+coverage/
+.vite/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+credentials.json
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# Participant photos (real uploads stay local unless explicitly authorized)
+assets/participants/uploads/
+
+# Runtime media SoT is app/public/assets/ (Vite). Root assets/ is brand/participants/video only.
+
+# Test artifacts
+playwright-report/
+test-results/
+app/test-results/
+app/playwright-report/

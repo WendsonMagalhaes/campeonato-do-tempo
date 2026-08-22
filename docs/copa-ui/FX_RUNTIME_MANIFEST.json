@@ -1,0 +1,92 @@
+{
+  "impact_light": {
+    "path": "/assets/runtime/fx/impact_light.png",
+    "sourceROI": {
+      "x": 20,
+      "y": 30,
+      "w": 335,
+      "h": 310
+    },
+    "runtimeRule": "Use this pre-extracted PNG; no atlas math in UI components."
+  },
+  "impact_heavy": {
+    "path": "/assets/runtime/fx/impact_heavy.png",
+    "sourceROI": {
+      "x": 330,
+      "y": 0,
+      "w": 405,
+      "h": 380
+    },
+    "runtimeRule": "Use this pre-extracted PNG; no atlas math in UI components."
+  },
+  "impact_flash": {
+    "path": "/assets/runtime/fx/impact_flash.png",
+    "sourceROI": {
+      "x": 745,
+      "y": 20,
+      "w": 325,
+      "h": 350
+    },
+    "runtimeRule": "Use this pre-extracted PNG; no atlas math in UI components."
+  },
+  "ko_title_burst": {
+    "path": "/assets/runtime/fx/ko_title_burst.png",
+    "sourceROI": {
+      "x": 1080,
+      "y": 15,
+      "w": 456,
+      "h": 350
+    },
+    "runtimeRule": "Use this pre-extracted PNG; no atlas math in UI components."
+  },
+  "dust_light": {
+    "path": "/assets/runtime/fx/dust_light.png",
+    "sourceROI": {
+      "x": 15,
+      "y": 345,
+      "w": 240,
+      "h": 265
+    },
+    "runtimeRule": "Use this pre-extracted PNG; no atlas math in UI components."
+  },
+  "dust_heavy": {
+    "path": "/assets/runtime/fx/dust_heavy.png",
+    "sourceROI": {
+      "x": 230,
+      "y": 345,
+      "w": 450,
+      "h": 270
+    },
+    "runtimeRule": "Use this pre-extracted PNG; no atlas math in UI components."
+  },
+  "energy_sweep": {
+    "path": "/assets/runtime/fx/energy_sweep.png",
+    "sourceROI": {
+      "x": 680,
+      "y": 345,
+      "w": 470,
+      "h": 270
+    },
+    "runtimeRule": "Use this pre-extracted PNG; no atlas math in UI components."
+  },
+  "finish_burst": {
+    "path": "/assets/runtime/fx/finish_burst.png",
+    "sourceROI": {
+      "x": 10,
+      "y": 600,
+      "w": 640,
+      "h": 424
+    },
+    "runtimeRule": "Use this pre-extracted PNG; no atlas math in UI components."
+  },
+  "confetti": {
+    "path": "/assets/runtime/fx/confetti.png",
+    "sourceROI": {
+      "x": 650,
+      "y": 600,
+      "w": 886,
+      "h": 424
+    },
+    "runtimeRule": "Use this pre-extracted PNG; no atlas math in UI components."
+  }
+}

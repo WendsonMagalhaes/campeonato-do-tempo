@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+<rect width="1600" height="900" fill="#07110d"/>
+<rect x="28" y="28" width="1544" height="844" rx="14" fill="none" stroke="#00A060" stroke-width="4"/>
+<text x="60" y="88" fill="#fff" font-family="Arial, sans-serif" font-size="34">OPERADOR — TIMER CAPTURE</text>
+
+<rect x="70" y="145" width="560" height="380" fill="none" stroke="#fff" stroke-width="3"/>
+<text x="100" y="200" fill="#fff" font-family="monospace" font-size="26">WEBCAM / ROI</text>
+<rect x="140" y="245" width="420" height="190" fill="none" stroke="#00A060" stroke-width="3"/>
+<text x="275" y="365" fill="#fff" font-family="monospace" font-size="58">1.56</text>
+<rect x="700" y="145" width="830" height="380" fill="none" stroke="#fff" stroke-width="3"/>
+<text x="740" y="205" fill="#fff" font-family="monospace" font-size="28">NOVO TEMPO DETECTADO: 1,56 s</text>
+<rect x="760" y="280" width="300" height="90" fill="none" stroke="#00A060" stroke-width="3"/>
+<rect x="1160" y="280" width="300" height="90" fill="none" stroke="#00A060" stroke-width="3"/>
+<text x="830" y="335" fill="#fff" font-family="monospace" font-size="25">ATRIBUIR ÍCARO</text>
+<text x="1230" y="335" fill="#fff" font-family="monospace" font-size="25">ATRIBUIR LÍVIA</text>
+<text x="780" y="455" fill="#fff" font-family="monospace" font-size="22">[DESCARTAR]   [EDITAR MANUALMENTE]</text>
+<rect x="330" y="650" width="940" height="110" fill="none" stroke="#00A060" stroke-width="4"/>
+<text x="455" y="718" fill="#fff" font-family="monospace" font-size="30">CALCULAR — habilita após 2 tempos</text>
+</svg>

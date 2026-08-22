@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 2,
+  "rule": "FROZEN assets are immutable. AVAILABLE battle sources must not be silently replaced. Any replacement requires explicit user approval.",
+  "assets": [
+    {
+      "path": "assets/sprites/fighter_male_blue_sheet.png",
+      "status": "AVAILABLE",
+      "role": "battle fighter source",
+      "sha256": "fbd5432a53ddfaac91c4d09d1677d215c2a14baa51b5f68e6cf19d24aee43c51",
+      "sizeBytes": 2027858,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "assets/sprites/fighter_female_blue_sheet.png",
+      "status": "AVAILABLE",
+      "role": "battle fighter source",
+      "sha256": "d0f4d0ccac4d4b06e218332680a0a009059d15cdbd0100fef10b369096a15fa6",
+      "sizeBytes": 2124623,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "assets/sprites/fighter_male_red_sheet.png",
+      "status": "AVAILABLE",
+      "role": "battle fighter source recovered from library",
+      "sha256": "14e4de967dda5c4da72d4ebe67539c099d862a1abed67b0c95df8bbc64ffb06b",
+      "sizeBytes": 2128207,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "assets/sprites/fighter_female_red_sheet.png",
+      "status": "AVAILABLE",
+      "role": "battle fighter source recovered from library",
+      "sha256": "dfa624964366456e0765d7265264cbedb96293c2cd1301fe035250abd5589ae9",
+      "sizeBytes": 2347145,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "assets/sprites/crowd_sheet.png",
+      "status": "AVAILABLE",
+      "role": "crowd sprite source",
+      "sha256": "d15093fdb5455d786ba7a9d7a6e99c6b11e2afd65b65632f829ccb2f17702b8a",
+      "sizeBytes": 3073161,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "assets/fx/impact_fx_sheet.png",
+      "status": "AVAILABLE",
+      "role": "combat FX source",
+      "sha256": "b1d3a1244a9299e101d770811bfa17e06a3e360eeddfa8a99eb24396674b8567",
+      "sizeBytes": 2294177,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "assets/environment/cold_mist_sheet.png",
+      "status": "AVAILABLE",
+      "role": "environment FX source",
+      "sha256": "4199f1adfae9da0ae8a205b1a6a23e01e7f52fd6db1aeb54e682b0e7c9e9b8f2",
+      "sizeBytes": 2159021,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "assets/environment/coldroom_environment_fx_sheet.png",
+      "status": "AVAILABLE",
+      "role": "environment FX source",
+      "sha256": "80afae2103f7ad93037116e66eeceb3763d51204cd60513518da0ed56d2ff34f",
+      "sizeBytes": 2733589,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "assets/ui/selection_cursor_sheet.png",
+      "status": "AVAILABLE_REFERENCE_SOURCE",
+      "role": "selection cursor atlas",
+      "sha256": "a8da77bfea83556813927801db45a8d6a32f303b983d56c1d3d2f1537e6df52d",
+      "sizeBytes": 2345418,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "assets/ui/portrait_frame_base.png",
+      "status": "FROZEN",
+      "role": "canonical portrait frame",
+      "sha256": "aa150780aeee363fb3fab0ce920b6417a4d33661e875eb864d586362ba47797d",
+      "sizeBytes": 180426,
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "path": "assets/ui/vs_emblem.png",
+      "status": "FROZEN",
+      "role": "canonical VS",
+      "sha256": "ca5949528cc67b2c7291c9b711e561706b5a3e0d28b4d33362d7b8e02e77c0fb",
+      "sizeBytes": 1133875,
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "path": "assets/ui/score_panel_base.png",
+      "status": "FROZEN",
+      "role": "canonical score panel",
+      "sha256": "090bb20a6d2007173f0f3c1b2ed018dd44c0f2cc32ad1edc77149f6d03410ede",
+      "sizeBytes": 1611552,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "path": "assets/ui/name_plate_base.png",
+      "status": "FROZEN",
+      "role": "canonical name plate",
+      "sha256": "1d44ee1d03171bffab439a4b7d079aede12cd8e5bd7278c990fbc585204ca6f0",
+      "sizeBytes": 1511989,
+      "width": 1536,
+      "height": 1024
+    }
+  ]
+}

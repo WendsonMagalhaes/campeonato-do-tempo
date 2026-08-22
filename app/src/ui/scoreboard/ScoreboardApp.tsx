@@ -1,0 +1,772 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { subscribeScoreboard } from '../../adapters/display/broadcastChannel.ts'
+import { createIndexedDbPersistence } from '../../persistence/indexedDb.ts'
+import { projectScoreboard, type ScoreboardProjection } from '../../domain/projections.ts'
+import type { CinematicEvent } from '../../application/ports.ts'
+import { CHANNEL } from '../../domain/constants.ts'
+import { buildFormationGrid, shuffleFormationOccupants } from '../canonical/duo-formation-grid.ts'
+import { BattleScene } from '../../battle/BattleScene.tsx'
+import { ChampionScene } from '../../battle/ChampionScene.tsx'
+import { DuoQualifiedScene } from '../../battle/DuoQualifiedScene.tsx'
+import { globalAudio } from '../../audio/singleton.ts'
+import { BitmapText } from '../../copa-ui/components/BitmapText.tsx'
+import { BracketScene } from '../../copa-ui/runtime/BracketScene.tsx'
+import type { CursorAnimState } from '../../copa-ui/components/selectionCursorFrames.ts'
+import {
+  TeamFormationScene,
+  type FormationCursor,
+  type FormationParticipant,
+} from '../../copa-ui/runtime/TeamFormationScene.tsx'
+import { OpeningScene } from '../../copa-ui/runtime/OpeningScene.tsx'
+import { Round3SelectionScene } from '../../copa-ui/runtime/Round3SelectionScene.tsx'
+import { VersusScene } from '../../copa-ui/runtime/VersusScene.tsx'
+import {
+  MATCH_KO_HOLD_MS,
+  ROUND_WIN_HOLD_MS,
+  resolveScoreboardLayers,
+} from './scoreboardLayers.ts'
+function shuffleArray<T>(items: T[]): T[] {
+  const arr = [...items]
+  for (let i = arr.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1))
+    const left = arr[i]
+    const right = arr[j]
+    if (left === undefined || right === undefined) continue
+    arr[i] = right
+    arr[j] = left
+  }
+  return arr
+}
+function buildSpinFrames(candidateIds: string[], destinationId: string, frameCount: number): string[] {
+  const pool = candidateIds.length > 0 ? candidateIds : [destinationId]
+  const frames: string[] = []
+  while (frames.length < frameCount - 1) {
+    frames.push(...shuffleArray(pool))
+  }
+  return [...frames.slice(0, frameCount - 1), destinationId]
+}
+function frameDelay(index: number, total: number): number {
+  const t = index / Math.max(total - 1, 1)
+  return 55 + t * t * 300
+}
+function usePhotoCache() {
+  const persistence = useRef(createIndexedDbPersistence()).current
+  const cacheRef = useRef(new Map<string, string>())
+  const pendingRef = useRef(new Set<string>())
+  const [, bump] = useState(0)
+  const get = (photoAssetId: string | null | undefined): string | null => {
+    if (!photoAssetId) return null
+    if (photoAssetId.startsWith('/') || photoAssetId.startsWith('http')) return photoAssetId
+    const cached = cacheRef.current.get(photoAssetId)
+    if (cached) return cached
+    if (!pendingRef.current.has(photoAssetId)) {
+      pendingRef.current.add(photoAssetId)
+      void persistence.getPhoto(photoAssetId).then((data) => {
+        pendingRef.current.delete(photoAssetId)
+        if (data) {
+          cacheRef.current.set(photoAssetId, data)
+          bump((n) => n + 1)
+        }
+      }).catch(() => {
+        pendingRef.current.delete(photoAssetId)
+      })
+    }
+    return null
+  }
+  return get
+}
+function useProjection() {
+  const [projection, setProjection] = useState<ScoreboardProjection | null>(null)
+  const [cinematic, setCinematic] = useState<CinematicEvent | null>(null)
+  const [spinningId1, setSpinningId1] = useState<string | null>(null)
+  const [spinningId2, setSpinningId2] = useState<string | null>(null)
+  const [phase, setPhase] = useState<'idle' | 'spin1' | 'spin2' | 'landed'>('idle')
+  const [round3Draft, setRound3Draft] = useState<{ a: string | null; b: string | null }>({
+    a: null,
+    b: null,
+  })
+  useEffect(() => {
+    const persistence = createIndexedDbPersistence()
+    void persistence.load().then((state) => {
+      if (state) setProjection(projectScoreboard(state))
+    })
+    let generation = 0
+    const unsubscribe = subscribeScoreboard(
+      (json) => setProjection(JSON.parse(json) as ScoreboardProjection),
+      (event) => {
+        setCinematic(event)
+        if (event.type === 'round3_draft') {
+          setRound3Draft({ a: event.participantAId, b: event.participantBId })
+          return
+        }
+        if (event.type === 'fake_shuffle') {
+          generation += 1
+          const myGeneration = generation
+          setPhase('spin1')
+          setSpinningId1(null)
+          setSpinningId2(null)
+          const frames1 = buildSpinFrames(event.candidateIds, event.firstParticipantId, 25)
+          const frames2 = buildSpinFrames(event.candidateIds, event.destinationParticipantId, 25)
+          let lastSlotId: string | null = null
+          const runFrame = (i: number, isPhase2: boolean) => {
+            if (myGeneration !== generation) return
+            const frames = isPhase2 ? frames2 : frames1
+            const id = frames[Math.min(i, frames.length - 1)] ?? null
+            if (isPhase2) {
+              setSpinningId2(id ?? event.destinationParticipantId)
+            } else {
+              setSpinningId1(id ?? event.firstParticipantId)
+            }
+            if (i >= frames.length - 1) {
+              // Confirm lock SFX once per landing (not on React re-renders).
+              globalAudio.play('ui.selectionLock')
+              if (!isPhase2) {
+                setPhase('spin2')
+                lastSlotId = null
+                window.setTimeout(() => runFrame(0, true), 300)
+              } else {
+                setPhase('landed')
+              }
+              return
+            }
+            // Move SFX only when the active slot actually changes.
+            if (id && id !== lastSlotId) {
+              globalAudio.play('ui.cursorMove')
+              lastSlotId = id
+            }
+            window.setTimeout(() => runFrame(i + 1, isPhase2), frameDelay(i, frames.length))
+          }
+          runFrame(0, false)
+        }
+      },
+    )
+    return unsubscribe
+  }, [])
+  return { projection, cinematic, spinningId1, spinningId2, phase, round3Draft, setRound3Draft }
+}
+function cellForParticipantIndex(participantIndex: number): { row: number; col: number } | null {
+  const cell = buildFormationGrid().find(
+    (entry) => entry.kind === 'participant' && entry.participantIndex === participantIndex,
+  )
+  return cell && cell.kind === 'participant' ? { row: cell.row, col: cell.col } : null
+}
+function FakeShuffleScreen({
+  participants,
+  phase,
+  spinningId1,
+  spinningId2,
+  anchorId,
+  destId,
+  teamName,
+  getPhoto,
+}: {
+  participants: ScoreboardProjection['participants']
+  phase: 'idle' | 'spin1' | 'spin2' | 'landed'
+  spinningId1: string | null
+  spinningId2: string | null
+  anchorId: string | null
+  destId: string | null
+  teamName: string | null
+  getPhoto: (photoAssetId: string | null | undefined) => string | null
+}) {
+  const [p1State, setP1State] = useState<CursorAnimState>('idle')
+  const [p2State, setP2State] = useState<CursorAnimState>('idle')
+
+  /** Use the 32 titular roster participants for the 32-cell formation grid. */
+  const titularParticipants = useMemo(() => {
+    return participants.slice(0, 32)
+  }, [participants])
+
+  /** Presentation-only face order — does not change duo pairings / spin landings. */
+  const idsKey = titularParticipants.map((p) => p.id).join('|')
+  const shuffledIds = useMemo(() => {
+    if (titularParticipants.length !== 32) return [] as string[]
+    return shuffleFormationOccupants(titularParticipants.map((p) => p.id))
+  }, [idsKey])
+
+  useEffect(() => {
+    // IDLE = waiting + navigating; LOCK = confirmed. Never MOVE/SELECTED (invade neighbors).
+    if (phase === 'idle' || phase === 'spin1') {
+      setP1State('idle')
+      setP2State('idle')
+      return
+    }
+    if (phase === 'spin2') {
+      setP1State('lock')
+      setP2State('idle')
+      return
+    }
+    setP1State('lock')
+    setP2State('lock')
+  }, [phase])
+
+  if (titularParticipants.length !== 32 || shuffledIds.length !== 32) {
+    return (
+      <div className="scoreboard-stage pixel-frame" style={{ display: 'grid', placeItems: 'center' }}>
+        <BitmapText text="AGUARDANDO 32 PARTICIPANTES" size="medium" align="center" scale={0.5} maxWidth={1200} />
+      </div>
+    )
+  }
+  const byId = new Map(titularParticipants.map((p) => [p.id, p]))
+  const formationParticipants: FormationParticipant[] = shuffledIds.map((id) => {
+    const p = byId.get(id)!
+    return {
+      id: p.id,
+      name: p.name,
+      photoUrl: (p.photoAssetId && getPhoto(p.photoAssetId)) || p.avatarUrl || null,
+      avatarUrl: (p.photoAssetId && getPhoto(p.photoAssetId)) || p.avatarUrl || null,
+      bodyImageUrl: p.bodyImageUrl || (p.photoAssetId && getPhoto(p.photoAssetId)) || p.avatarUrl || null,
+    }
+  })
+  const cellForId = (id: string | null): { row: number; col: number } | null => {
+    if (!id) return null
+    const idx = shuffledIds.findIndex((pid) => pid === id)
+    return idx >= 0 ? cellForParticipantIndex(idx) : null
+  }
+
+  const cursors: FormationCursor[] = []
+  if (phase === 'spin1') {
+    const cell = cellForId(spinningId1)
+    if (cell) cursors.push({ player: 'p1', state: p1State, cell })
+  } else if (phase === 'spin2' || phase === 'landed') {
+    const p1Cell = cellForId(anchorId)
+    if (p1Cell) cursors.push({ player: 'p1', state: p1State, cell: p1Cell })
+    const p2Id = phase === 'spin2' ? spinningId2 : destId
+    const p2Cell = cellForId(p2Id)
+    if (p2Cell) cursors.push({ player: 'p2', state: p2State, cell: p2Cell })
+  }
+
+  const selectedTopId = phase === 'idle' ? null : (phase === 'spin1' ? spinningId1 : anchorId)
+  const selectedBottomId =
+    phase === 'spin2' ? spinningId2
+      : phase === 'landed' ? destId
+        : null
+  const selectedTop = selectedTopId
+    ? formationParticipants.find((p) => p.id === selectedTopId) ?? null
+    : null
+  const selectedBottom = selectedBottomId
+    ? formationParticipants.find((p) => p.id === selectedBottomId) ?? null
+    : null
+  const status =
+    phase === 'landed' ? 'DUPLA FORMADA'
+      : phase === 'spin2' ? 'ESCOLHENDO PARCEIRO'
+        : phase === 'spin1' ? 'SELECIONANDO DUPLA'
+          : 'FORMANDO AS DUPLAS'
+  return (
+    <TeamFormationScene
+      participants={formationParticipants}
+      cursors={cursors}
+      selectedTop={selectedTop}
+      selectedBottom={selectedBottom}
+      status={status}
+      duoLabel={phase === 'landed' && teamName ? teamName : undefined}
+    />
+  )
+}
+export function ScoreboardApp() {
+  const { projection, cinematic, spinningId1, spinningId2, phase, round3Draft, setRound3Draft } = useProjection()
+  const getPhoto = usePhotoCache()
+  const playedOpeningRef = useRef(false)
+  const lastScreenRef = useRef<string | undefined>(undefined)
+  const lastRoundWinnerRef = useRef<string | null>(null)
+  const lastMatchWinnerRef = useRef<string | null>(null)
+  const lastRound3HoldRef = useRef<string | null>(null)
+  const [flash, setFlash] = useState(false)
+  const [audioUnlocked, setAudioUnlocked] = useState(false)
+  /** False until KO hold timer completes while on match_win. */
+  const [koHoldDone, setKoHoldDone] = useState(false)
+
+  const handleUnlockAudio = useCallback(async () => {
+    await globalAudio.unlock()
+    setAudioUnlocked(true)
+    if (projection?.screen === 'opening') {
+      globalAudio.playMusic('introCinematic')
+    } else if (projection?.screen === 'fake_shuffle' || projection?.screen === 'versus') {
+      globalAudio.playMusic('teamSelect')
+    } else if (projection?.screen === 'round') {
+      globalAudio.playMusic('battleMain')
+      globalAudio.playAmbience('coldRoom')
+    } else if (projection?.screen === 'round3') {
+      globalAudio.playMusic('round3Select')
+    } else if (projection?.screen === 'champion' || projection?.screen === 'match_win') {
+      globalAudio.playMusic('championCelebration')
+      globalAudio.playAmbience('crowd')
+    }
+  }, [projection?.screen])
+
+  // Attempt auto-unlock on mount & listen for any key/click interaction
+  useEffect(() => {
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
+    if (AudioContextClass) {
+      try {
+        const testCtx = new AudioContextClass()
+        if (testCtx.state === 'running') {
+          // Browser allows autoplay
+          globalAudio.unlock().then(() => setAudioUnlocked(true))
+        }
+        void testCtx.close()
+      } catch (e) {
+        console.warn('Auto-unlock test failed:', e)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (audioUnlocked) return
+    const onUserInteraction = () => {
+      void handleUnlockAudio()
+    }
+    window.addEventListener('keydown', onUserInteraction)
+    window.addEventListener('pointerdown', onUserInteraction)
+    return () => {
+      window.removeEventListener('keydown', onUserInteraction)
+      window.removeEventListener('pointerdown', onUserInteraction)
+    }
+  }, [audioUnlocked, handleUnlockAudio])
+  /** False until round-win hold timer completes while on round3. */
+  const [round3HoldDone, setRound3HoldDone] = useState(false)
+  const koHold = projection?.screen === 'match_win' && !koHoldDone
+  const round3Hold = projection?.screen === 'round3' && !round3HoldDone
+  const prevMatchesRef = useRef(projection?.matches)
+  const [focusMatchId, setFocusMatchId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!projection) return
+    if (prevMatchesRef.current) {
+      const justCompleted = projection.matches.find(m => 
+        m.status === 'completed' && 
+        prevMatchesRef.current!.find(p => p.id === m.id)?.status !== 'completed'
+      )
+      if (justCompleted) {
+        setFocusMatchId(justCompleted.id)
+      }
+    }
+    prevMatchesRef.current = projection.matches
+  }, [projection?.matches])
+
+  useEffect(() => {
+    if (!projection) return
+    if (projection.screen === 'opening' && !playedOpeningRef.current) {
+      playedOpeningRef.current = true
+      globalAudio.playMusic('introCinematic')
+    }
+    if (projection.screen !== 'opening') {
+      playedOpeningRef.current = false
+    }
+    if (projection.screen === 'fake_shuffle') {
+      globalAudio.playMusic('teamSelect')
+      globalAudio.playAmbience(null)
+    } else if (projection.screen === 'versus') {
+      globalAudio.playMusic('teamSelect')
+      globalAudio.playAmbience(null)
+    } else if (projection.screen === 'round') {
+      globalAudio.playMusic('battleMain')
+      globalAudio.playAmbience('coldRoom')
+    } else if (projection.screen === 'round3') {
+      if (!round3Hold) {
+        globalAudio.playMusic('round3Select')
+        globalAudio.playAmbience(null)
+      } else {
+        globalAudio.playMusic('battleMain')
+        globalAudio.playAmbience('coldRoom')
+      }
+    } else if (projection.screen === 'champion') {
+      globalAudio.playMusic('championCelebration')
+      globalAudio.playAmbience('crowd')
+    } else if (projection.screen === 'match_win') {
+      if (!koHold) {
+        globalAudio.playMusic('championCelebration')
+        globalAudio.playAmbience('crowd')
+      }
+    } else if (projection.screen !== 'opening') {
+      globalAudio.playMusic(null)
+    }
+    if (projection.screen !== lastScreenRef.current) {
+      if (projection.screen === 'versus' || projection.screen === 'round') {
+        globalAudio.play('vs_impact')
+      }
+      if (projection.screen === 'round3') {
+        setRound3Draft({ a: null, b: null })
+      }
+      if (projection.screen === 'bracket') {
+        globalAudio.play('bracket_shuffle')
+        setTimeout(() => globalAudio.play('bracket_lock'), 800)
+      }
+      if (projection.screen === 'champion') {
+        globalAudio.play('champion')
+        setFlash(true)
+        setTimeout(() => setFlash(false), 400)
+      }
+      lastScreenRef.current = projection.screen
+    }
+    if (projection.versus?.roundWinner && projection.versus.roundWinner !== lastRoundWinnerRef.current) {
+      // No full-screen flash on round reveal — battle walk-in + impact FX carry the beat.
+      // (Previous flash-white + mint HUD pulse read as a mysterious green blink.)
+      lastRoundWinnerRef.current = projection.versus.roundWinner
+    } else if (!projection.versus?.roundWinner) {
+      lastRoundWinnerRef.current = null
+    }
+    // Match end: hold KO timeline on battle, THEN duo-qualified (do not skip KO).
+    if (projection.screen === 'match_win' && !lastMatchWinnerRef.current) {
+      lastMatchWinnerRef.current = 'playing'
+      setKoHoldDone(false)
+      // Impact/KO timeline provides hit feedback — skip scoreboard flash-white.
+      window.setTimeout(() => {
+        setKoHoldDone(true)
+        lastMatchWinnerRef.current = 'done'
+        globalAudio.playMusic('championCelebration')
+        globalAudio.playAmbience('crowd')
+        globalAudio.play('crowd.cheerBig')
+      }, MATCH_KO_HOLD_MS)
+    } else if (projection.screen !== 'match_win') {
+      lastMatchWinnerRef.current = null
+      setKoHoldDone(false)
+    }
+    // R2 → 1–1: hold round-win punch on battle, THEN Round 3 selection (not KO).
+    if (projection.screen === 'round3' && projection.versus && !lastRound3HoldRef.current) {
+      lastRound3HoldRef.current = 'playing'
+      setRound3HoldDone(false)
+      // Round-win punch beat — skip scoreboard flash-white (avoid green blink).
+      window.setTimeout(() => {
+        setRound3HoldDone(true)
+        lastRound3HoldRef.current = 'done'
+        globalAudio.playMusic('round3Select')
+        globalAudio.playAmbience(null)
+      }, ROUND_WIN_HOLD_MS)
+    } else if (projection.screen !== 'round3') {
+      lastRound3HoldRef.current = null
+      setRound3HoldDone(false)
+    }
+    if (projection.versus?.tie) {
+      globalAudio.play('tie')
+    }
+  }, [projection, koHold, round3Hold, setRound3Draft])
+  if (!projection) {
+    return (
+      <div className="scoreboard">
+        <OpeningScene tournamentName="Copa Esperança" timelineEpoch={0} />
+      </div>
+    )
+  }
+  const anchorId = cinematic?.type === 'fake_shuffle' ? cinematic.firstParticipantId : null
+  const destId = cinematic?.type === 'fake_shuffle' ? cinematic.destinationParticipantId : null
+  const layers = resolveScoreboardLayers({
+    screen: projection.screen,
+    hasVersus: Boolean(projection.versus),
+    koHold,
+    round3Hold,
+  })
+  const winnerSideBlue =
+    projection.versus?.matchWinnerSide === 'left' ||
+    (projection.versus != null &&
+      projection.versus.matchWinnerSide == null &&
+      projection.versus.scoreA > projection.versus.scoreB)
+  return (
+    <>
+      {!audioUnlocked && (
+        <div
+          className="audio-unlock-overlay"
+          onClick={handleUnlockAudio}
+          role="button"
+          tabIndex={0}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 99999,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            backdropFilter: 'blur(3px)',
+            cursor: 'pointer',
+            userSelect: 'none',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '36px 48px',
+              border: '3px solid #ffcc00',
+              borderRadius: '8px',
+              background: 'rgba(12, 12, 24, 0.92)',
+              boxShadow: '0 0 35px rgba(255, 204, 0, 0.5), inset 0 0 25px rgba(255, 204, 0, 0.2)',
+              textAlign: 'center',
+              gap: '16px',
+              maxWidth: '840px',
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "'Press Start 2P', monospace",
+                fontSize: '22px',
+                color: '#ffcc00',
+                lineHeight: 1.6,
+                textShadow: '0 0 12px #ff8800, 2px 2px 0px #000',
+                animation: 'blink 1.2s steps(2, start) infinite',
+              }}
+            >
+              ▶ CLIQUE NA TELA PARA INICIAR
+            </div>
+            <div
+              style={{
+                fontFamily: "'VT323', monospace",
+                fontSize: '28px',
+                color: '#e0e0e0',
+                letterSpacing: '1px',
+                textShadow: '1px 1px 2px #000',
+              }}
+            >
+              Toque ou clique em qualquer lugar para ativar o som do telão
+            </div>
+            <div
+              style={{
+                fontSize: '13px',
+                fontFamily: "'Press Start 2P', monospace",
+                color: '#00ffff',
+                marginTop: '6px',
+                letterSpacing: '1px',
+                textShadow: '0 0 8px #00ffff',
+              }}
+            >
+              [ PRESS START / CLICK TO UNLOCK AUDIO ]
+            </div>
+          </div>
+        </div>
+      )}
+      <div className={`scoreboard ${flash ? 'flash-white' : ''}`}>
+        {projection.screen === 'opening' ? (
+          <OpeningScene
+            tournamentName={projection.tournamentName}
+            timelineEpoch={audioUnlocked ? 'unlocked' : 'locked'}
+          />
+        ) : null}
+        {projection.screen === 'fake_shuffle' ? (
+          <FakeShuffleScreen
+            participants={projection.participants}
+            phase={phase}
+            spinningId1={spinningId1}
+            spinningId2={spinningId2}
+            anchorId={anchorId}
+            destId={destId}
+            teamName={cinematic?.type === 'fake_shuffle' ? cinematic.teamName : null}
+            getPhoto={getPhoto}
+          />
+        ) : null}
+        {projection.screen === 'bracket' ? (
+          <BracketScene
+            matches={projection.matches}
+            getPhoto={getPhoto}
+            status={projection.status}
+            focusMatchId={focusMatchId}
+          />
+        ) : null}
+        {layers.showVersus && projection.versus ? (
+          <VersusScene
+            phaseLabel={
+              projection.versus.stage === 'final'
+                ? 'FINAL'
+                : projection.versus.stage === 'semifinais'
+                  ? 'SEMIFINAIS'
+                  : projection.versus.stage === 'quartas'
+                    ? 'QUARTAS'
+                    : 'OITAVAS'
+            }
+            teamAName={projection.versus.teamAName}
+            teamBName={projection.versus.teamBName}
+            membersA={[
+              {
+                id: projection.versus.membersA[0].id,
+                name: projection.versus.membersA[0].name,
+                photoUrl:
+                  (projection.versus.membersA[0].photoAssetId &&
+                    getPhoto(projection.versus.membersA[0].photoAssetId)) ||
+                  projection.versus.membersA[0].avatarUrl ||
+                  null,
+              },
+              {
+                id: projection.versus.membersA[1].id,
+                name: projection.versus.membersA[1].name,
+                photoUrl:
+                  (projection.versus.membersA[1].photoAssetId &&
+                    getPhoto(projection.versus.membersA[1].photoAssetId)) ||
+                  projection.versus.membersA[1].avatarUrl ||
+                  null,
+              },
+            ]}
+            membersB={[
+              {
+                id: projection.versus.membersB[0].id,
+                name: projection.versus.membersB[0].name,
+                photoUrl:
+                  (projection.versus.membersB[0].photoAssetId &&
+                    getPhoto(projection.versus.membersB[0].photoAssetId)) ||
+                  projection.versus.membersB[0].avatarUrl ||
+                  null,
+              },
+              {
+                id: projection.versus.membersB[1].id,
+                name: projection.versus.membersB[1].name,
+                photoUrl:
+                  (projection.versus.membersB[1].photoAssetId &&
+                    getPhoto(projection.versus.membersB[1].photoAssetId)) ||
+                  projection.versus.membersB[1].avatarUrl ||
+                  null,
+              },
+            ]}
+            targetLabel={projection.versus.targetLabel}
+          />
+        ) : null}
+        {layers.showRound3Selection && projection.versus ? (
+          <Round3SelectionScene
+            membersA={[
+              {
+                id: projection.versus.membersA[0].id,
+                name: projection.versus.membersA[0].name,
+                photoUrl:
+                  (projection.versus.membersA[0].photoAssetId &&
+                    getPhoto(projection.versus.membersA[0].photoAssetId)) ||
+                  projection.versus.membersA[0].avatarUrl ||
+                  null,
+              },
+              {
+                id: projection.versus.membersA[1].id,
+                name: projection.versus.membersA[1].name,
+                photoUrl:
+                  (projection.versus.membersA[1].photoAssetId &&
+                    getPhoto(projection.versus.membersA[1].photoAssetId)) ||
+                  projection.versus.membersA[1].avatarUrl ||
+                  null,
+              },
+            ]}
+            membersB={[
+              {
+                id: projection.versus.membersB[0].id,
+                name: projection.versus.membersB[0].name,
+                photoUrl:
+                  (projection.versus.membersB[0].photoAssetId &&
+                    getPhoto(projection.versus.membersB[0].photoAssetId)) ||
+                  projection.versus.membersB[0].avatarUrl ||
+                  null,
+              },
+              {
+                id: projection.versus.membersB[1].id,
+                name: projection.versus.membersB[1].name,
+                photoUrl:
+                  (projection.versus.membersB[1].photoAssetId &&
+                    getPhoto(projection.versus.membersB[1].photoAssetId)) ||
+                  projection.versus.membersB[1].avatarUrl ||
+                  null,
+              },
+            ]}
+            draftAId={round3Draft.a}
+            draftBId={round3Draft.b}
+          />
+        ) : null}
+        {layers.showBattle && projection.versus ? (
+          <BattleScene
+            versus={projection.versus}
+            screen={layers.battleScreen}
+            getPhoto={getPhoto}
+            forceMatchFinish={layers.forceMatchFinish}
+            forceRoundWin={layers.forceRoundWin}
+          />
+        ) : null}
+        {layers.showDuoQualified && projection.versus ? (
+          <DuoQualifiedScene
+            teamName={
+              winnerSideBlue ? projection.versus.teamAName : projection.versus.teamBName
+            }
+            scoreA={projection.versus.scoreA}
+            scoreB={projection.versus.scoreB}
+            side={winnerSideBlue ? 'blue' : 'red'}
+            members={
+              winnerSideBlue
+                ? [
+                    {
+                      id: projection.versus.membersA[0].id,
+                      name: projection.versus.membersA[0].name,
+                      photoUrl:
+                        projection.versus.membersA[0].bodyImageUrl ||
+                        (projection.versus.membersA[0].photoAssetId &&
+                          getPhoto(projection.versus.membersA[0].photoAssetId)) ||
+                        projection.versus.membersA[0].avatarUrl ||
+                        null,
+                      fighterVariant: projection.versus.membersA[0].fighterVariant,
+                    },
+                    {
+                      id: projection.versus.membersA[1].id,
+                      name: projection.versus.membersA[1].name,
+                      photoUrl:
+                        projection.versus.membersA[1].bodyImageUrl ||
+                        (projection.versus.membersA[1].photoAssetId &&
+                          getPhoto(projection.versus.membersA[1].photoAssetId)) ||
+                        projection.versus.membersA[1].avatarUrl ||
+                        null,
+                      fighterVariant: projection.versus.membersA[1].fighterVariant,
+                    },
+                  ]
+                : [
+                    {
+                      id: projection.versus.membersB[0].id,
+                      name: projection.versus.membersB[0].name,
+                      photoUrl:
+                        projection.versus.membersB[0].bodyImageUrl ||
+                        (projection.versus.membersB[0].photoAssetId &&
+                          getPhoto(projection.versus.membersB[0].photoAssetId)) ||
+                        projection.versus.membersB[0].avatarUrl ||
+                        null,
+                      fighterVariant: projection.versus.membersB[0].fighterVariant,
+                    },
+                    {
+                      id: projection.versus.membersB[1].id,
+                      name: projection.versus.membersB[1].name,
+                      photoUrl:
+                        projection.versus.membersB[1].bodyImageUrl ||
+                        (projection.versus.membersB[1].photoAssetId &&
+                          getPhoto(projection.versus.membersB[1].photoAssetId)) ||
+                        projection.versus.membersB[1].avatarUrl ||
+                        null,
+                      fighterVariant: projection.versus.membersB[1].fighterVariant,
+                    },
+                  ]
+            }
+          />
+        ) : null}
+        {projection.screen === 'champion' && projection.champion ? (
+          <ChampionScene
+            teamName={projection.champion.name}
+            members={[
+              {
+                id: projection.champion.memberIds[0],
+                name: projection.champion.members[0] ?? '',
+                photoUrl:
+                  projection.champion.memberBodyImageUrls[0] ||
+                  (projection.champion.memberPhotoAssetIds[0] &&
+                    getPhoto(projection.champion.memberPhotoAssetIds[0])) ||
+                  projection.champion.memberAvatarUrls[0] ||
+                  null,
+                fighterVariant: projection.champion.memberFighterVariants[0],
+              },
+              {
+                id: projection.champion.memberIds[1],
+                name: projection.champion.members[1] ?? '',
+                photoUrl:
+                  projection.champion.memberBodyImageUrls[1] ||
+                  (projection.champion.memberPhotoAssetIds[1] &&
+                    getPhoto(projection.champion.memberPhotoAssetIds[1])) ||
+                  projection.champion.memberAvatarUrls[1] ||
+                  null,
+                fighterVariant: projection.champion.memberFighterVariants[1],
+              },
+            ]}
+          />
+        ) : null}
+        <span hidden>{CHANNEL.projection}</span>
+      </div>
+    </>
+  )
+}

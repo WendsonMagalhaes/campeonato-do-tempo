@@ -1,0 +1,15 @@
+{
+  "files": 76,
+  "runtimeFighterPNGs": 38,
+  "runtimeCursorPNGs": 8,
+  "runtimeFxPNGs": 9,
+  "sourceFiles": [
+    "src/copa-ui/components/BitmapTextCanvas.tsx",
+    "src/copa-ui/components/FighterSprite.tsx",
+    "src/copa-ui/components/FixedCanvas.tsx",
+    "src/copa-ui/components/PlayerPortrait.tsx",
+    "src/copa-ui/layouts/exact-layouts.ts",
+    "src/copa-ui/runtime/TeamFormationScene.tsx",
+    "src/copa-ui/runtime/runtime.css"
+  ]
+}

@@ -1,0 +1,292 @@
+{
+  "schemaVersion": 1,
+  "canvas": {
+    "width": 576,
+    "height": 576,
+    "anchor": "bottom-center"
+  },
+  "fighters": {
+    "male_blue": {
+      "frames": {
+        "idle_01": "/assets/runtime/fighters/male_blue/idle_01.png",
+        "idle_02": "/assets/runtime/fighters/male_blue/idle_02.png",
+        "walk_01": "/assets/runtime/fighters/male_blue/walk_01.png",
+        "walk_02": "/assets/runtime/fighters/male_blue/walk_02.png",
+        "attack": "/assets/runtime/fighters/male_blue/attack.png",
+        "hurt": "/assets/runtime/fighters/male_blue/hurt.png",
+        "lying": "/assets/runtime/fighters/male_blue/lying.png",
+        "victory": "/assets/runtime/fighters/male_blue/victory.png"
+      },
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle_01",
+            "idle_02"
+          ],
+          "fps": 3,
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "walk_01",
+            "walk_02"
+          ],
+          "fps": 5,
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "attack"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "hurt": {
+          "frames": [
+            "hurt"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "fall": {
+          "frames": [
+            "hurt",
+            "lying"
+          ],
+          "fps": 5,
+          "loop": false
+        },
+        "lying": {
+          "frames": [
+            "lying"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "victory": {
+          "frames": [
+            "victory"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      },
+      "side": "left",
+      "facing": "right"
+    },
+    "male_red": {
+      "frames": {
+        "idle_01": "/assets/runtime/fighters/male_red/idle_01.png",
+        "idle_02": "/assets/runtime/fighters/male_red/idle_02.png",
+        "walk_01": "/assets/runtime/fighters/male_red/walk_01.png",
+        "walk_02": "/assets/runtime/fighters/male_red/walk_02.png",
+        "attack": "/assets/runtime/fighters/male_red/attack.png",
+        "hurt": "/assets/runtime/fighters/male_red/hurt.png",
+        "lying": "/assets/runtime/fighters/male_red/lying.png",
+        "victory": "/assets/runtime/fighters/male_red/victory.png"
+      },
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle_01",
+            "idle_02"
+          ],
+          "fps": 3,
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "walk_01",
+            "walk_02"
+          ],
+          "fps": 5,
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "attack"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "hurt": {
+          "frames": [
+            "hurt"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "fall": {
+          "frames": [
+            "hurt",
+            "lying"
+          ],
+          "fps": 5,
+          "loop": false
+        },
+        "lying": {
+          "frames": [
+            "lying"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "victory": {
+          "frames": [
+            "victory"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      },
+      "side": "right",
+      "facing": "left"
+    },
+    "female_blue": {
+      "frames": {
+        "idle_01": "/assets/runtime/fighters/female_blue/idle_01.png",
+        "idle_02": "/assets/runtime/fighters/female_blue/idle_02.png",
+        "walk_01": "/assets/runtime/fighters/female_blue/walk_01.png",
+        "walk_02": "/assets/runtime/fighters/female_blue/walk_02.png",
+        "attack": "/assets/runtime/fighters/female_blue/attack.png",
+        "hurt": "/assets/runtime/fighters/female_blue/hurt.png",
+        "lying": "/assets/runtime/fighters/female_blue/lying.png",
+        "victory": "/assets/runtime/fighters/female_blue/victory.png"
+      },
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle_01",
+            "idle_02"
+          ],
+          "fps": 3,
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "walk_01",
+            "walk_02"
+          ],
+          "fps": 5,
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "attack"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "hurt": {
+          "frames": [
+            "hurt"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "fall": {
+          "frames": [
+            "hurt",
+            "lying"
+          ],
+          "fps": 5,
+          "loop": false
+        },
+        "lying": {
+          "frames": [
+            "lying"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "victory": {
+          "frames": [
+            "victory"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      },
+      "side": "left",
+      "facing": "right"
+    },
+    "female_red": {
+      "frames": {
+        "idle_01": "/assets/runtime/fighters/female_red/idle_01.png",
+        "idle_02": "/assets/runtime/fighters/female_red/idle_02.png",
+        "turn_01": "/assets/runtime/fighters/female_red/turn_01.png",
+        "turn_02": "/assets/runtime/fighters/female_red/turn_02.png",
+        "walk_01": "/assets/runtime/fighters/female_red/walk_01.png",
+        "walk_02": "/assets/runtime/fighters/female_red/walk_02.png",
+        "walk_03": "/assets/runtime/fighters/female_red/walk_03.png",
+        "walk_04": "/assets/runtime/fighters/female_red/walk_04.png",
+        "walk_05": "/assets/runtime/fighters/female_red/walk_05.png",
+        "attack": "/assets/runtime/fighters/female_red/attack.png",
+        "hurt_01": "/assets/runtime/fighters/female_red/hurt_01.png",
+        "hurt_02": "/assets/runtime/fighters/female_red/hurt_02.png",
+        "lying": "/assets/runtime/fighters/female_red/lying.png",
+        "victory": "/assets/runtime/fighters/female_red/victory.png"
+      },
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle_01",
+            "idle_02"
+          ],
+          "fps": 3,
+          "loop": true
+        },
+        "walk": {
+          "frames": [
+            "walk_01",
+            "walk_02",
+            "walk_03",
+            "walk_04",
+            "walk_05"
+          ],
+          "fps": 7,
+          "loop": true
+        },
+        "attack": {
+          "frames": [
+            "attack"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "hurt": {
+          "frames": [
+            "hurt_01",
+            "hurt_02"
+          ],
+          "fps": 6,
+          "loop": false
+        },
+        "fall": {
+          "frames": [
+            "hurt_02",
+            "lying"
+          ],
+          "fps": 5,
+          "loop": false
+        },
+        "lying": {
+          "frames": [
+            "lying"
+          ],
+          "fps": 1,
+          "loop": false
+        },
+        "victory": {
+          "frames": [
+            "victory"
+          ],
+          "fps": 1,
+          "loop": false
+        }
+      },
+      "side": "right",
+      "facing": "left"
+    }
+  }
+}

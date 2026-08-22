@@ -1,0 +1,498 @@
+{
+  "version": 1,
+  "currentPhase": "fighter_master",
+  "generationEnabled": false,
+  "note": "João fighter package LOCKED after human QA approval (suit + tie formal identity, 8 approved frames). GENERATION_ENABLED=false.",
+  "participants": {
+    "adriel": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "master_pose_pending",
+        "idle_02": "generated_needs_background_review",
+        "walk_01": "generated_needs_background_review",
+        "walk_02": "generated_needs_background_review",
+        "attack": "generated_needs_background_review",
+        "hurt": "generated_needs_background_review",
+        "victory": "generated_needs_background_review",
+        "lying": "generated_needs_background_review"
+      }
+    },
+    "alexandre": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "ana": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "caio": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "daniel": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "david": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "master_pose_pending",
+        "idle_02": "generated_needs_background_review",
+        "walk_01": "generated_needs_background_review",
+        "walk_02": "generated_needs_background_review",
+        "attack": "generated_needs_background_review",
+        "hurt": "generated_needs_background_review",
+        "victory": "generated_needs_background_review",
+        "lying": "generated_needs_background_review"
+      }
+    },
+    "dinarte": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "master_pose_pending",
+        "idle_02": "generated_needs_background_review",
+        "walk_01": "generated_needs_background_review",
+        "walk_02": "generated_needs_background_review",
+        "attack": "generated_needs_background_review",
+        "hurt": "generated_needs_background_review",
+        "victory": "generated_needs_background_review",
+        "lying": "generated_needs_background_review"
+      }
+    },
+    "erikson": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "evellyn": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "fabio": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "fatinha": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "fernando": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "izaias": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "jailson": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "joao": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "joemerson": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "lailson": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "leandro": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "leonardo": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "livia": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "manasses": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "marconi": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "monalisa": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "neto": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "radja": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "rhussiana": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "generated_needs_background_review",
+        "walk_01": "generated_needs_background_review",
+        "walk_02": "generated_needs_background_review",
+        "attack": "generated_needs_background_review",
+        "hurt": "generated_needs_background_review",
+        "victory": "generated_needs_background_review",
+        "lying": "generated_needs_background_review"
+      }
+    },
+    "ricardo": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "ryan": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "samara": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "tiago": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "wendson": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "wesley": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "hiago": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "kelvin": {
+      "fighterMaster": "approved",
+      "masterReview": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      }
+    },
+    "lailson2": {
+      "fighterMaster": "approved",
+      "frames": {
+        "idle_01": "approved",
+        "idle_02": "approved",
+        "walk_01": "approved",
+        "walk_02": "approved",
+        "attack": "approved",
+        "hurt": "approved",
+        "victory": "approved",
+        "lying": "approved"
+      },
+      "masterReview": "approved"
+    }
+  }
+}

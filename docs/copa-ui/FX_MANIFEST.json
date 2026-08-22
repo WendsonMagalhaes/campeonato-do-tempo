@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 2,
+  "project": "Copa Esperança",
+  "assets": {
+    "combatImpact": {
+      "sheet": "assets/fx/impact_fx_sheet.png",
+      "status": "AVAILABLE",
+      "events": [
+        "lightHit",
+        "heavyHit",
+        "koFinish",
+        "dust",
+        "flash",
+        "confetti"
+      ],
+      "rule": "Render as overlay at the visual contact point; never bake into stage."
+    },
+    "coldMist": {
+      "sheet": "assets/environment/cold_mist_sheet.png",
+      "status": "AVAILABLE",
+      "events": [
+        "ambientLoop",
+        "groundMist",
+        "steamBurst"
+      ]
+    },
+    "coldroomEnvironment": {
+      "sheet": "assets/environment/coldroom_environment_fx_sheet.png",
+      "status": "AVAILABLE",
+      "events": [
+        "plasticCurtain",
+        "fluorescentFlicker",
+        "condensationDrips",
+        "frost",
+        "puddleSplash"
+      ]
+    },
+    "crowd": {
+      "sheet": "assets/sprites/crowd_sheet.png",
+      "status": "AVAILABLE",
+      "events": [
+        "ambient",
+        "roundReaction",
+        "koReaction",
+        "championReaction"
+      ]
+    }
+  },
+  "screenShake": {
+    "lightHitPx": 2,
+    "heavyHitPx": 6,
+    "koPx": 12,
+    "rule": "CSS transform/Canvas camera offset, short duration; respect prefers-reduced-motion."
+  }
+}

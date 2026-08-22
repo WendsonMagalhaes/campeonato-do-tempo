@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "updated": "2026-08-15",
+  "policy": "PRE_CROP_ONLY — mirror of docs/copa-ui/CURSOR_RUNTIME_MANIFEST.json",
+  "sheet": "/assets/ui/selection_cursor_frame_sheet.png",
+  "runtimeRoot": "/assets/runtime/cursors/",
+  "framesManifest": "docs/copa-ui/SELECTION_CURSOR_FRAMES.json"
+}

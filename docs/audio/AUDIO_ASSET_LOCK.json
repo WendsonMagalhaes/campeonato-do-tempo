@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "project": "Copa Esperança",
+  "addon": "audio",
+  "version": "1.0.0",
+  "status": "FROZEN",
+  "date": "2026-08-15",
+  "rule": "Do not modify locked files without explicit user approval and a new add-on version.",
+  "files": [
+    {
+      "path": "PACKAGE_STATUS.md",
+      "sizeBytes": 1007,
+      "sha256": "f13f9033d94a9dc3c43eb805fec524240de07783ab2c9e92ee456237c2b0fd0d"
+    },
+    {
+      "path": "README.md",
+      "sizeBytes": 1648,
+      "sha256": "b039c318053602fdab4be88ced2d3c7917d4a4de766f8d0558f6be3be3386b0c"
+    },
+    {
+      "path": "assets/audio/ambience/cold_room_loop.wav",
+      "sizeBytes": 3855404,
+      "sha256": "537b2f12da9bdbf2004dc1eba1cfb9c6895bd9230093a579c3409fc819831474"
+    },
+    {
+      "path": "assets/audio/ambience/cold_room_wide_alt.wav",
+      "sizeBytes": 3855404,
+      "sha256": "e820d88f376caeb139c14ad6bf9910871261d94b086bb40ffe539e81779f93e3"
+    },
+    {
+      "path": "assets/audio/ambience/crowd_loop.wav",
+      "sizeBytes": 3855404,
+      "sha256": "f4bcc575097c94ac7a8a5eec4d2feb34d2f1013af57cb2182c3b94e47325f1cf"
+    },
+    {
+      "path": "assets/audio/announcer/fight.wav",
+      "sizeBytes": 94802,
+      "sha256": "60581d633f3b4ed4d07650c010b31c675b16e584dde498efd426871e097d8530"
+    },
+    {
+      "path": "assets/audio/announcer/fight_alt.wav",
+      "sizeBytes": 61606,
+      "sha256": "b06ac45ee8caee1dc3cae96995cb97737488418dba7f4fe81256d6a9795dc9f7"
+    },
+    {
+      "path": "assets/audio/announcer/final_round.wav",
+      "sizeBytes": 130714,
+      "sha256": "5f188dd92b0fbbdad80264a3e1b4e39b3d06d69935c759b9564d6ee9dc96e375"
+    },
+    {
+      "path": "assets/audio/announcer/final_round_fight_combo.wav",
+      "sizeBytes": 205234,
+      "sha256": "a98807311cf7eced8d887541d6d30baf9e871437ea961120afc503f245399c30"
+    },
+    {
+      "path": "assets/audio/announcer/ko.wav",
+      "sizeBytes": 127058,
+      "sha256": "c762acf6c10c677812d9446d63cec3bebfbe3532a2dba35a80cc98c36f4d71e9"
+    },
+    {
+      "path": "assets/audio/announcer/perfect.wav",
+      "sizeBytes": 101624,
+      "sha256": "437bddb39572133792bd0871fb233d6b227dbfe4f1d50fc0f7167c9f048c5a16"
+    },
+    {
+      "path": "assets/audio/announcer/round_1.wav",
+      "sizeBytes": 126532,
+      "sha256": "97c67e054bf20972b5214b1a63a154f26c21bbd5463fca449f54234fb7f9ce70"
+    },
+    {
+      "path": "assets/audio/announcer/round_2.wav",
+      "sizeBytes": 122830,
+      "sha256": "4fa9cad4da89f11da3bf27ea11f1a058e3005ff2336c8ddc9f79174ecabbd6a5"
+    },
+    {
+      "path": "assets/audio/combat/heavy_hit.wav",
+      "sizeBytes": 167208,
+      "sha256": "6b5f7640dcbba92eadb42821ba25083328fd5c41830b6394ae95e00f042c4fdd"
+    },
+    {
+      "path": "assets/audio/combat/medium_hit.wav",
+      "sizeBytes": 59564,
+      "sha256": "dc0c45e4e820dccd248acff0410f31ff61743ef55e3dd9017efd7c20ae860041"
+    },
+    {
+      "path": "assets/audio/crowd/match_win_01.wav",
+      "sizeBytes": 960044,
+      "sha256": "88741e658a1d2f10378439859fd562d449062c4a03785966c717c4f56a0926d1"
+    },
+    {
+      "path": "assets/audio/crowd/match_win_02.wav",
+      "sizeBytes": 932076,
+      "sha256": "058489bc04e01aceb88ce10e9e65c48b39655f0bd50fdb9163f1767bff6d98f7"
+    },
+    {
+      "path": "assets/audio/crowd/match_win_short.wav",
+      "sizeBytes": 384044,
+      "sha256": "1531f7f2f564b3b620900e9fc749c9e101a544b7a4f2a57c09b49182f6ef275b"
+    },
+    {
+      "path": "assets/audio/crowd/reaction_micro.wav",
+      "sizeBytes": 92204,
+      "sha256": "907341143dd158f8386c2bed2133f69f73213857327a06e7620c847400905768"
+    },
+    {
+      "path": "assets/audio/crowd/round_win_01.wav",
+      "sizeBytes": 547244,
+      "sha256": "4cbf6d38ad63acfd8b6bbdf2b5760937fcaff5ff5e63b567d86926a1293e386b"
+    },
+    {
+      "path": "assets/audio/crowd/round_win_02.wav",
+      "sizeBytes": 536700,
+      "sha256": "941271a1932ef92feb3367e3349731b9e9e43afd1cac19e8fab1c0b10f82619d"
+    },
+    {
+      "path": "assets/audio/crowd/round_win_03.wav",
+      "sizeBytes": 523612,
+      "sha256": "9112134c36491e6926133ffea8d502d3029c20b29b9c0ae3f755a7036ff9687c"
+    },
+    {
+      "path": "assets/audio/fighters/common/exhausted_vocal_01.wav",
+      "sizeBytes": 124918,
+      "sha256": "3bece9c1706715ddcda8d993bef70ae22cb8f16f493022158ae43a008f2d771a"
+    },
+    {
+      "path": "assets/audio/fighters/common/knockdown_impact_01.wav",
+      "sizeBytes": 108968,
+      "sha256": "35535f9b67cef75a7b0fa6d3fc904c8ed299006a1e210c9a7297471246aa8299"
+    },
+    {
+      "path": "assets/audio/fighters/common/knockdown_impact_02.wav",
+      "sizeBytes": 123016,
+      "sha256": "7fda0305a3b65edde8652782b94bab8cca16dcc99932e95e6fddcb0ffb79e1a3"
+    },
+    {
+      "path": "assets/audio/fighters/female/hurt_01.wav",
+      "sizeBytes": 384044,
+      "sha256": "b953064e8ad32e4bc90d0082723edf8428d1e7003b1f708346ee1bea73d45200"
+    },
+    {
+      "path": "assets/audio/fighters/male/hurt_01.wav",
+      "sizeBytes": 415504,
+      "sha256": "8ca136d9235f3ed7a2bc962a2f4c7ce292f4e455fc075e2c0b606d2d19c70da5"
+    },
+    {
+      "path": "assets/audio/fighters/male/hurt_02.wav",
+      "sizeBytes": 469784,
+      "sha256": "dcec7aa2cd0c08426caf24756dd858f24c346fd29a7a26aa45778221aa5359d7"
+    },
+    {
+      "path": "assets/audio/music/battle_final_round.mp3",
+      "sizeBytes": 3601196,
+      "sha256": "5218466f39bbf0575d0aaf13477a8b2cff160930ca279f306979facf0d3bf922"
+    },
+    {
+      "path": "assets/audio/music/battle_main.mp3",
+      "sizeBytes": 3601196,
+      "sha256": "528f8c80666e33788097a29be483002b8c774c5ba3790d7d13adfe01557c8b7f"
+    },
+    {
+      "path": "assets/audio/music/champion_celebration.mp3",
+      "sizeBytes": 3601196,
+      "sha256": "be93d15f81d713cb2f25fa0735396a41ef294eb1a39853965478c6e49ecb19cf"
+    },
+    {
+      "path": "assets/audio/music/champion_reveal.mp3",
+      "sizeBytes": 1441196,
+      "sha256": "906e6eae44ed2d8cfb7c09f543c5e56ea42ac418e21fbe22d6056c8ee06e24f9"
+    },
+    {
+      "path": "assets/audio/music/intro_cinematic.mp3",
+      "sizeBytes": 2881196,
+      "sha256": "b38298de9f38fe5a292a0f2b6febf3d61af89cdc86c36fc7cc4101be7bfa0636"
+    },
+    {
+      "path": "assets/audio/music/intro_press_start.mp3",
+      "sizeBytes": 3601196,
+      "sha256": "fdf46bba4d8b00c30ca0c2e9754e102902ee36cd24a5c6385d723572af4f9712"
+    },
+    {
+      "path": "assets/audio/music/round3_select.mp3",
+      "sizeBytes": 721196,
+      "sha256": "16d820df09e56a9c2d596d046fb8d821c6f0c6717a0a70b67762d706469cb433"
+    },
+    {
+      "path": "assets/audio/music/team_select.mp3",
+      "sizeBytes": 1441196,
+      "sha256": "3fbb68462b3864044634f7c800e0d86490dec062cc8d10d5c753eae5ca01096d"
+    },
+    {
+      "path": "assets/audio/ui/bracket_advance.wav",
+      "sizeBytes": 182616,
+      "sha256": "527c5eab20dc772b39b92b00237bff95bc745e55684ce83f5b5f84b746dbba6f"
+    },
+    {
+      "path": "assets/audio/ui/bracket_advance_alt.wav",
+      "sizeBytes": 192044,
+      "sha256": "45bb1f4825eed08897959415a55d8813a4ecf51f03747f2e13065712a005b9cb"
+    },
+    {
+      "path": "assets/audio/ui/cursor_move_01.wav",
+      "sizeBytes": 40364,
+      "sha256": "0ba72d4915592a9ce6289c8648efc42a065b6a28d2933c9cd4b8c337e30ed4a4"
+    },
+    {
+      "path": "assets/audio/ui/cursor_move_02.wav",
+      "sizeBytes": 38444,
+      "sha256": "b835c2a137f8d9c26b5a3fd2bbc568be478b4806970ade224a969be50257b0eb"
+    },
+    {
+      "path": "assets/audio/ui/cursor_move_03.wav",
+      "sizeBytes": 38444,
+      "sha256": "97b743992cf508c5bb6bc65c7811734238a06ac8f13f519193228f7a9a6e11eb"
+    },
+    {
+      "path": "assets/audio/ui/cursor_move_04.wav",
+      "sizeBytes": 40364,
+      "sha256": "a01891ed4e62693c7f5fb70af024c28276417d625222ead24b4fbbb782727c02"
+    },
+    {
+      "path": "assets/audio/ui/cursor_move_05.wav",
+      "sizeBytes": 40364,
+      "sha256": "2e5fdd41db69651fe82d7d69f9ffc8612a2b0d422e47acc450aa26c994b2865f"
+    },
+    {
+      "path": "assets/audio/ui/cursor_move_06.wav",
+      "sizeBytes": 44200,
+      "sha256": "d5b18c7e0564b854ab9bca54df8d4fea7d5e4880a2d3e442bb64517a7d1124f5"
+    },
+    {
+      "path": "assets/audio/ui/flash.wav",
+      "sizeBytes": 53804,
+      "sha256": "6bf83f1e56731d368778c70cdbcb360d42b570117c26376646573b5193102bc2"
+    },
+    {
+      "path": "assets/audio/ui/screen_transition.wav",
+      "sizeBytes": 84524,
+      "sha256": "62d6ceeef001105fabcd04420dcf7bc98db962af0cea1257a86909a35a80b72c"
+    },
+    {
+      "path": "assets/audio/ui/selection_lock.wav",
+      "sizeBytes": 211244,
+      "sha256": "7dd81f697e95291bf4f09770b6d9ad9bf3d3e54bd20f9f27e2a270aafc6f4b6b"
+    },
+    {
+      "path": "assets/audio/ui/vs_impact.wav",
+      "sizeBytes": 188204,
+      "sha256": "d96bb25c19ff235cedfa9a72716fbb93dc30f63c120c16a39e1c2a89921f6c93"
+    },
+    {
+      "path": "docs/AUDIO_ADDON_HANDOFF.md",
+      "sizeBytes": 3109,
+      "sha256": "8bc435a295c823c9e01e38bf3eb8cc50b8ddd2127168ee7cd167a1831e799dba"
+    },
+    {
+      "path": "docs/AUDIO_RUNTIME_TIMELINE.md",
+      "sizeBytes": 1319,
+      "sha256": "b0ad85ac47ec484031da2754c2cc47e9da39916cee0dd0a17a9dc369c0f1eeb8"
+    },
+    {
+      "path": "docs/MUSIC_DIRECTION.md",
+      "sizeBytes": 2998,
+      "sha256": "798293e829693efbdb079ea2ce4a4f1c7fccf4a1ae2353656d7c876ae9bc356a"
+    },
+    {
+      "path": "docs/SFX_CURATION.md",
+      "sizeBytes": 1784,
+      "sha256": "da03b1f12fcfe0c4f87df08c7816a89149f032424b6c1f82c17ce844cf63f004"
+    },
+    {
+      "path": "docs/audio_manifest.json",
+      "sizeBytes": 22630,
+      "sha256": "3784cd3050382d1b50a72071a3cd467a6dcd47e4ec8951d86bc51b14425d43ab"
+    },
+    {
+      "path": "src/audio/music-config.ts",
+      "sizeBytes": 675,
+      "sha256": "d0f2ffa1cb6e1bbbaaf8122ef8a778fe77d24dc04ac08b9ef10864065442b44d"
+    },
+    {
+      "path": "src/audio/sfx-config.ts",
+      "sizeBytes": 1541,
+      "sha256": "f8164e3f561c193a3c5c99833ccab8244231d624946d9f8406ab31e5e79e12fa"
+    }
+  ]
+}

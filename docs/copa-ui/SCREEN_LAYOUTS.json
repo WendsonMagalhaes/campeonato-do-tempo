@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "resolution": {
+    "width": 1920,
+    "height": 1080,
+    "aspectRatio": "16:9"
+  },
+  "screens": {
+    "teamFormation": {
+      "purpose": "Cenographic reveal of pre-defined duos.",
+      "publicMustNotRevealFakeShuffle": true,
+      "grid": {
+        "rows": 3,
+        "columns": 11,
+        "slots": 33,
+        "participants": 32,
+        "randomSlot": {
+          "row": 2,
+          "column": 6,
+          "content": "?",
+          "fixed": true
+        }
+      },
+      "participantTile": {
+        "frame": "portraitFrame",
+        "mode": "mini",
+        "content": "small employee avatar/character portrait"
+      },
+      "selectedPanels": {
+        "count": 2,
+        "frame": "portraitFrame",
+        "mode": "large",
+        "content": "large selected character art + dynamic name"
+      },
+      "animation": [
+        "CSS slot highlight traverses participant slots (P1 blue / P2 red)",
+        "decelerates",
+        "locks on pre-defined participant 1",
+        "repeat for participant 2",
+        "show duo formed"
+      ],
+      "cursorPresentation": "css-border",
+      "cursorAsset": null,
+      "cursorStates": [
+        "idle",
+        "lock"
+      ]
+    },
+    "bracket": {
+      "renderMode": "DETERMINISTIC_HTML_SVG",
+      "staticImageBracketForbidden": true,
+      "teams": 16,
+      "structure": {
+        "roundOf16Matches": 8,
+        "quarterFinalMatches": 4,
+        "semiFinalMatches": 2,
+        "finalMatches": 1
+      },
+      "perSide": {
+        "entryTeams": 8,
+        "roundOf16Matches": 4,
+        "quarterFinalMatches": 2,
+        "semiFinalMatches": 1,
+        "finalistsProduced": 1
+      },
+      "teamCard": {
+        "fields": [
+          "teamNumber",
+          "portrait1",
+          "portrait2",
+          "memberNamesOneLine"
+        ],
+        "scoreVisible": false,
+        "decoration": "minimal",
+        "portraitFrame": "portraitFrame"
+      },
+      "winnerMarking": "CSS state only; no score needed on bracket",
+      "titleText": "none (removed — redundant with phase labels)",
+      "brandLogo": "/assets/brand/esperanca_distribuidora_logo.png",
+      "finalCardAccent": "gold/dourado CSS (.ce-bracket-card.is-final)",
+      "tbdSlotLayout": "centered A DEFINIR (no portrait row)"
+    },
+    "versus": {
+      "components": [
+        "portraitFrame",
+        "vsEmblem"
+      ],
+      "dynamic": [
+        "memberNames",
+        "memberPortraits",
+        "phase",
+        "status"
+      ],
+      "rules": [
+        "Stage may change. VS and portrait frame may not.",
+        "No name_plate_base — BitmapText only for member names and status (same direction as Round 3).",
+        "Portraits are selection-scale (360×360) with PlayerPortrait photoUrl / ? fallback; member names BitmapText medium@0.5."
+      ]
+    },
+    "battle": {
+      "components": [
+        "retroLogo",
+        "portraitFrame",
+        "scorePanel",
+        "timePanel",
+        "namePlate"
+      ],
+      "dynamic": [
+        "activePlayerA",
+        "activePlayerB",
+        "targetTime",
+        "observedTimesAfterReveal",
+        "score"
+      ],
+      "states": [
+        "round1",
+        "round2",
+        "round3",
+        "tie",
+        "ko",
+        "roundWinner",
+        "matchWinner"
+      ],
+      "renderMode": "LAYERED_FIGHTING_SCENE",
+      "mandatoryLayers": [
+        "stage/background",
+        "environmentFX",
+        "fighters",
+        "combatFX",
+        "canonicalHUD",
+        "dynamicText",
+        "audioDirector"
+      ],
+      "fighters": {
+        "left": {
+          "teamSide": "blue",
+          "faces": "right",
+          "source": "SPRITE_MANIFEST.blue",
+          "count": 1
+        },
+        "right": {
+          "teamSide": "red",
+          "faces": "left",
+          "source": "SPRITE_MANIFEST.red",
+          "count": 1
+        },
+        "variantSource": "participant.fighterVariant",
+        "states": [
+          "idle",
+          "walk",
+          "attack",
+          "hurt",
+          "fall",
+          "lying",
+          "victory"
+        ]
+      },
+      "mandatoryAssets": [
+        "assets/backgrounds/battle_dock_coldroom_bg.png",
+        "assets/sprites/fighter_male_blue_sheet.png",
+        "assets/sprites/fighter_female_blue_sheet.png",
+        "assets/sprites/fighter_male_red_sheet.png",
+        "assets/sprites/fighter_female_red_sheet.png",
+        "assets/fx/impact_fx_sheet.png"
+      ],
+      "fx": {
+        "manifest": "docs/FX_MANIFEST.json"
+      },
+      "audio": {
+        "manifest": "docs/AUDIO_MANIFEST.json",
+        "status": "PENDING_FINAL_WAV_FILES"
+      },
+      "completionRule": "BattleScreen is not complete without two rendered fighters, animation state changes, impact FX, canonical HUD and audio integration hooks."
+    },
+    "round3Selection": {
+      "purpose": "Each duo chooses one representative when match is 1-1.",
+      "candidatesPerTeam": 2,
+      "chosenPerTeam": 1,
+      "components": [
+        "portraitFrame",
+        "vsEmblem"
+      ],
+      "rules": [
+        "Two large selection-scale PlayerPortrait slots per team (360×360 + portrait_frame_base).",
+        "Selection shown via CSS border/glow on the chosen candidate slot (P1 blue / P2 red) — no sprite cursor overlay.",
+        "No score banner (PLACAR) and no duo labels above pairs — individual BitmapText names under each portrait only.",
+        "No redundant bottom SELECIONADOS row.",
+        "Real photos when available; ? fallback only.",
+        "All photos/names are runtime.",
+        "No invented brand/game/date/location UI."
+      ]
+    },
+    "duoQualified": {
+      "components": [
+        "retroLogo",
+        "portraitFrame",
+        "namePlate"
+      ],
+      "dynamic": [
+        "memberPortrait1",
+        "memberPortrait2",
+        "memberName1",
+        "memberName2",
+        "guaranteedPrize"
+      ],
+      "state": "Use neutral canonical frame + CSS team accent; do not bake blue/red frame artwork."
+    },
+    "champion": {
+      "components": [
+        "retroLogo",
+        "portraitFrame",
+        "namePlate"
+      ],
+      "dynamic": [
+        "championPortrait1",
+        "championPortrait2",
+        "championNames"
+      ],
+      "stageRule": "Celebration plaza BG; no prize currency on telão; podium asset pending."
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "project": "Copa Esperança",
+  "designRule": "Stages may vary; canonical UI components may not.",
+  "assets": {
+    "portraitFrame": {
+      "path": "assets/ui/portrait_frame_base.png",
+      "status": "FROZEN",
+      "usage": [
+        "portrait-large",
+        "portrait-mini"
+      ],
+      "rules": [
+        "Use exact same PNG in every screen.",
+        "Mini and large versions are CSS scaling only.",
+        "Photo renders underneath frame.",
+        "Blue/red/selected/winner are CSS states."
+      ]
+    },
+    "vsEmblem": {
+      "path": "assets/ui/vs_emblem.png",
+      "status": "FROZEN",
+      "rules": [
+        "Same asset everywhere.",
+        "Do not generate new VS for any screen.",
+        "Only scale/translate/opacity/impact animation allowed."
+      ]
+    },
+    "scorePanel": {
+      "path": "assets/ui/score_panel_base.png",
+      "status": "FROZEN",
+      "dynamicFields": [
+        "scoreLeft",
+        "scoreRight",
+        "optionalLabel"
+      ],
+      "rules": [
+        "Never bake scores or names into PNG."
+      ]
+    },
+    "namePlate": {
+      "path": "assets/ui/name_plate_base.png",
+      "status": "FROZEN",
+      "dynamicFields": [
+        "text"
+      ],
+      "rules": [
+        "Use bitmap font or approved fallback over plate."
+      ]
+    },
+    "timePanel": {
+      "path": "assets/ui/time_panel_base.png",
+      "status": "PENDING_IMAGE",
+      "dynamicFields": [
+        "targetTime",
+        "observedTime"
+      ]
+    },
+    "phasePlate": {
+      "path": "assets/ui/phase_plate_base.png",
+      "status": "PENDING_IMAGE",
+      "dynamicFields": [
+        "phaseTitle",
+        "roundTitle"
+      ]
+    },
+    "selectionCursor": {
+      "path": "assets/ui/selection_cursor.png",
+      "status": "PENDING_IMAGE"
+    },
+    "retroLogo": {
+      "path": "assets/ui/esperanca_retro_logo.png",
+      "status": "PENDING_IMAGE"
+    },
+    "selectionCursorSheet": {
+      "path": "assets/ui/selection_cursor_sheet.png",
+      "status": "AVAILABLE_REFERENCE_SOURCE",
+      "states": [
+        "idle",
+        "move",
+        "lock",
+        "selected",
+        "miniHudPointer",
+        "fighterIndicator",
+        "confirm",
+        "highlight"
+      ],
+      "note": "Implementation source is present; a later isolated canonical cursor export may replace it only after explicit approval."
+    }
+  },
+  "font": {
+    "metadata": "docs/copa-ui/FONT_METRICS_V4.json",
+    "renderer": "docs/copa-ui/BITMAP_RENDERER.md",
+    "glyphBase": "assets/fonts/glyphs/",
+    "small": "assets/fonts/glyphs/small/",
+    "medium": "assets/fonts/glyphs/medium/",
+    "large": "assets/fonts/glyphs/large/",
+    "note": "One true-transparent PNG per glyph. The atlases font_label_small.png / font_hud_medium.png / font_display_large.png were retired; see docs/copa-ui/superseded/."
+  },
+  "runtimeComposition": {
+    "order": [
+      "stage/background",
+      "environment FX",
+      "participant photo/character art",
+      "canonical UI PNG overlays",
+      "dynamic bitmap text",
+      "runtime state glows/highlights",
+      "transition FX"
+    ],
+    "forbidden": [
+      "Generate a full screen with canonical components baked into it",
+      "Redraw VS per screen",
+      "Redraw portrait frames per screen",
+      "Bake participant names/times/scores into static assets",
+      "Invent parallel brands such as ARCADE 90s, Fight Club, Tekken UI, football themes"
+    ]
+  },
+  "battleResources": {
+    "spriteManifest": "docs/SPRITE_MANIFEST.json",
+    "fxManifest": "docs/FX_MANIFEST.json",
+    "audioManifest": "docs/AUDIO_MANIFEST.json",
+    "battleSceneSpec": "docs/BATTLE_SCENE_SPEC.md"
+  }
+}

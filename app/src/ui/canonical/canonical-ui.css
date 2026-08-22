@@ -1,0 +1,329 @@
+/* Copa Esperança — canonical runtime UI layers */
+:root {
+  --ce-green: #00a060;
+  --ce-green-dark: #005030;
+  --ce-gold: #ffc928;
+  --ce-blue: #2ea8ff;
+  --ce-red: #ff4a35;
+  --ce-ink: #07111d;
+  --ce-white: #ffffff;
+}
+.ce-pixel { image-rendering: pixelated; image-rendering: crisp-edges; }
+.ce-portrait { --accent: var(--ce-green); position: relative; width:100%; aspect-ratio: 1/1; isolation:isolate; }
+.ce-portrait__photo {
+  position: absolute;
+  inset: 9%;
+  width: 82%;
+  height: 82%;
+  object-fit: cover;
+  object-position: 50% 28%;
+  z-index: 1;
+  background: linear-gradient(145deg, #071c18, #0c2620);
+}
+.ce-portrait__fallback {
+  position: absolute;
+  inset: 9%;
+  width: 82%;
+  height: 82%;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle, #12372d, #06100e);
+  color: var(--ce-gold);
+  font: 700 1.1em monospace;
+}
+.ce-portrait__frame {
+  position: absolute;
+  left: 50%;
+  top: 51.4%;
+  transform: translate(-50%, -50%);
+  width: 123.5%;
+  height: 127.2%;
+  max-width: none;
+  max-height: none;
+  object-fit: fill;
+  pointer-events: none;
+  z-index: 2;
+  image-rendering: pixelated;
+}
+.ce-portrait[data-state="blue"] { filter: drop-shadow(0 0 10px var(--ce-blue)); }
+.ce-portrait[data-state="red"] { filter: drop-shadow(0 0 10px var(--ce-red)); }
+.ce-portrait[data-state="selected"] { transform:scale(1.035); filter:drop-shadow(0 0 18px var(--ce-gold)); }
+.ce-portrait[data-state="winner"] { filter:drop-shadow(0 0 20px var(--ce-gold)); }
+.ce-portrait[data-state="eliminated"] { opacity:.42; filter:grayscale(.7); }
+.ce-vs { display:block; object-fit:contain; image-rendering:pixelated; pointer-events:none; }
+.ce-panel { position:relative; display:grid; place-items:center; }
+.ce-panel>.ce-panel__art { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; z-index:0; pointer-events:none; }
+.ce-panel>.ce-panel__content { position:relative; z-index:1; }
+.ce-bracket { --line:var(--ce-gold); position:relative; }
+.ce-bracket svg.ce-bracket__connectors { position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
+.ce-bracket .ce-bracket__connector { fill:none; stroke:var(--line); stroke-width:2; vector-effect:non-scaling-stroke; shape-rendering:crispEdges; }
+/* Legacy triangular cursor CSS removed — TF uses .ce-selection-cursor-frame moldura. */
+
+/* Bitmap font: the only renderer is BitmapText (one transparent PNG per glyph, v4 metrics).
+   No atlas, no background-position, no colour keying — see docs/copa-ui/BITMAP_RENDERER.md. */
+
+/* ---- Battle scene (FixedCanvas 1920×1080 + EXACT geometry) ---- */
+.ce-battle-host { background: #061018; }
+.ce-battle-bg {
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+.ce-battle-env {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+.ce-battle-env--door-mist {
+  /* Subtle opacity pulse only — no vertical drift (looked like floating blobs). */
+  animation: ce-env-mist-breathe 14s ease-in-out infinite;
+}
+@keyframes ce-env-mist-breathe {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.36; }
+}
+.ce-battle-env--crowd {
+  /* Opaque keyed sprites — no screen blend (that caused ghost crowd). */
+  mix-blend-mode: normal;
+}
+.ce-fighter {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 8px 0 rgba(0,0,0,.45));
+}
+/* Absolute grounding box — never relative (relative collapses fighters off-stage). */
+.ce-fighter-wrap {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 3;
+}
+.ce-battle-fighter {
+  z-index: 3;
+}
+.ce-battle-impact {
+  animation: ce-impact-flash 220ms steps(2, end);
+}
+@keyframes ce-impact-flash {
+  from { transform: scale(.72); opacity: 0.55; }
+  to { transform: scale(1.05); opacity: 1; }
+}
+.ce-battle-hud-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+.ce-battle-portrait {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+.ce-battle-portrait .ce-portrait__photo {
+  inset: 9%;
+  width: 82%;
+  height: 82%;
+  object-fit: cover;
+  object-position: 50% 28%;
+}
+.ce-battle-portrait .ce-portrait__fallback {
+  inset: 9%;
+  width: 82%;
+  height: 82%;
+}
+.ce-battle-name-fill.ce-name-plate,
+.ce-battle-score-fill.ce-score-panel,
+.ce-battle-name-fill.ce-time-panel {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+}
+.ce-battle-duo-name {
+  display: flex;
+  align-items: center;
+  overflow: visible;
+  pointer-events: none;
+}
+.ce-battle-duo-name--left {
+  justify-content: flex-start;
+}
+.ce-battle-duo-name--right {
+  justify-content: flex-end;
+}
+.ce-battle-duo-name.is-pulse,
+.ce-battle-portrait-wrap.is-pulse {
+  animation: ce-hud-side-pulse 1.1s ease-in-out infinite;
+}
+/* Side-tinted pulse — never mint/green (that read as a mysterious green flash on reveal). */
+.ce-battle-duo-name--left.is-pulse,
+.ce-battle-portrait-wrap.is-pulse-left {
+  animation-name: ce-hud-side-pulse-blue;
+}
+.ce-battle-duo-name--right.is-pulse,
+.ce-battle-portrait-wrap.is-pulse-right {
+  animation-name: ce-hud-side-pulse-red;
+}
+.ce-battle-score-fill.ce-score-panel {
+  position: relative;
+}
+.ce-score-slot {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ce-score-slot.is-pop {
+  animation: ce-score-pop 0.52s ease-out;
+}
+.ce-battle-name-fill.ce-time-panel .ce-panel__content {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 14% 16% 28% 16%;
+}
+/* time_panel_base was a 1x1 black placeholder that stretched into a solid plate —
+   keep battle corner times glyph-only (transparent panel art). */
+.ce-battle-name-fill.ce-time-panel > .ce-panel__art {
+  opacity: 0;
+  visibility: hidden;
+}
+@keyframes ce-score-pop {
+  0% { transform: scale(1); filter: brightness(1); }
+  35% { transform: scale(1.28); filter: brightness(1.35); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+@keyframes ce-hud-side-pulse {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(255, 201, 40, 0)); }
+  50% { filter: drop-shadow(0 0 10px rgba(255, 201, 40, 0.5)); }
+}
+@keyframes ce-hud-side-pulse-blue {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(46, 168, 255, 0)); }
+  50% { filter: drop-shadow(0 0 10px rgba(46, 168, 255, 0.55)); }
+}
+@keyframes ce-hud-side-pulse-red {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(255, 74, 53, 0)); }
+  50% { filter: drop-shadow(0 0 10px rgba(255, 74, 53, 0.55)); }
+}
+/* Reveal/KO race times — bottom-corner moldura (CSS neon; time_panel is 1×1 stub). */
+.ce-battle-fighter-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  background: rgba(2, 14, 10, 0.78);
+  /* Chamfered neon frame matching portrait_frame green arcade HUD */
+  border: 3px solid #3dff6a;
+  box-shadow:
+    inset 0 0 0 2px #0a3d1f,
+    0 0 10px rgba(61, 255, 106, 0.28),
+    0 3px 0 rgba(0, 0, 0, 0.45);
+  clip-path: polygon(
+    12px 0,
+    calc(100% - 12px) 0,
+    100% 12px,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    12px 100%,
+    0 calc(100% - 12px),
+    0 12px
+  );
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.55));
+}
+.ce-battle-fighter-time > * {
+  background: transparent !important;
+}
+.ce-battle-fighter-time--left {
+  color: var(--ce-blue);
+}
+.ce-battle-fighter-time--right {
+  color: var(--ce-red);
+}
+.ce-battle-target {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  overflow: visible;
+  box-sizing: border-box;
+  padding: 8px 20px;
+  /* Local arcade plaque — never full-screen dim / scanlines */
+  background: rgba(2, 12, 10, 0.82);
+  border: 2px solid rgba(61, 255, 106, 0.55);
+  box-shadow:
+    inset 0 0 0 1px rgba(10, 61, 31, 0.9),
+    0 2px 0 rgba(0, 0, 0, 0.4);
+  clip-path: polygon(
+    10px 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    10px 100%,
+    0 calc(100% - 10px),
+    0 10px
+  );
+}
+.ce-battle-primary-msg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 14px 28px;
+  background: rgba(2, 12, 10, 0.86);
+  border: 2px solid rgba(61, 255, 106, 0.6);
+  box-shadow:
+    inset 0 0 0 1px rgba(10, 61, 31, 0.95),
+    0 3px 0 rgba(0, 0, 0, 0.45);
+  clip-path: polygon(
+    14px 0,
+    calc(100% - 14px) 0,
+    100% 14px,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    14px 100%,
+    0 calc(100% - 14px),
+    0 14px
+  );
+}
+.ce-name-plate {
+  width: min(360px, 100%);
+  min-height: 56px;
+  padding: 8px 18px;
+}
+.ce-name-plate--mini { width: min(180px, 100%); min-height: 40px; padding: 4px 10px; }
+.ce-score-panel {
+  width: min(280px, 100%);
+  min-height: 72px;
+  padding: 10px 16px;
+}
+.ce-time-panel {
+  width: min(280px, 100%);
+  min-height: 64px;
+  padding: 8px 14px;
+}
+.ce-fighter {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 100%;
+  image-rendering: pixelated;
+  display: block;
+  filter: drop-shadow(0 8px 0 rgba(0,0,0,.45));
+}
+.ce-camera-shake--light { animation: shake 0.2s both; }
+.ce-camera-shake--heavy { animation: shake 0.35s both; }
+.ce-camera-shake--ko { animation: shake 0.55s both; }
+

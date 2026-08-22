@@ -1,0 +1,699 @@
+{
+  "schemaVersion": 1,
+  "project": "Copa Esperança",
+  "status": "FROZEN_CANONICAL_AUDIO_V1",
+  "format": {
+    "container": "WAV",
+    "codec": "PCM_16",
+    "sampleRate": 48000,
+    "note": "48 kHz PCM16; dead air trimmed at ~-45 dBFS with 50 ms tail safety, click-safe fades, conservative peak normalization."
+  },
+  "events": {
+    "announcer.finalRound": {
+      "files": [
+        {
+          "path": "assets/audio/announcer/final_round.wav",
+          "sampleRate": 48000,
+          "channels": 1,
+          "durationMs": 1361,
+          "peakDbFS": -1.0,
+          "rmsDbFS": -16.92
+        }
+      ],
+      "usage": "Round 3 only. Play before FIGHT."
+    },
+    "announcer.fight": {
+      "files": [
+        {
+          "path": "assets/audio/announcer/fight.wav",
+          "sampleRate": 48000,
+          "channels": 1,
+          "durationMs": 987,
+          "peakDbFS": -1.0,
+          "rmsDbFS": -17.84
+        },
+        {
+          "path": "assets/audio/announcer/fight_alt.wav",
+          "sampleRate": 48000,
+          "channels": 1,
+          "durationMs": 641,
+          "peakDbFS": -1.0,
+          "rmsDbFS": -16.37
+        }
+      ],
+      "selection": "primary=fight.wav; fight_alt.wav may be used as alternate only after approval."
+    },
+    "announcer.ko": {
+      "files": [
+        {
+          "path": "assets/audio/announcer/ko.wav",
+          "sampleRate": 48000,
+          "channels": 1,
+          "durationMs": 1323,
+          "peakDbFS": -1.0,
+          "rmsDbFS": -17.22
+        }
+      ],
+      "usage": "Only when the match is definitively finished, after the losing fighter hits the floor."
+    },
+    "announcer.perfect": {
+      "files": [
+        {
+          "path": "assets/audio/announcer/perfect.wav",
+          "sampleRate": 48000,
+          "channels": 1,
+          "durationMs": 1058,
+          "peakDbFS": -1.0,
+          "rmsDbFS": -15.7
+        }
+      ],
+      "usage": "ONLY when the winning duo closes the match 2-0. Never for 2-1."
+    },
+    "combat.heavyHit": {
+      "files": [
+        {
+          "path": "assets/audio/combat/heavy_hit.wav",
+          "sampleRate": 48000,
+          "channels": 2,
+          "durationMs": 871,
+          "peakDbFS": -0.8,
+          "rmsDbFS": -14.74
+        }
+      ],
+      "usage": "Fire exactly at attack contact / impact FX frame."
+    },
+    "fighter.male.hurt": {
+      "files": [
+        {
+          "path": "assets/audio/fighters/male/hurt_01.wav",
+          "sampleRate": 48000,
+          "channels": 2,
+          "durationMs": 2164,
+          "peakDbFS": -1.5,
+          "rmsDbFS": -13.24
+        },
+        {
+          "path": "assets/audio/fighters/male/hurt_02.wav",
+          "sampleRate": 48000,
+          "channels": 2,
+          "durationMs": 2447,
+          "peakDbFS": -1.5,
+          "rmsDbFS": -16.22
+        }
+      ],
+      "selection": "random/no-immediate-repeat"
+    },
+    "fighter.female.hurt": {
+      "files": [
+        {
+          "path": "assets/audio/fighters/female/hurt_01.wav",
+          "sampleRate": 48000,
+          "channels": 2,
+          "durationMs": 2000,
+          "peakDbFS": -1.5,
+          "rmsDbFS": -14.71
+        }
+      ],
+      "selection": "single-current-variant"
+    },
+    "fighter.knockdownImpact": {
+      "files": [
+        {
+          "path": "assets/audio/fighters/common/knockdown_impact_01.wav",
+          "sampleRate": 48000,
+          "channels": 2,
+          "durationMs": 567,
+          "peakDbFS": -1.0,
+          "rmsDbFS": -12.14
+        },
+        {
+          "path": "assets/audio/fighters/common/knockdown_impact_02.wav",
+          "sampleRate": 48000,
+          "channels": 2,
+          "durationMs": 640,
+          "peakDbFS": -1.0,
+          "rmsDbFS": -13.52
+        }
+      ],
+      "selection": "random/no-immediate-repeat",
+      "usage": "Fire on body/floor contact, not at punch contact."
+    },
+    "fighter.exhaustedVocal": {
+      "files": [
+        {
+          "path": "assets/audio/fighters/common/exhausted_vocal_01.wav",
+          "sampleRate": 48000,
+          "channels": 1,
+          "durationMs": 1301,
+          "peakDbFS": -1.5,
+          "rmsDbFS": -16.78
+        }
+      ],
+      "usage": "Optional character vocal. Keep separate from announcer; exact animation binding may be chosen during integration."
+    },
+    "announcer.finalRoundFightCombo": {
+      "files": [
+        {
+          "path": "assets/audio/announcer/final_round_fight_combo.wav",
+          "sampleRate": 48000,
+          "channels": 1,
+          "durationMs": 2137,
+          "peakDbFS": -1.0,
+          "rmsDbFS": -17.04
+        }
+      ],
+      "usage": "Preserved mastered combined source. Prefer isolated finalRound + fight events for synchronization."
+    },
+    "announcer.round1": {
+      "files": [
+        {
+          "path": "assets/audio/announcer/round_1.wav",
+          "durationMs": 1318,
+          "sampleRate": 48000,
+          "channels": 1,
+          "peakDbFS": -1.0,
+          "rmsDbFS": -16.09,
+          "stereoCorrelation": null,
+          "sha256": "97c67e054bf20972b5214b1a63a154f26c21bbd5463fca449f54234fb7f9ce70"
+        }
+      ],
+      "defaultGainDb": 0,
+      "usage": "Round 1 intro. Follow with announcer.fight."
+    },
+    "announcer.round2": {
+      "files": [
+        {
+          "path": "assets/audio/announcer/round_2.wav",
+          "durationMs": 1279,
+          "sampleRate": 48000,
+          "channels": 1,
+          "peakDbFS": -1.0,
+          "rmsDbFS": -15.06,
+          "stereoCorrelation": null,
+          "sha256": "4fa9cad4da89f11da3bf27ea11f1a058e3005ff2336c8ddc9f79174ecabbd6a5"
+        }
+      ],
+      "defaultGainDb": 0,
+      "usage": "Round 2 intro. Follow with announcer.fight."
+    },
+    "ui.cursorMove": {
+      "files": [
+        {
+          "path": "assets/audio/ui/cursor_move_01.wav",
+          "durationMs": 210,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -5.0,
+          "rmsDbFS": -18.49,
+          "stereoCorrelation": 0.993,
+          "sha256": "0ba72d4915592a9ce6289c8648efc42a065b6a28d2933c9cd4b8c337e30ed4a4"
+        },
+        {
+          "path": "assets/audio/ui/cursor_move_02.wav",
+          "durationMs": 200,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -5.0,
+          "rmsDbFS": -18.05,
+          "stereoCorrelation": 0.987,
+          "sha256": "b835c2a137f8d9c26b5a3fd2bbc568be478b4806970ade224a969be50257b0eb"
+        },
+        {
+          "path": "assets/audio/ui/cursor_move_03.wav",
+          "durationMs": 200,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -5.0,
+          "rmsDbFS": -18.19,
+          "stereoCorrelation": 0.996,
+          "sha256": "97b743992cf508c5bb6bc65c7811734238a06ac8f13f519193228f7a9a6e11eb"
+        },
+        {
+          "path": "assets/audio/ui/cursor_move_04.wav",
+          "durationMs": 210,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -5.0,
+          "rmsDbFS": -18.7,
+          "stereoCorrelation": 0.995,
+          "sha256": "a01891ed4e62693c7f5fb70af024c28276417d625222ead24b4fbbb782727c02"
+        },
+        {
+          "path": "assets/audio/ui/cursor_move_05.wav",
+          "durationMs": 210,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -5.0,
+          "rmsDbFS": -18.5,
+          "stereoCorrelation": 0.995,
+          "sha256": "2e5fdd41db69651fe82d7d69f9ffc8612a2b0d422e47acc450aa26c994b2865f"
+        },
+        {
+          "path": "assets/audio/ui/cursor_move_06.wav",
+          "durationMs": 230,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -5.0,
+          "rmsDbFS": -18.86,
+          "stereoCorrelation": 0.999,
+          "sha256": "d5b18c7e0564b854ab9bca54df8d4fea7d5e4880a2d3e442bb64517a7d1124f5"
+        }
+      ],
+      "defaultGainDb": -4,
+      "selection": "random/no-immediate-repeat",
+      "usage": "One sound per fake-shuffle/select-grid cursor movement."
+    },
+    "ui.selectionLock": {
+      "files": [
+        {
+          "path": "assets/audio/ui/selection_lock.wav",
+          "durationMs": 1100,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -2.5,
+          "rmsDbFS": -12.45,
+          "stereoCorrelation": 0.933,
+          "sha256": "7dd81f697e95291bf4f09770b6d9ad9bf3d3e54bd20f9f27e2a270aafc6f4b6b"
+        }
+      ],
+      "defaultGainDb": -1,
+      "usage": "Selection confirmation / R3 representative lock."
+    },
+    "ui.vsImpact": {
+      "files": [
+        {
+          "path": "assets/audio/ui/vs_impact.wav",
+          "durationMs": 980,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -0.8,
+          "rmsDbFS": -9.04,
+          "stereoCorrelation": 0.764,
+          "sha256": "d96bb25c19ff235cedfa9a72716fbb93dc30f63c120c16a39e1c2a89921f6c93"
+        }
+      ],
+      "defaultGainDb": 0,
+      "usage": "Exact frame where canonical VS emblem hits/settles."
+    },
+    "ui.screenTransition": {
+      "files": [
+        {
+          "path": "assets/audio/ui/screen_transition.wav",
+          "durationMs": 440,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -3.0,
+          "rmsDbFS": -20.07,
+          "stereoCorrelation": 0.291,
+          "sha256": "62d6ceeef001105fabcd04420dcf7bc98db962af0cea1257a86909a35a80b72c"
+        }
+      ],
+      "defaultGainDb": -2,
+      "usage": "White flash / scanline / screen transition."
+    },
+    "ui.bracketAdvance": {
+      "files": [
+        {
+          "path": "assets/audio/ui/bracket_advance.wav",
+          "durationMs": 951,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -2.0,
+          "rmsDbFS": -17.83,
+          "stereoCorrelation": 0.822,
+          "sha256": "527c5eab20dc772b39b92b00237bff95bc745e55684ce83f5b5f84b746dbba6f"
+        },
+        {
+          "path": "assets/audio/ui/bracket_advance_alt.wav",
+          "durationMs": 1000,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -2.5,
+          "rmsDbFS": -20.63,
+          "stereoCorrelation": 0.604,
+          "sha256": "45bb1f4825eed08897959415a55d8813a4ecf51f03747f2e13065712a005b9cb"
+        }
+      ],
+      "defaultGainDb": -1.5,
+      "selection": "primary=first; alternate optional",
+      "usage": "When the winning duo visually advances to the next bracket slot."
+    },
+    "ui.flash": {
+      "files": [
+        {
+          "path": "assets/audio/ui/flash.wav",
+          "durationMs": 280,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -4.0,
+          "rmsDbFS": -20.41,
+          "stereoCorrelation": 0.486,
+          "sha256": "6bf83f1e56731d368778c70cdbcb360d42b570117c26376646573b5193102bc2"
+        }
+      ],
+      "defaultGainDb": -5,
+      "usage": "Small visual energy flash; not a main impact."
+    },
+    "combat.mediumHit": {
+      "files": [
+        {
+          "path": "assets/audio/combat/medium_hit.wav",
+          "durationMs": 310,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -1.2,
+          "rmsDbFS": -10.29,
+          "stereoCorrelation": 0.87,
+          "sha256": "dc0c45e4e820dccd248acff0410f31ff61743ef55e3dd9017efd7c20ae860041"
+        }
+      ],
+      "defaultGainDb": -1,
+      "usage": "Normal round-result hit. Reserve combat.heavyHit for finishing/stronger moments."
+    },
+    "crowd.roundWin": {
+      "files": [
+        {
+          "path": "assets/audio/crowd/round_win_01.wav",
+          "durationMs": 2850,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -2.5,
+          "rmsDbFS": -12.66,
+          "stereoCorrelation": 0.776,
+          "sha256": "4cbf6d38ad63acfd8b6bbdf2b5760937fcaff5ff5e63b567d86926a1293e386b"
+        },
+        {
+          "path": "assets/audio/crowd/round_win_02.wav",
+          "durationMs": 2795,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -2.5,
+          "rmsDbFS": -12.02,
+          "stereoCorrelation": 0.562,
+          "sha256": "941271a1932ef92feb3367e3349731b9e9e43afd1cac19e8fab1c0b10f82619d"
+        },
+        {
+          "path": "assets/audio/crowd/round_win_03.wav",
+          "durationMs": 2727,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -2.5,
+          "rmsDbFS": -10.9,
+          "stereoCorrelation": 0.29,
+          "sha256": "9112134c36491e6926133ffea8d502d3029c20b29b9c0ae3f755a7036ff9687c"
+        }
+      ],
+      "defaultGainDb": -7,
+      "selection": "random/no-immediate-repeat",
+      "usage": "Round point / result reaction when the match continues."
+    },
+    "crowd.reactionMicro": {
+      "files": [
+        {
+          "path": "assets/audio/crowd/reaction_micro.wav",
+          "durationMs": 480,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -5.0,
+          "rmsDbFS": -18.37,
+          "stereoCorrelation": 0.521,
+          "sha256": "907341143dd158f8386c2bed2133f69f73213857327a06e7620c847400905768"
+        }
+      ],
+      "defaultGainDb": -10,
+      "usage": "Optional tiny crowd accent; useful under quick UI reveals, never as K.O. cheer."
+    },
+    "crowd.matchWin": {
+      "files": [
+        {
+          "path": "assets/audio/crowd/match_win_01.wav",
+          "durationMs": 5000,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -1.5,
+          "rmsDbFS": -12.65,
+          "stereoCorrelation": 0.266,
+          "sha256": "88741e658a1d2f10378439859fd562d449062c4a03785966c717c4f56a0926d1"
+        },
+        {
+          "path": "assets/audio/crowd/match_win_02.wav",
+          "durationMs": 4854,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -1.5,
+          "rmsDbFS": -13.11,
+          "stereoCorrelation": 0.187,
+          "sha256": "058489bc04e01aceb88ce10e9e65c48b39655f0bd50fdb9163f1767bff6d98f7"
+        }
+      ],
+      "defaultGainDb": -5,
+      "selection": "random/no-immediate-repeat",
+      "usage": "Large audience reaction after K.O./PERFECT and match completion."
+    },
+    "crowd.matchWinShort": {
+      "files": [
+        {
+          "path": "assets/audio/crowd/match_win_short.wav",
+          "durationMs": 2000,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -2.0,
+          "rmsDbFS": -9.42,
+          "stereoCorrelation": 0.31,
+          "sha256": "1531f7f2f564b3b620900e9fc749c9e101a544b7a4f2a57c09b49182f6ef275b"
+        }
+      ],
+      "defaultGainDb": -6,
+      "usage": "Short alternative when the next transition must happen quickly."
+    },
+    "ambience.crowd": {
+      "files": [
+        {
+          "path": "assets/audio/ambience/crowd_loop.wav",
+          "durationMs": 20080,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -8.0,
+          "rmsDbFS": -29.72,
+          "stereoCorrelation": 0.202,
+          "sha256": "f4bcc575097c94ac7a8a5eec4d2feb34d2f1013af57cb2182c3b94e47325f1cf"
+        }
+      ],
+      "defaultGainDb": -18,
+      "loop": true,
+      "loopCrossfadeMs": 1500,
+      "usage": "Low background crowd bed on arena/battle scenes only."
+    },
+    "ambience.coldRoom": {
+      "files": [
+        {
+          "path": "assets/audio/ambience/cold_room_loop.wav",
+          "durationMs": 20080,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -12.0,
+          "rmsDbFS": -30.38,
+          "stereoCorrelation": 0.882,
+          "sha256": "537b2f12da9bdbf2004dc1eba1cfb9c6895bd9230093a579c3409fc819831474"
+        }
+      ],
+      "defaultGainDb": -20,
+      "loop": true,
+      "loopCrossfadeMs": 1800,
+      "usage": "Esperança cold-room/loading-dock stage only. Chosen for PA/mono compatibility."
+    },
+    "ambience.coldRoomWideAlt": {
+      "files": [
+        {
+          "path": "assets/audio/ambience/cold_room_wide_alt.wav",
+          "durationMs": 20080,
+          "sampleRate": 48000,
+          "channels": 2,
+          "peakDbFS": -12.0,
+          "rmsDbFS": -25.11,
+          "stereoCorrelation": -0.747,
+          "sha256": "e820d88f376caeb139c14ad6bf9910871261d94b086bb40ffe539e81779f93e3"
+        }
+      ],
+      "defaultGainDb": -22,
+      "loop": true,
+      "loopCrossfadeMs": 1800,
+      "status": "ALTERNATE_NOT_DEFAULT",
+      "warning": "Very wide/phasey stereo. Do not use on unknown PA/mono systems without testing."
+    }
+  },
+  "runtimeRules": [
+    "Audio events are animation-driven, not fired from arbitrary timers.",
+    "heavyHit and hurt fire on the exact visual impact frame.",
+    "knockdownImpact fires when the losing sprite contacts the floor.",
+    "K.O. fires only after body contact if the match ended.",
+    "PERFECT fires after K.O. only when final match score is 2-0.",
+    "On Round 3: finalRound -> short dramatic pause -> fight.",
+    "Do not play K.O. after every round if the match is still alive.",
+    "Round 1: announcer.round1 -> pause -> announcer.fight.",
+    "Round 2: announcer.round2 -> pause -> announcer.fight.",
+    "Round result while match continues: combat.mediumHit + fighter hurt + knockdownImpact; no K.O.",
+    "Finishing result: combat.heavyHit + fighter hurt + knockdownImpact -> announcer.ko -> announcer.perfect only if 2-0 -> crowd.matchWin.",
+    "UI cursor move variants must use random/no-immediate-repeat.",
+    "Use ambience.coldRoom only on the Esperança refrigerated warehouse/loading-dock stage.",
+    "Ambient loops must crossfade in runtime; do not hard-loop file end to file start."
+  ],
+  "music": {
+    "music.introCinematic": {
+      "file": {
+        "path": "assets/audio/music/intro_cinematic.mp3",
+        "durationMs": 120024,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitRate": 192000,
+        "sizeBytes": 2881196,
+        "sha256": "b38298de9f38fe5a292a0f2b6febf3d61af89cdc86c36fc7cc4101be7bfa0636"
+      },
+      "role": "One-shot opening / logo reveal before PRESS START.",
+      "defaultGainDb": -8.0,
+      "loop": false,
+      "fadeInMs": 0,
+      "fadeOutMs": 1200
+    },
+    "music.introPressStart": {
+      "file": {
+        "path": "assets/audio/music/intro_press_start.mp3",
+        "durationMs": 150024,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitRate": 192000,
+        "sizeBytes": 3601196,
+        "sha256": "fdf46bba4d8b00c30ca0c2e9754e102902ee36cd24a5c6385d723572af4f9712"
+      },
+      "role": "PRESS START / attract mode after cinematic opening.",
+      "defaultGainDb": -9.0,
+      "loop": true,
+      "loopCrossfadeMs": 1800
+    },
+    "music.teamSelect": {
+      "file": {
+        "path": "assets/audio/music/team_select.mp3",
+        "durationMs": 60024,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitRate": 192000,
+        "sizeBytes": 1441196,
+        "sha256": "3fbb68462b3864044634f7c800e0d86490dec062cc8d10d5c753eae5ca01096d"
+      },
+      "role": "32-person fake-shuffle / duo formation screen.",
+      "defaultGainDb": -10.0,
+      "loop": true,
+      "loopCrossfadeMs": 1200
+    },
+    "music.round3Select": {
+      "file": {
+        "path": "assets/audio/music/round3_select.mp3",
+        "durationMs": 30024,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitRate": 192000,
+        "sizeBytes": 721196,
+        "sha256": "16d820df09e56a9c2d596d046fb8d821c6f0c6717a0a70b67762d706469cb433"
+      },
+      "role": "Round 3 representative selection screen.",
+      "defaultGainDb": -10.0,
+      "loop": true,
+      "loopCrossfadeMs": 900
+    },
+    "music.battleMain": {
+      "file": {
+        "path": "assets/audio/music/battle_main.mp3",
+        "durationMs": 150024,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitRate": 192000,
+        "sizeBytes": 3601196,
+        "sha256": "528f8c80666e33788097a29be483002b8c774c5ba3790d7d13adfe01557c8b7f"
+      },
+      "role": "Round 1 / Round 2 primary battle BGM.",
+      "defaultGainDb": -11.0,
+      "loop": true,
+      "loopCrossfadeMs": 2200
+    },
+    "music.battleFinalRound": {
+      "file": {
+        "path": "assets/audio/music/battle_final_round.mp3",
+        "durationMs": 150024,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitRate": 192000,
+        "sizeBytes": 3601196,
+        "sha256": "5218466f39bbf0575d0aaf13477a8b2cff160930ca279f306979facf0d3bf922"
+      },
+      "role": "Round 3 and decisive Grand Final battle BGM.",
+      "defaultGainDb": -11.0,
+      "loop": true,
+      "loopCrossfadeMs": 2200
+    },
+    "music.championReveal": {
+      "file": {
+        "path": "assets/audio/music/champion_reveal.mp3",
+        "durationMs": 60024,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitRate": 192000,
+        "sizeBytes": 1441196,
+        "sha256": "906e6eae44ed2d8cfb7c09f543c5e56ea42ac418e21fbe22d6056c8ee06e24f9"
+      },
+      "role": "Immediate champion reveal; winner pose/confetti.",
+      "defaultGainDb": -8.5,
+      "loop": false,
+      "transitionAfterMs": 45000,
+      "transitionTo": "music.championCelebration",
+      "crossfadeMs": 3000
+    },
+    "music.championCelebration": {
+      "file": {
+        "path": "assets/audio/music/champion_celebration.mp3",
+        "durationMs": 150024,
+        "sampleRate": 48000,
+        "channels": 2,
+        "bitRate": 192000,
+        "sizeBytes": 3601196,
+        "sha256": "be93d15f81d713cb2f25fa0735396a41ef294eb1a39853965478c6e49ecb19cf"
+      },
+      "role": "Long-form trophy/podium/photo/celebration screen.",
+      "defaultGainDb": -9.0,
+      "loop": true,
+      "loopCrossfadeMs": 2500
+    }
+  },
+  "mixer": {
+    "masterGainDb": 0,
+    "musicBus": {
+      "baseGainDb": 0,
+      "duckOnVoiceDb": -7,
+      "duckAttackMs": 70,
+      "duckReleaseMs": 450
+    },
+    "sfxBus": {
+      "baseGainDb": 0
+    },
+    "voiceBus": {
+      "baseGainDb": 0,
+      "priority": "highest"
+    },
+    "rules": [
+      "Per-track defaultGainDb is applied before bus gain.",
+      "Announcer automatically ducks MUSIC BUS by 7 dB.",
+      "Heavy combat impacts may duck MUSIC BUS by 2.5 dB for 180 ms.",
+      "Never duck announcer to make room for music.",
+      "Do not restart a BGM between Round 1 and Round 2 unless the screen transition explicitly stops it."
+    ]
+  },
+  "frozenAt": "2026-08-15",
+  "addonVersion": "1.0.0",
+  "immutabilityRule": "Assets in this add-on are frozen canonical audio. Do not regenerate, replace, normalize again, or change timing without explicit user approval.",
+  "integration": {
+    "basePack": "Copa_Esperanca_Cursor_Pack_v2_2026-08-15.zip",
+    "strategy": "OVERLAY",
+    "copyRoot": "./",
+    "rule": "Copy this add-on over the project/base-pack preserving relative paths.",
+    "doNotDeleteExistingVisualAssets": true
+  }
+}

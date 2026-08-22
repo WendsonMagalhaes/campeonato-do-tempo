@@ -1,0 +1,3 @@
+# Participants
+
+Diretório reservado para assets locais do projeto.

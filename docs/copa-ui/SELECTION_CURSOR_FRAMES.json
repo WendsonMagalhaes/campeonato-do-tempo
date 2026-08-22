@@ -1,0 +1,747 @@
+{
+  "sheet": "/assets/ui/selection_cursor_frame_sheet.png",
+  "sheetSize": {
+    "w": 1024,
+    "h": 768
+  },
+  "method": "pre-crop ROIs recentered on hollow; equal canvas padding (IDLE/LOCK QA)",
+  "notes": "P1 left blue / P2 right red; rows IDLE,MOVE,LOCK,SELECTED; IDLE+LOCK recentered on hole 2026-08-15; MOVE/SELECTED unused in TF wiring",
+  "frames": {
+    "p1/idle_01": {
+      "path": "/assets/runtime/cursors/p1/idle_01.png",
+      "sourceROI": {
+        "x": 40,
+        "y": 77,
+        "w": 104,
+        "h": 104
+      },
+      "anchor": {
+        "cx": 52.0,
+        "cy": 52.0
+      },
+      "hole": {
+        "x": 27,
+        "y": 27,
+        "w": 50,
+        "h": 50
+      },
+      "frameIndex": 1,
+      "state": "idle",
+      "player": "p1",
+      "canvas": 104,
+      "recentered": true
+    },
+    "p1/idle_02": {
+      "path": "/assets/runtime/cursors/p1/idle_02.png",
+      "sourceROI": {
+        "x": 156,
+        "y": 77,
+        "w": 104,
+        "h": 104
+      },
+      "anchor": {
+        "cx": 52.0,
+        "cy": 52.0
+      },
+      "hole": {
+        "x": 25,
+        "y": 26,
+        "w": 54,
+        "h": 52
+      },
+      "frameIndex": 2,
+      "state": "idle",
+      "player": "p1",
+      "canvas": 104,
+      "recentered": true
+    },
+    "p1/idle_03": {
+      "path": "/assets/runtime/cursors/p1/idle_03.png",
+      "sourceROI": {
+        "x": 276,
+        "y": 77,
+        "w": 104,
+        "h": 104
+      },
+      "anchor": {
+        "cx": 51.5,
+        "cy": 52.0
+      },
+      "hole": {
+        "x": 25,
+        "y": 26,
+        "w": 53,
+        "h": 52
+      },
+      "frameIndex": 3,
+      "state": "idle",
+      "player": "p1",
+      "canvas": 104,
+      "recentered": true
+    },
+    "p1/idle_04": {
+      "path": "/assets/runtime/cursors/p1/idle_04.png",
+      "sourceROI": {
+        "x": 392,
+        "y": 77,
+        "w": 104,
+        "h": 104
+      },
+      "anchor": {
+        "cx": 51.5,
+        "cy": 52.0
+      },
+      "hole": {
+        "x": 26,
+        "y": 27,
+        "w": 51,
+        "h": 50
+      },
+      "frameIndex": 4,
+      "state": "idle",
+      "player": "p1",
+      "canvas": 104,
+      "recentered": true
+    },
+    "p1/move_01": {
+      "path": "/assets/runtime/cursors/p1/move_01.png",
+      "sourceROI": {
+        "x": 10,
+        "y": 208,
+        "w": 144,
+        "h": 110
+      },
+      "anchor": {
+        "cx": 82,
+        "cy": 55
+      },
+      "hole": {
+        "x": 56,
+        "y": 29,
+        "w": 52,
+        "h": 52
+      },
+      "frameIndex": 1,
+      "state": "move",
+      "player": "p1"
+    },
+    "p1/move_02": {
+      "path": "/assets/runtime/cursors/p1/move_02.png",
+      "sourceROI": {
+        "x": 126,
+        "y": 208,
+        "w": 144,
+        "h": 110
+      },
+      "anchor": {
+        "cx": 82,
+        "cy": 55
+      },
+      "hole": {
+        "x": 56,
+        "y": 29,
+        "w": 52,
+        "h": 52
+      },
+      "frameIndex": 2,
+      "state": "move",
+      "player": "p1"
+    },
+    "p1/move_03": {
+      "path": "/assets/runtime/cursors/p1/move_03.png",
+      "sourceROI": {
+        "x": 246,
+        "y": 208,
+        "w": 144,
+        "h": 110
+      },
+      "anchor": {
+        "cx": 82,
+        "cy": 55
+      },
+      "hole": {
+        "x": 56,
+        "y": 29,
+        "w": 52,
+        "h": 52
+      },
+      "frameIndex": 3,
+      "state": "move",
+      "player": "p1"
+    },
+    "p1/move_04": {
+      "path": "/assets/runtime/cursors/p1/move_04.png",
+      "sourceROI": {
+        "x": 362,
+        "y": 208,
+        "w": 144,
+        "h": 110
+      },
+      "anchor": {
+        "cx": 82,
+        "cy": 55
+      },
+      "hole": {
+        "x": 56,
+        "y": 29,
+        "w": 52,
+        "h": 52
+      },
+      "frameIndex": 4,
+      "state": "move",
+      "player": "p1"
+    },
+    "p1/lock_01": {
+      "path": "/assets/runtime/cursors/p1/lock_01.png",
+      "sourceROI": {
+        "x": 38,
+        "y": 344,
+        "w": 108,
+        "h": 108
+      },
+      "anchor": {
+        "cx": 54.0,
+        "cy": 54.0
+      },
+      "hole": {
+        "x": 29,
+        "y": 29,
+        "w": 50,
+        "h": 50
+      },
+      "frameIndex": 1,
+      "state": "lock",
+      "player": "p1",
+      "canvas": 108,
+      "recentered": true
+    },
+    "p1/lock_02": {
+      "path": "/assets/runtime/cursors/p1/lock_02.png",
+      "sourceROI": {
+        "x": 154,
+        "y": 344,
+        "w": 108,
+        "h": 108
+      },
+      "anchor": {
+        "cx": 54.0,
+        "cy": 54.0
+      },
+      "hole": {
+        "x": 29,
+        "y": 29,
+        "w": 50,
+        "h": 50
+      },
+      "frameIndex": 2,
+      "state": "lock",
+      "player": "p1",
+      "canvas": 108,
+      "recentered": true
+    },
+    "p1/lock_03": {
+      "path": "/assets/runtime/cursors/p1/lock_03.png",
+      "sourceROI": {
+        "x": 274,
+        "y": 344,
+        "w": 108,
+        "h": 108
+      },
+      "anchor": {
+        "cx": 54.0,
+        "cy": 54.5
+      },
+      "hole": {
+        "x": 29,
+        "y": 29,
+        "w": 50,
+        "h": 51
+      },
+      "frameIndex": 3,
+      "state": "lock",
+      "player": "p1",
+      "canvas": 108,
+      "recentered": true
+    },
+    "p1/lock_04": {
+      "path": "/assets/runtime/cursors/p1/lock_04.png",
+      "sourceROI": {
+        "x": 390,
+        "y": 344,
+        "w": 108,
+        "h": 108
+      },
+      "anchor": {
+        "cx": 54.0,
+        "cy": 54.5
+      },
+      "hole": {
+        "x": 29,
+        "y": 29,
+        "w": 50,
+        "h": 51
+      },
+      "frameIndex": 4,
+      "state": "lock",
+      "player": "p1",
+      "canvas": 108,
+      "recentered": true
+    },
+    "p1/selected_01": {
+      "path": "/assets/runtime/cursors/p1/selected_01.png",
+      "sourceROI": {
+        "x": 4,
+        "y": 445,
+        "w": 176,
+        "h": 176
+      },
+      "anchor": {
+        "cx": 88,
+        "cy": 88
+      },
+      "hole": {
+        "x": 64,
+        "y": 64,
+        "w": 48,
+        "h": 48
+      },
+      "frameIndex": 1,
+      "state": "selected",
+      "player": "p1"
+    },
+    "p1/selected_02": {
+      "path": "/assets/runtime/cursors/p1/selected_02.png",
+      "sourceROI": {
+        "x": 120,
+        "y": 445,
+        "w": 176,
+        "h": 176
+      },
+      "anchor": {
+        "cx": 88,
+        "cy": 88
+      },
+      "hole": {
+        "x": 64,
+        "y": 64,
+        "w": 48,
+        "h": 48
+      },
+      "frameIndex": 2,
+      "state": "selected",
+      "player": "p1"
+    },
+    "p1/selected_03": {
+      "path": "/assets/runtime/cursors/p1/selected_03.png",
+      "sourceROI": {
+        "x": 240,
+        "y": 445,
+        "w": 176,
+        "h": 176
+      },
+      "anchor": {
+        "cx": 88,
+        "cy": 88
+      },
+      "hole": {
+        "x": 64,
+        "y": 64,
+        "w": 48,
+        "h": 48
+      },
+      "frameIndex": 3,
+      "state": "selected",
+      "player": "p1"
+    },
+    "p1/selected_04": {
+      "path": "/assets/runtime/cursors/p1/selected_04.png",
+      "sourceROI": {
+        "x": 356,
+        "y": 445,
+        "w": 176,
+        "h": 176
+      },
+      "anchor": {
+        "cx": 88,
+        "cy": 88
+      },
+      "hole": {
+        "x": 64,
+        "y": 64,
+        "w": 48,
+        "h": 48
+      },
+      "frameIndex": 4,
+      "state": "selected",
+      "player": "p1"
+    },
+    "p2/idle_01": {
+      "path": "/assets/runtime/cursors/p2/idle_01.png",
+      "sourceROI": {
+        "x": 556,
+        "y": 77,
+        "w": 104,
+        "h": 104
+      },
+      "anchor": {
+        "cx": 52.0,
+        "cy": 51.5
+      },
+      "hole": {
+        "x": 24,
+        "y": 24,
+        "w": 56,
+        "h": 55
+      },
+      "frameIndex": 1,
+      "state": "idle",
+      "player": "p2",
+      "canvas": 104,
+      "recentered": true
+    },
+    "p2/idle_02": {
+      "path": "/assets/runtime/cursors/p2/idle_02.png",
+      "sourceROI": {
+        "x": 672,
+        "y": 77,
+        "w": 104,
+        "h": 104
+      },
+      "anchor": {
+        "cx": 52.0,
+        "cy": 51.5
+      },
+      "hole": {
+        "x": 23,
+        "y": 24,
+        "w": 58,
+        "h": 55
+      },
+      "frameIndex": 2,
+      "state": "idle",
+      "player": "p2",
+      "canvas": 104,
+      "recentered": true
+    },
+    "p2/idle_03": {
+      "path": "/assets/runtime/cursors/p2/idle_03.png",
+      "sourceROI": {
+        "x": 792,
+        "y": 77,
+        "w": 104,
+        "h": 104
+      },
+      "anchor": {
+        "cx": 52.5,
+        "cy": 52.0
+      },
+      "hole": {
+        "x": 24,
+        "y": 24,
+        "w": 57,
+        "h": 56
+      },
+      "frameIndex": 3,
+      "state": "idle",
+      "player": "p2",
+      "canvas": 104,
+      "recentered": true
+    },
+    "p2/idle_04": {
+      "path": "/assets/runtime/cursors/p2/idle_04.png",
+      "sourceROI": {
+        "x": 912,
+        "y": 77,
+        "w": 104,
+        "h": 104
+      },
+      "anchor": {
+        "cx": 52.0,
+        "cy": 51.5
+      },
+      "hole": {
+        "x": 25,
+        "y": 24,
+        "w": 54,
+        "h": 55
+      },
+      "frameIndex": 4,
+      "state": "idle",
+      "player": "p2",
+      "canvas": 104,
+      "recentered": true
+    },
+    "p2/move_01": {
+      "path": "/assets/runtime/cursors/p2/move_01.png",
+      "sourceROI": {
+        "x": 526,
+        "y": 208,
+        "w": 144,
+        "h": 110
+      },
+      "anchor": {
+        "cx": 82,
+        "cy": 55
+      },
+      "hole": {
+        "x": 56,
+        "y": 29,
+        "w": 52,
+        "h": 52
+      },
+      "frameIndex": 1,
+      "state": "move",
+      "player": "p2"
+    },
+    "p2/move_02": {
+      "path": "/assets/runtime/cursors/p2/move_02.png",
+      "sourceROI": {
+        "x": 642,
+        "y": 208,
+        "w": 144,
+        "h": 110
+      },
+      "anchor": {
+        "cx": 82,
+        "cy": 55
+      },
+      "hole": {
+        "x": 56,
+        "y": 29,
+        "w": 52,
+        "h": 52
+      },
+      "frameIndex": 2,
+      "state": "move",
+      "player": "p2"
+    },
+    "p2/move_03": {
+      "path": "/assets/runtime/cursors/p2/move_03.png",
+      "sourceROI": {
+        "x": 762,
+        "y": 208,
+        "w": 144,
+        "h": 110
+      },
+      "anchor": {
+        "cx": 82,
+        "cy": 55
+      },
+      "hole": {
+        "x": 56,
+        "y": 29,
+        "w": 52,
+        "h": 52
+      },
+      "frameIndex": 3,
+      "state": "move",
+      "player": "p2"
+    },
+    "p2/move_04": {
+      "path": "/assets/runtime/cursors/p2/move_04.png",
+      "sourceROI": {
+        "x": 882,
+        "y": 208,
+        "w": 142,
+        "h": 110
+      },
+      "anchor": {
+        "cx": 82,
+        "cy": 55
+      },
+      "hole": {
+        "x": 56,
+        "y": 29,
+        "w": 52,
+        "h": 52
+      },
+      "frameIndex": 4,
+      "state": "move",
+      "player": "p2"
+    },
+    "p2/lock_01": {
+      "path": "/assets/runtime/cursors/p2/lock_01.png",
+      "sourceROI": {
+        "x": 554,
+        "y": 344,
+        "w": 108,
+        "h": 108
+      },
+      "anchor": {
+        "cx": 54.0,
+        "cy": 54.5
+      },
+      "hole": {
+        "x": 27,
+        "y": 28,
+        "w": 54,
+        "h": 53
+      },
+      "frameIndex": 1,
+      "state": "lock",
+      "player": "p2",
+      "canvas": 108,
+      "recentered": true
+    },
+    "p2/lock_02": {
+      "path": "/assets/runtime/cursors/p2/lock_02.png",
+      "sourceROI": {
+        "x": 670,
+        "y": 344,
+        "w": 108,
+        "h": 108
+      },
+      "anchor": {
+        "cx": 54.5,
+        "cy": 54.5
+      },
+      "hole": {
+        "x": 28,
+        "y": 28,
+        "w": 53,
+        "h": 53
+      },
+      "frameIndex": 2,
+      "state": "lock",
+      "player": "p2",
+      "canvas": 108,
+      "recentered": true
+    },
+    "p2/lock_03": {
+      "path": "/assets/runtime/cursors/p2/lock_03.png",
+      "sourceROI": {
+        "x": 790,
+        "y": 344,
+        "w": 108,
+        "h": 108
+      },
+      "anchor": {
+        "cx": 54.0,
+        "cy": 54.0
+      },
+      "hole": {
+        "x": 27,
+        "y": 27,
+        "w": 54,
+        "h": 54
+      },
+      "frameIndex": 3,
+      "state": "lock",
+      "player": "p2",
+      "canvas": 108,
+      "recentered": true
+    },
+    "p2/lock_04": {
+      "path": "/assets/runtime/cursors/p2/lock_04.png",
+      "sourceROI": {
+        "x": 910,
+        "y": 344,
+        "w": 108,
+        "h": 108
+      },
+      "anchor": {
+        "cx": 53.5,
+        "cy": 54.0
+      },
+      "hole": {
+        "x": 27,
+        "y": 27,
+        "w": 53,
+        "h": 54
+      },
+      "frameIndex": 4,
+      "state": "lock",
+      "player": "p2",
+      "canvas": 108,
+      "recentered": true
+    },
+    "p2/selected_01": {
+      "path": "/assets/runtime/cursors/p2/selected_01.png",
+      "sourceROI": {
+        "x": 520,
+        "y": 445,
+        "w": 176,
+        "h": 176
+      },
+      "anchor": {
+        "cx": 88,
+        "cy": 88
+      },
+      "hole": {
+        "x": 64,
+        "y": 64,
+        "w": 48,
+        "h": 48
+      },
+      "frameIndex": 1,
+      "state": "selected",
+      "player": "p2"
+    },
+    "p2/selected_02": {
+      "path": "/assets/runtime/cursors/p2/selected_02.png",
+      "sourceROI": {
+        "x": 636,
+        "y": 445,
+        "w": 176,
+        "h": 176
+      },
+      "anchor": {
+        "cx": 88,
+        "cy": 88
+      },
+      "hole": {
+        "x": 64,
+        "y": 64,
+        "w": 48,
+        "h": 48
+      },
+      "frameIndex": 2,
+      "state": "selected",
+      "player": "p2"
+    },
+    "p2/selected_03": {
+      "path": "/assets/runtime/cursors/p2/selected_03.png",
+      "sourceROI": {
+        "x": 756,
+        "y": 445,
+        "w": 176,
+        "h": 176
+      },
+      "anchor": {
+        "cx": 88,
+        "cy": 88
+      },
+      "hole": {
+        "x": 64,
+        "y": 64,
+        "w": 48,
+        "h": 48
+      },
+      "frameIndex": 3,
+      "state": "selected",
+      "player": "p2"
+    },
+    "p2/selected_04": {
+      "path": "/assets/runtime/cursors/p2/selected_04.png",
+      "sourceROI": {
+        "x": 876,
+        "y": 445,
+        "w": 148,
+        "h": 176
+      },
+      "anchor": {
+        "cx": 88,
+        "cy": 88
+      },
+      "hole": {
+        "x": 64,
+        "y": 64,
+        "w": 48,
+        "h": 48
+      },
+      "frameIndex": 4,
+      "state": "selected",
+      "player": "p2"
+    }
+  }
+}

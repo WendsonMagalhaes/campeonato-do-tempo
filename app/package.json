@@ -1,0 +1,43 @@
+{
+  "name": "campeonato-do-tempo",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint src",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "preview": "vite preview",
+    "gen:audio": "node scripts/generate-wavs.mjs",
+    "font:generate": "node scripts/generate-font-v4.mjs",
+    "font:check": "node scripts/generate-font-v4.mjs --check",
+    "assets:install": "node scripts/install-copa-assets.mjs",
+    "assets:verify": "node scripts/verify-copa-assets.mjs"
+  },
+  "dependencies": {
+    "@fontsource/press-start-2p": "^5.2.7",
+    "@fontsource/vt323": "^5.2.7",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "fake-indexeddb": "^6.2.2",
+    "jsdom": "^27.0.0",
+    "oxlint": "^1.75.0",
+    "typescript": "~6.0.2",
+    "vite": "^6.4.3",
+    "vitest": "^3.2.4"
+  },
+  "optionalDependencies": {
+    "@oxlint/binding-win32-x64-msvc": "^1.79.0"
+  }
+}

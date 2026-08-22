@@ -1,0 +1,384 @@
+{
+  "schemaVersion": 1,
+  "project": "Copa Esperança",
+  "patch": "UI Runtime Patch v3",
+  "date": "2026-08-15",
+  "rule": "Do not redesign, recrop or change exact geometry without explicit user approval.",
+  "files": [
+    {
+      "path": "README_PATCH.md",
+      "sizeBytes": 1713,
+      "sha256": "d6658bb14f813fca7353f9dc60301a33be48bd896ce45516eb15c305246bee9b"
+    },
+    {
+      "path": "docs/ASSET_INSTALLATION.md",
+      "sizeBytes": 1480,
+      "sha256": "4e2ba735ee578525486852b0c9e06cdbef6dca34aaf17a87918cc558ded0170c"
+    },
+    {
+      "path": "docs/BITMAP_FONT_GLYPHS.json",
+      "sizeBytes": 6271,
+      "sha256": "fce6c6aa668d5230c3291650b1354f0d70ce79599670e51e259f6f95f3b39848"
+    },
+    {
+      "path": "docs/BITMAP_RENDERER.md",
+      "sizeBytes": 956,
+      "sha256": "62434358b74cb07b1b051bc3b25a5dc069cf3f8c1f414a556cd01a8d9418925a"
+    },
+    {
+      "path": "docs/CURSOR_RUNTIME_MANIFEST.json",
+      "sizeBytes": 1764,
+      "sha256": "bda1d3686fde1ebfbcf74c9709a195c914f988ba4e9a22d0f3f5e9ab0be840c4"
+    },
+    {
+      "path": "docs/DO_NOT_INFER_LAYOUT.md",
+      "sizeBytes": 1210,
+      "sha256": "eba44a9b51daec22a9067c1da3e2d1d4c59f20fa1211ecf67e9a511a2eb4aad6"
+    },
+    {
+      "path": "docs/EXACT_SCREEN_GEOMETRY.json",
+      "sizeBytes": 4916,
+      "sha256": "ee30811c8e5e36b5f9df004286233af2a3aff6f924620d6a65f6bfc22802c667"
+    },
+    {
+      "path": "docs/FIGHTER_RUNTIME_MANIFEST.json",
+      "sizeBytes": 7232,
+      "sha256": "0eaf5573b4a31cf1c68c1847bd5c1a2bcba19dda0db41ffe7bb114f136ea6b61"
+    },
+    {
+      "path": "docs/FX_RUNTIME_MANIFEST.json",
+      "sizeBytes": 2197,
+      "sha256": "3ef0252b6678955f17b0d434ea84f477d60892acbf25c7beae7acb64400edcb9"
+    },
+    {
+      "path": "docs/SPRITE_ATLAS_COORDS.json",
+      "sizeBytes": 11653,
+      "sha256": "35ebfa6597adde07cfb5cc143cb3b2b40b77573c0e0b4e5199f0c10da07b73e3"
+    },
+    {
+      "path": "docs/SPRITE_RUNTIME.md",
+      "sizeBytes": 823,
+      "sha256": "c007a6c2aa8b5e6da65386c209a7a513257c6e374c918ccb727280ed6511a1c4"
+    },
+    {
+      "path": "runtime-assets/fighters/female_blue/attack.png",
+      "sizeBytes": 217223,
+      "sha256": "153dc3e4828534a02e4cc1617b054ace4934cacac329c855cb84202a17247caa"
+    },
+    {
+      "path": "runtime-assets/fighters/female_blue/hurt.png",
+      "sizeBytes": 205102,
+      "sha256": "8f92cd6938448b72915698fe58c623fede39cd955ba48891ac3f6b778955554e"
+    },
+    {
+      "path": "runtime-assets/fighters/female_blue/idle_01.png",
+      "sizeBytes": 164904,
+      "sha256": "2d54a4227f88c7945666859a22d30f95f553756c7edfa157f3c72f219f04cdeb"
+    },
+    {
+      "path": "runtime-assets/fighters/female_blue/idle_02.png",
+      "sizeBytes": 169274,
+      "sha256": "40bd4231f319a15608e28c5fb67e15c14052eb6bb7f271b8e88144a746e60025"
+    },
+    {
+      "path": "runtime-assets/fighters/female_blue/lying.png",
+      "sizeBytes": 112737,
+      "sha256": "15592d7cd04a1824cc2e317c06bfd09f46e55aa6e40a9e5654c7f0100f69e27d"
+    },
+    {
+      "path": "runtime-assets/fighters/female_blue/victory.png",
+      "sizeBytes": 175001,
+      "sha256": "80499e737dc66259532016e6a9bf78d17c480be18e013358bf2ed9fa566ef655"
+    },
+    {
+      "path": "runtime-assets/fighters/female_blue/walk_01.png",
+      "sizeBytes": 174373,
+      "sha256": "a926f8e0b3a492b6758d1acc22137c9d42944fceacbdb4ef8af417113b451ee2"
+    },
+    {
+      "path": "runtime-assets/fighters/female_blue/walk_02.png",
+      "sizeBytes": 180144,
+      "sha256": "c53c73860ba9ef3ae752cc300b51ff462350a5c0dd6f7c4a8f21f3661f6ced85"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/attack.png",
+      "sizeBytes": 148933,
+      "sha256": "2bfbb6fe8295921afa845ec1207ed79e155d12203388a5289427df95784946a9"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/hurt_01.png",
+      "sizeBytes": 136854,
+      "sha256": "5e40ebbb7e652be7535024fefe00710e3b1151fcd915f820981d7831c6916766"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/hurt_02.png",
+      "sizeBytes": 101499,
+      "sha256": "7cb0bb84d8b24e797f1ba765ae0eed6a014dc906f42ca8411a1d3d6764c6ffc0"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/idle_01.png",
+      "sizeBytes": 125002,
+      "sha256": "d517034205ba78a3544fc1902824c36168127aad3d33035ebeafe00982b27d1f"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/idle_02.png",
+      "sizeBytes": 129689,
+      "sha256": "cb7321f08bb826cb67fa29ac53d61115f84eb7315e16049ad67e70f2d5b3765b"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/lying.png",
+      "sizeBytes": 82732,
+      "sha256": "643cdfa8d26a5b72357f4d266f5b220c6687371b108b01256395efc03f1a5ce5"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/turn_01.png",
+      "sizeBytes": 122552,
+      "sha256": "a897cf5f85b06a5ca856052b165c9c5013b6650ec8ad1f54191c406ef72026bd"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/turn_02.png",
+      "sizeBytes": 136561,
+      "sha256": "ca44ea21c77478753fdb0c4412e77b3f4dde5489e2e5c3ce410bb26b51b08e64"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/victory.png",
+      "sizeBytes": 151593,
+      "sha256": "3bc71e6c697971a0bbe4ddde85568a5e12ed061450c7927c26fc76ef61e393c9"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/walk_01.png",
+      "sizeBytes": 116263,
+      "sha256": "100b87a1d2bb879ffd2c25b29992d6afee82eb5ccb2201ac10827ce067fc3a68"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/walk_02.png",
+      "sizeBytes": 110206,
+      "sha256": "2581ee9b9a2b66280b2824aadb7fffa33969ec603bfef9a9079295de5f97f93f"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/walk_03.png",
+      "sizeBytes": 109371,
+      "sha256": "ae6f2056f050912378234bb10db20a7d853d2807628fe0be465bbaaba18b4475"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/walk_04.png",
+      "sizeBytes": 105835,
+      "sha256": "19d49dbc47804610e8e586553f49f28d619e631f21cd2d0470b30c84a09c4ae8"
+    },
+    {
+      "path": "runtime-assets/fighters/female_red/walk_05.png",
+      "sizeBytes": 97187,
+      "sha256": "1ca34cc54df347cbc048e3a01424d2d80e4e4f703217de0791cf6617e71367d2"
+    },
+    {
+      "path": "runtime-assets/fighters/male_blue/attack.png",
+      "sizeBytes": 181616,
+      "sha256": "fe00bd8838ff8fb1f07a7b6fa2ad6995ce55107eb519d63541d924209ec6b425"
+    },
+    {
+      "path": "runtime-assets/fighters/male_blue/hurt.png",
+      "sizeBytes": 180354,
+      "sha256": "be0623ba78a11f9cbc2e3378849ddcf6d2f0b18554393f569d3f0eb51aea3fee"
+    },
+    {
+      "path": "runtime-assets/fighters/male_blue/idle_01.png",
+      "sizeBytes": 162336,
+      "sha256": "b74ce955e3feeb3f9772a8e157218dba4be4567ad710e6bb926f2d212e8d110e"
+    },
+    {
+      "path": "runtime-assets/fighters/male_blue/idle_02.png",
+      "sizeBytes": 163106,
+      "sha256": "3db282caeeb9767c2ff50157ad59e5c7283955ea15ccab1f3ba7a4db4589422e"
+    },
+    {
+      "path": "runtime-assets/fighters/male_blue/lying.png",
+      "sizeBytes": 105217,
+      "sha256": "1246cd7a80ffe550e9463ebe9b19c25d2d89870391becdbcf3304fe521cb0793"
+    },
+    {
+      "path": "runtime-assets/fighters/male_blue/victory.png",
+      "sizeBytes": 162829,
+      "sha256": "81ecf7bb5fe33d8042e97b9270844a805aef63d1936d9df8034a9ab8bc1a98fe"
+    },
+    {
+      "path": "runtime-assets/fighters/male_blue/walk_01.png",
+      "sizeBytes": 154882,
+      "sha256": "0d7c2e8b5979c77856ac320ffc993ffadfa9d49c9a0995d9554905134f824cdd"
+    },
+    {
+      "path": "runtime-assets/fighters/male_blue/walk_02.png",
+      "sizeBytes": 157975,
+      "sha256": "9663f6029656a72ea0290c003d3ad6b9c26964b127a6e5861f406e5c324dbd21"
+    },
+    {
+      "path": "runtime-assets/fighters/male_red/attack.png",
+      "sizeBytes": 210125,
+      "sha256": "a2df0a1ba2c62493172aeac66f573945ddf0d41cce2af68a5835296f6f60895f"
+    },
+    {
+      "path": "runtime-assets/fighters/male_red/hurt.png",
+      "sizeBytes": 208752,
+      "sha256": "12373c3dc53f2be0c01f15bdffb0a03f3f4fcbb5c90a87837927e03736105145"
+    },
+    {
+      "path": "runtime-assets/fighters/male_red/idle_01.png",
+      "sizeBytes": 170948,
+      "sha256": "3f73e96bdd5dbf04897d7c1ed31b4bff4c7237909e24c9e1e676204d2c1c794d"
+    },
+    {
+      "path": "runtime-assets/fighters/male_red/idle_02.png",
+      "sizeBytes": 176913,
+      "sha256": "8d0e6146e51c9695386e0c8c72b257b22886235c90056d37fa8d25a0ba2b6ba3"
+    },
+    {
+      "path": "runtime-assets/fighters/male_red/lying.png",
+      "sizeBytes": 121161,
+      "sha256": "c907f1fb545ac134161faa726b3d3405d8f7f720333140b80cb2470196c9e6da"
+    },
+    {
+      "path": "runtime-assets/fighters/male_red/victory.png",
+      "sizeBytes": 185562,
+      "sha256": "ab0e3e654bd6d9b5d83c7830601a62f3f10715b73888d60515a3032b27ff07c6"
+    },
+    {
+      "path": "runtime-assets/fighters/male_red/walk_01.png",
+      "sizeBytes": 165656,
+      "sha256": "8cd6a6ba5b63d428b4545332d68932a1c6330dc8ae2704f42fdb535de1ade1aa"
+    },
+    {
+      "path": "runtime-assets/fighters/male_red/walk_02.png",
+      "sizeBytes": 172242,
+      "sha256": "2557f2c1c97990041c554522c8c98ec36c210c979588a2d3c0b305a4f5b2aefd"
+    },
+    {
+      "path": "runtime-assets/fx/confetti.png",
+      "sizeBytes": 469482,
+      "sha256": "9aaf524455a9244a0b67461edd8055e402235c8894def1581984df210f9f17a2"
+    },
+    {
+      "path": "runtime-assets/fx/dust_heavy.png",
+      "sizeBytes": 182624,
+      "sha256": "bd96e396fdbecf7d7bd0ad499bd7c19bb2f5ecc8e24bff3226a2f73e886f9505"
+    },
+    {
+      "path": "runtime-assets/fx/dust_light.png",
+      "sizeBytes": 76090,
+      "sha256": "fe97b26cb94b4fbd3346607cf40ce1f597267876408479ca81e919768bf2e5c4"
+    },
+    {
+      "path": "runtime-assets/fx/energy_sweep.png",
+      "sizeBytes": 176678,
+      "sha256": "4c44490a862828e9f50c928f03d78782a74dfc54583b861ca40db893d729a541"
+    },
+    {
+      "path": "runtime-assets/fx/finish_burst.png",
+      "sizeBytes": 390154,
+      "sha256": "c66b9dac79903713dfc106a2e4f9623b359084b4e5d0e21acc3ff49c50a14929"
+    },
+    {
+      "path": "runtime-assets/fx/impact_flash.png",
+      "sizeBytes": 117998,
+      "sha256": "0862c1552863e777ccf1b4ffc929ad8bb494b8bb204b4c67aefdb8c4de8be45d"
+    },
+    {
+      "path": "runtime-assets/fx/impact_heavy.png",
+      "sizeBytes": 229627,
+      "sha256": "67b4576bed8d4e42bbb7ed862c28caa2551d43dc9780a5172da6287b0005b637"
+    },
+    {
+      "path": "runtime-assets/fx/impact_light.png",
+      "sizeBytes": 122884,
+      "sha256": "b2608e9cfd4a345f5ff47ee796fb49a1f439261745a3c46fcc9f278f1b72fb07"
+    },
+    {
+      "path": "runtime-assets/fx/ko_title_burst.png",
+      "sizeBytes": 265502,
+      "sha256": "a432fda640291af1d238bde473c651312917e0d2458eddce25705ee540bce0a4"
+    },
+    {
+      "path": "runtime-assets/ui/p1_idle.png",
+      "sizeBytes": 27933,
+      "sha256": "c3974b63b49b7915a1f404131b134a08463176fedb8ad90084fedadbb56ae7a0"
+    },
+    {
+      "path": "runtime-assets/ui/p1_lock.png",
+      "sizeBytes": 28078,
+      "sha256": "44d152e3323fe87b5eb4a4d9303b0f7b89c35e004592241126e34b37f9b5c596"
+    },
+    {
+      "path": "runtime-assets/ui/p1_move.png",
+      "sizeBytes": 64080,
+      "sha256": "1e2b89245a15fb9d07e9084d52b259dd091b03027b9f7f0d35fb8587fc75adec"
+    },
+    {
+      "path": "runtime-assets/ui/p1_selected.png",
+      "sizeBytes": 73580,
+      "sha256": "36a3f96aa17be5f2fb4a996186399b31cc03774fb46f644f2fcd782ed40925e4"
+    },
+    {
+      "path": "runtime-assets/ui/p2_idle.png",
+      "sizeBytes": 26330,
+      "sha256": "2fd2c6d86ac44a8eab2a88622e58aff6d6e310bfeda93fc408c60b9728a0abd4"
+    },
+    {
+      "path": "runtime-assets/ui/p2_lock.png",
+      "sizeBytes": 27053,
+      "sha256": "eda3d89677a63c1bc89d496c56e2eea81fa80adc56d2a9f42aa920462b25a386"
+    },
+    {
+      "path": "runtime-assets/ui/p2_move.png",
+      "sizeBytes": 44499,
+      "sha256": "556482fa77f235dbda8d55912984c8268dcc4cb7925bbd0fbb12f403dd99b202"
+    },
+    {
+      "path": "runtime-assets/ui/p2_selected.png",
+      "sizeBytes": 81401,
+      "sha256": "da022df784c3b994ec8c08a960f6b537dcc6c889579ea054e0862562932e9bbc"
+    },
+    {
+      "path": "scripts/install-copa-assets.mjs",
+      "sizeBytes": 2504,
+      "sha256": "cab6d6fb416ae244d44037280607fb8d9e20305a0b6c0a9c102daee9ad9a11d0"
+    },
+    {
+      "path": "scripts/verify-copa-assets.mjs",
+      "sizeBytes": 835,
+      "sha256": "83c84e7911044522115aa791326f1a71e83bea567a0479a349a7d7d1ca6ed235"
+    },
+    {
+      "path": "src/copa-ui/components/BitmapTextCanvas.tsx",
+      "sizeBytes": 3180,
+      "sha256": "ffa6f26b1af22424566d938174d3437d31cfaba67eb694ecffa745196461e4a1"
+    },
+    {
+      "path": "src/copa-ui/components/FighterSprite.tsx",
+      "sizeBytes": 2898,
+      "sha256": "814bedde05fe255500048236ddaf691eff1614e8122a7540f6b0230677faca28"
+    },
+    {
+      "path": "src/copa-ui/components/FixedCanvas.tsx",
+      "sizeBytes": 1353,
+      "sha256": "39a7147a0b3035a75e0292c648a2284884775fb4e00f6e9081866a042e1a4cee"
+    },
+    {
+      "path": "src/copa-ui/components/PlayerPortrait.tsx",
+      "sizeBytes": 1066,
+      "sha256": "ef15e08c0b7987dd21970b422c14d32c510e1ac05a6af6e27812c7c84273c362"
+    },
+    {
+      "path": "src/copa-ui/layouts/exact-layouts.ts",
+      "sizeBytes": 989,
+      "sha256": "ce371eb142aefcd1691150dd4d97c7a6a27c0ef88ae2cbdc1591954e282978b3"
+    },
+    {
+      "path": "src/copa-ui/runtime/TeamFormationScene.tsx",
+      "sizeBytes": 4050,
+      "sha256": "e15b6da536c55e4ee340fbe841796c98c9d08355f36be957d3976e6d4260a46d"
+    },
+    {
+      "path": "src/copa-ui/runtime/runtime.css",
+      "sizeBytes": 1842,
+      "sha256": "b87711610a97f2ae5784cd59a5c7c441f2bdc4d0a1ce37674216d10333478ea1"
+    }
+  ]
+}

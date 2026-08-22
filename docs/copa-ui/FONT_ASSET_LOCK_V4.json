@@ -1,0 +1,1831 @@
+{
+  "version": "4.0.0",
+  "status": "FROZEN_PATCH",
+  "files": [
+    {
+      "path": "assets/fonts/glyphs/large/u0021.png",
+      "sha256": "d656895ea0f7c8a8ed8845caac8df781388f75262a053e5539fc7ac6edc7236f",
+      "sizeBytes": 4509
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0022.png",
+      "sha256": "fb29b3814761e89dd93c294db6a3b5331db105d6828a314383fc33c7dd397a25",
+      "sizeBytes": 2622
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0023.png",
+      "sha256": "63feb01f19fe47f8d82b38eb19fa51bdfb64ac289aed06c5c55bc72d5d26d9b8",
+      "sizeBytes": 13185
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0024.png",
+      "sha256": "fbcaa5b44f3b464b27a5cec1f961722f097938f13079bb91ddf4f036c3c91009",
+      "sizeBytes": 13709
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0025.png",
+      "sha256": "392442e7f3dfa4641b98883a274790ca251b625c685648b024f96b85953e889f",
+      "sizeBytes": 7309
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0026.png",
+      "sha256": "11e6c977e329ffe933393e9d92a4405401e48833bbfaac9a74f91e1d4a7f1580",
+      "sizeBytes": 13776
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0027.png",
+      "sha256": "3410ca93b8ae6b0a3303a1d56f636d99d4dfe39ef231e4d7c62f64f5441a25e7",
+      "sizeBytes": 2266
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0028.png",
+      "sha256": "04dec86b8d32484eb70bbc718e1250fe9677d077ff3aa98d91c0eb00bc9cc0da",
+      "sizeBytes": 6789
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0029.png",
+      "sha256": "a15ae5703f05a1a73fbe7101aea4da07624cfb65a0d20e0058ac6242aeaf8527",
+      "sizeBytes": 7128
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u002A.png",
+      "sha256": "2840519ee4dad5a08a77c0bc3f972bed69c52d10c3582479316442418eb342ad",
+      "sizeBytes": 6956
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u002B.png",
+      "sha256": "4f294052ecd8a2be8c73c471ce74415d5bd4ba56e721f72110f8a9ddd7017c77",
+      "sizeBytes": 8132
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u002C.png",
+      "sha256": "d03397042e91c725baa970089d232bbbd4758e7e84189803a6b833162c166608",
+      "sizeBytes": 3513
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u002D.png",
+      "sha256": "58638ede19f418810e04d33d32bef7c90571213475ebd6b437c933b1ccb79142",
+      "sizeBytes": 3239
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u002E.png",
+      "sha256": "cb084f85b47e655a4001006fa11cb16fb4a8a76dfbbc184b1dc2888edcc03e66",
+      "sizeBytes": 2364
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u002F.png",
+      "sha256": "34e44c832f244858b0ab136503f49af008772147e70bf51f25af390da68b656e",
+      "sizeBytes": 8625
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0030.png",
+      "sha256": "5365bc88c622047c0d1956f2b3c8dcae5c6dd9f63c21652c11c4e6bb0249833d",
+      "sizeBytes": 14736
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0031.png",
+      "sha256": "02b8b68e6b7c95437661feebff652244dc2982a130a7efcb25ec49559b7567ce",
+      "sizeBytes": 10850
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0032.png",
+      "sha256": "4a24f4ee3120217ea66f0b70e76bd9d7e50a9c72dc72035f29117ee5d97d60c5",
+      "sizeBytes": 14035
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0033.png",
+      "sha256": "ad84594732c7cf4721c846d4c21b01ef2d8df9d42e264ff40da5d030ef58904f",
+      "sizeBytes": 13456
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0034.png",
+      "sha256": "efa068d8972c275ffd256539703c5bd89654fb1546828ca3c17082f24018aa23",
+      "sizeBytes": 13093
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0035.png",
+      "sha256": "376e93bbcae996ea46f74c2307cc483197f812ee7f63f2af0ca203f619863ee8",
+      "sizeBytes": 13476
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0036.png",
+      "sha256": "7c3c6d0bd3e980dd089decbde39e62a54336be3240f438b7c9cc639cb9426972",
+      "sizeBytes": 13528
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0037.png",
+      "sha256": "ecb5688106d28088e0faa04085f1fbb5065e56a5a2c19347321e63efa2782282",
+      "sizeBytes": 11196
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0038.png",
+      "sha256": "075588d2530688a51a10dc5ca0129796569887bb095cf0f84cd1ab53f08f396c",
+      "sizeBytes": 14435
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0039.png",
+      "sha256": "a7adb3541782d4434f2ffbe26d40c680ea09562445d6fd33415d64ce99749485",
+      "sizeBytes": 13609
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u003A.png",
+      "sha256": "37e2cd48839365e25ce260b317fa42f933b171d6b3f6a3efd3509fb64df5517e",
+      "sizeBytes": 2494
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u003B.png",
+      "sha256": "680aea7b06e00f28d965f8ebe166b6b5b138faa280d86a28e047192bb6c27ff9",
+      "sizeBytes": 3334
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u003D.png",
+      "sha256": "cfa2af5ff0dde24023505cc97ce092bf44cb7ad728d2a019b1a1765b1b6a3181",
+      "sizeBytes": 2937
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u003F.png",
+      "sha256": "b6094617f97d100b18371178fae85467570b852d039224edf2678992c3825723",
+      "sizeBytes": 8613
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0040.png",
+      "sha256": "e7fa9f7f482f94702da4fdea50dc5914da6537ce08e6f663a0e20416dd423e00",
+      "sizeBytes": 18028
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0041.png",
+      "sha256": "6fec37cfef3fafa42efc5b53e40219fe7a4cf2e50611b82bc35929321555a072",
+      "sizeBytes": 12480
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0042.png",
+      "sha256": "f6cc78b1ca28803d66fd9f018d05a0d6838b054a3a093419c24b6a964db4dcb2",
+      "sizeBytes": 12590
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0043.png",
+      "sha256": "aa9a6290f2739a92f7a1d97d123e6936a4de99149f31016e78b8fef30bc6aab1",
+      "sizeBytes": 11717
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0044.png",
+      "sha256": "999af277d98aacee5ffc81a68c3496455ceb951c94ab1605cc0b38339ff03e58",
+      "sizeBytes": 11804
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0045.png",
+      "sha256": "446a35201ef07190d2cca4df463742abf2761934873b5c8b3a6c4f2a357b05cd",
+      "sizeBytes": 10370
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0046.png",
+      "sha256": "1a167207ef1b794cbce43d85741e5beada24fdf599b63bd8019de7fc12f102b8",
+      "sizeBytes": 8262
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0047.png",
+      "sha256": "75f99051e0cc45c478328cfa41a4bb948e55b05b57f23873260714444346d709",
+      "sizeBytes": 13156
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0048.png",
+      "sha256": "46154a0d55594dd55754c102027c647baef278652bd2cf4f73bc93cccd68a23f",
+      "sizeBytes": 10747
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0049.png",
+      "sha256": "6644a1f388eb5ea37d51ec9cd4b83c83e25ac29b8f797197baa79985db3176ef",
+      "sizeBytes": 4684
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u004A.png",
+      "sha256": "e3504113eb4d822431f6434ce6096c74ce2cf24310bcd0be8ce4219866d79f33",
+      "sizeBytes": 7844
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u004B.png",
+      "sha256": "e43a56998a9d0368508ab4abb1363665ff4240de039da3f026e285f9a4389e7e",
+      "sizeBytes": 12628
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u004C.png",
+      "sha256": "c0b34892734756f2f2d68ca0d05a82d469ad8c5c4489097182c5f0aa0757c279",
+      "sizeBytes": 6641
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u004D.png",
+      "sha256": "5e2f2e1ed377b79f847c6d8b808cf5e15d2e051926eaad812bdff738124b0090",
+      "sizeBytes": 13020
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u004E.png",
+      "sha256": "bcaeefdf1bff1104328461974fe6987ff1b168fd3a51219f47858d34d1b03c38",
+      "sizeBytes": 12108
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u004F.png",
+      "sha256": "3a4e438bf9bc75a4743e5bcf8a9c485aa38aed45926b80e6cece23c9f34774a6",
+      "sizeBytes": 13517
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0050.png",
+      "sha256": "2710dcdb2758fa139676340d50c809531380c6004940dbd00f09eb68b43e6528",
+      "sizeBytes": 10134
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0051.png",
+      "sha256": "a360e1b4eb0d2d00ef14aa6be573648d39e184dcf4576f63beefb7855c0c22cb",
+      "sizeBytes": 14390
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0052.png",
+      "sha256": "735a999b4af8f3c25f1ecd696e30f72c7e9ac62c29a727589880de05e3351a6f",
+      "sizeBytes": 12338
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0053.png",
+      "sha256": "7d0b195f56a162cf2892f1e82af414ac88905e7138b0cc320689988f69a269ce",
+      "sizeBytes": 11832
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0054.png",
+      "sha256": "029c49a43dddad6b72a149a61a972668fced8e51452b4921bfbbd8a2c24ef623",
+      "sizeBytes": 6883
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0055.png",
+      "sha256": "79912a6f103e741cc5340af7c7020e0656a8ad5008408e794bcf8b746ced61d6",
+      "sizeBytes": 10933
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0056.png",
+      "sha256": "fb9bd1b007e25191100e3930fb3cd8c8539534fb2197a9ef7b948b305dbe359d",
+      "sizeBytes": 11159
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0057.png",
+      "sha256": "1209b8cab7e1c613e93291f9c7e3367d382409adb940f1ebbeaa08e9695761af",
+      "sizeBytes": 14923
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0058.png",
+      "sha256": "eb0bf3417c6c651254a4e2e7cee4f737f1434e2f62a6428e9386e8a085413990",
+      "sizeBytes": 13311
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0059.png",
+      "sha256": "0a634f3d77f4c32097450cc963858f52ebd8886120d03e0342eda144fd5d7699",
+      "sizeBytes": 9536
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u005A.png",
+      "sha256": "1d1ac5c780afb21e79e25c87b8b9d9febea3754e3c79761b120df4dcd2d060ef",
+      "sizeBytes": 11697
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u005B.png",
+      "sha256": "5a5736bf53466197acd310378699a942db95f08285e6099c6a93857fcd22d564",
+      "sizeBytes": 7475
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u005C.png",
+      "sha256": "37e5eece4e1677e7feefa6b24b4e1abdd74af5a4f32ce81d1908bee8ee67dfdb",
+      "sizeBytes": 7246
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u005D.png",
+      "sha256": "329f42c97df5825df192bd159949ab61cdca6868d200d3d3c78f143830d1d363",
+      "sizeBytes": 6747
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u005F.png",
+      "sha256": "1795982e4f79b8ebd8fe6d0bf58ea63aa74aee51fa57804af012e99aa74e0701",
+      "sizeBytes": 3356
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0060.png",
+      "sha256": "4a940b3c9f54bb373a4a93d0f6ea3fe68cee2113ff6ae5c8651c01fa5fc0fb75",
+      "sizeBytes": 2561
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0061.png",
+      "sha256": "5b46961b11646701f9ddc61ef8c9e0a36ff1c6a6794aeeaa22056f13ed577e7e",
+      "sizeBytes": 8882
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0062.png",
+      "sha256": "e52411b7eecc2bb957dd6b8cde9b6cfd0f9144832128d069526dc397a33d44f2",
+      "sizeBytes": 9854
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0063.png",
+      "sha256": "012c064c8626333e9c28f3c7aa233938f1f7e0233bcd05e5d54419ef4ae679c6",
+      "sizeBytes": 8406
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0064.png",
+      "sha256": "7732bc45561fed8a5b780401c6ba28c4adae145210d5aa87716349876130bbff",
+      "sizeBytes": 9600
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0065.png",
+      "sha256": "457f6521729f89ba3efc0c65e7bcec0479911e0fa6099d02ca1ca0c693cdf394",
+      "sizeBytes": 9386
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0066.png",
+      "sha256": "fee01c24cdeaa62174ce9148e2c7e9e4843d1bf48d016580129d28c9c97ef46f",
+      "sizeBytes": 7474
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0067.png",
+      "sha256": "e068f9d78274ca8d3a8432d85fdfe9aeb623be3fe67193b149509089dd9b478f",
+      "sizeBytes": 10212
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0068.png",
+      "sha256": "cf03a4db6d31c606c885c5e502c4c2bdd21b8212d796d7841d0a296c3b350261",
+      "sizeBytes": 9038
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0069.png",
+      "sha256": "9f1a1ba2faa4765949e3e1a9c809802dad47e8bb05731d9a071a81ab7b59a701",
+      "sizeBytes": 3337
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u006A.png",
+      "sha256": "18705d4c47f77f7d4b42f73d3d895c2e5a50ed8a5bd2c3ad4f013e40c53b4842",
+      "sizeBytes": 5862
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u006B.png",
+      "sha256": "a1d9feceecdc5a0a6a4c1856946477d1eb7512fec688a4e9ffefddb465346435",
+      "sizeBytes": 9806
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u006C.png",
+      "sha256": "317c3769ac95a08baaaf86187185eae0c43a096e9e1f679ffbaeafe6018f6bd1",
+      "sizeBytes": 5192
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u006D.png",
+      "sha256": "1a26ef145b2bf5af2f7816c3d6456d0346f779ea5af3c5f6d508d070327dba71",
+      "sizeBytes": 10841
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u006E.png",
+      "sha256": "a1e21b2c37a96a55aba94db183de4eab3e4146a0c594113e5a089cc8616edf68",
+      "sizeBytes": 7931
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u006F.png",
+      "sha256": "bac83bcc9f355e1102fdf43c5b0a50a48e429d69e78d5d16bf3b6e175b473081",
+      "sizeBytes": 9027
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0070.png",
+      "sha256": "bf8e6e626cdb105919c0a352d9384164bdd5d34114ff29ab10bbed9beaf1388d",
+      "sizeBytes": 9018
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0071.png",
+      "sha256": "8816b2a1a2cd6f1c8ce51e72ddc19f9f50f717efb61e22168c6f51496677b279",
+      "sizeBytes": 8881
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0072.png",
+      "sha256": "f14b1fcb0b98e529b4e9079e36964a2f81ffb6e3a438983efa5aac52bc713cd0",
+      "sizeBytes": 6081
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0073.png",
+      "sha256": "8f5c775187ec52517645e59937950df72b1061636127221a56a1f514eb570d64",
+      "sizeBytes": 9448
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0074.png",
+      "sha256": "5f82b6d6a54db531ed9cbb879eb352642244705ab06292a53a497d789a2df800",
+      "sizeBytes": 7414
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0075.png",
+      "sha256": "2d36e40259b91df683e04f53f2fee16b48b23578ef09567c8f578b0453bc84a8",
+      "sizeBytes": 8356
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0076.png",
+      "sha256": "a30499d907e73f1874c99d0738ea193382369db89b61cd9535ed1cce73a65036",
+      "sizeBytes": 8352
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0077.png",
+      "sha256": "8c7706ba02f48a5ea73e7043dd47197253db5ce7eeecbc263ed7f6936e2ede1c",
+      "sizeBytes": 10941
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0078.png",
+      "sha256": "a81a2cdf5d3afda2b7c66dde8f0ffafefd5ea56e185c99fdc14fe4df506e0da8",
+      "sizeBytes": 9839
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u0079.png",
+      "sha256": "fb8d65fbaf35bcbf1041e1f31c5bd81cc171f3f793cfe23817fc00d383a20175",
+      "sizeBytes": 9518
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u007A.png",
+      "sha256": "0f7b2a22cd595aa7d0791c18042ddecccef434ff8eac1dd8a362b88b334bfb1b",
+      "sizeBytes": 8852
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u007B.png",
+      "sha256": "537f94fac2c0caa0e6d97072cd92244d4d3552b92fb657d46a232433b70b1a2a",
+      "sizeBytes": 8282
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u007D.png",
+      "sha256": "a917d4ae71d5dd32f298e4604a19a336135628eaef56eff5605ffc58756d8a37",
+      "sizeBytes": 8284
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00B4.png",
+      "sha256": "9d54fccd97607c9aab31635d66df33fb544f256ee16950240fbebf53f209d71d",
+      "sizeBytes": 7159
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00C0.png",
+      "sha256": "debb437113d8e7fd7985c01f3b580a9040e352a223c3190b5821871bfae90058",
+      "sizeBytes": 10642
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00C1.png",
+      "sha256": "2cc58cdd69f3f5287809af936cd72507a7105d0b07e73331cefd8532e6115b43",
+      "sizeBytes": 10565
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00C2.png",
+      "sha256": "6533309a2899052114a3ed5c3013210d6d65388793cdd4a3402e96d0f0e2d6a3",
+      "sizeBytes": 10872
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00C3.png",
+      "sha256": "4fc4db0e438aae64300721d20a0b0b419b24c49ebeccdf80fa6951e5b8f95c33",
+      "sizeBytes": 11008
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00C7.png",
+      "sha256": "a9e6716d37579d109642a31031f53d4d25e7a578ff6aad5da5ac517e5cbb9a2a",
+      "sizeBytes": 12587
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00C9.png",
+      "sha256": "99fc42819a8a26867b955bff6cd89a63220dfbacf1a9cf8bd33124192131a156",
+      "sizeBytes": 9486
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00CA.png",
+      "sha256": "879372052ce67ea9b373bf31850a5fb37cccb7c8ff628f04ab383ce2ab7289b0",
+      "sizeBytes": 8764
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00CD.png",
+      "sha256": "f3b8dbfc4e682974ed9c649c5ad6cd6a5451f2a559a3f222d65e2957e189dad6",
+      "sizeBytes": 4506
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00D3.png",
+      "sha256": "e67a1a750f32565e7d2b356d3fcb7cea303d35fc882d957d82b26853c70f6a6e",
+      "sizeBytes": 11758
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00D4.png",
+      "sha256": "28a4bbf5331b494ca314cb8a5a98598baaa16b19e9432097e9bbb79d3ca32a6d",
+      "sizeBytes": 11352
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00D5.png",
+      "sha256": "f4a72f4d57c92a0b844dc132525324ecc80ef3098056e6fa167b7c89116dfcb0",
+      "sizeBytes": 11711
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00D7.png",
+      "sha256": "3eea5e9d68d906267a2f6ceac2ad0a1f761c1b892264eccc498546357d6efe60",
+      "sizeBytes": 5767
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00DA.png",
+      "sha256": "29f9537bafaf577d1b1f2c93811e156f5624e3e9a3754fda0306ebc5d3c8b6cb",
+      "sizeBytes": 9885
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00E0.png",
+      "sha256": "3c056fd0ac40af08ed33c2b2559c938b11fed9fd12bfe56380a7b60b75908058",
+      "sizeBytes": 8795
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00E1.png",
+      "sha256": "03de503393979d23f3869a05e41bb46a44be7bd6fa2a099590058c28e8a09f4f",
+      "sizeBytes": 8479
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00E2.png",
+      "sha256": "b6481519d281cebb4c595d576b865207d4102acfe4ef45f524e7e522b66ee58a",
+      "sizeBytes": 8736
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00E3.png",
+      "sha256": "b8cd391cbe8dd70b9e7ff306a0f38c59c872faa534fe70b28769cf2e24ac7d20",
+      "sizeBytes": 8987
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00E7.png",
+      "sha256": "f805029493945cdc1d90cbbd1fd0ae70b42a8c24f464af92c33a0702b92503a3",
+      "sizeBytes": 9587
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00E9.png",
+      "sha256": "73a3ba50695d6d34e4bce552fc3f0f2c6901289410278cdd28c2d2f6fcc2a2e6",
+      "sizeBytes": 9166
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00EA.png",
+      "sha256": "abbf826d44eb66e89d77edb4c226b24e66ba453f62dffeeb04c0bcdde514f6f0",
+      "sizeBytes": 9197
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00ED.png",
+      "sha256": "95a8f4abe8525c4f7843f56374451c66b93d1efc84b414fe504f0d6239dd93eb",
+      "sizeBytes": 3505
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00F3.png",
+      "sha256": "02fdf8fbb38fc69e2a9df24240d77da5058e432c10bf438098659bff515bafb0",
+      "sizeBytes": 9322
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00F4.png",
+      "sha256": "960728deaca603439105b43eb8af28f20a19f03a0e0d8ee2c4a2351b30dcc31f",
+      "sizeBytes": 9338
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00F5.png",
+      "sha256": "6c936afcd4ed55faf664c23977e1f78396889f6eccf8bdf366d436d4ac85dc37",
+      "sizeBytes": 9484
+    },
+    {
+      "path": "assets/fonts/glyphs/large/u00FA.png",
+      "sha256": "dd7813322b4bb83debc10ded3bdab6736538a7e4ea3a460ddf43a6275a182fe1",
+      "sizeBytes": 7940
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0021.png",
+      "sha256": "3b632f2b268945882f87f706318b76eee4536999aac4435b521abd992217999f",
+      "sizeBytes": 5027
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0022.png",
+      "sha256": "085b07805d2d8e323b3870f5a9ec82db5b8b3dc02c9a29d01280c1f7a9da34d8",
+      "sizeBytes": 3795
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0023.png",
+      "sha256": "3efcd931b4618377e2fe25357caab6a0c0e736a004bb3df83889fd2da3250516",
+      "sizeBytes": 12045
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0024.png",
+      "sha256": "55cafd68db0cff486fbab60f71172153f9c446531086df39371c474b9c6bc69f",
+      "sizeBytes": 10408
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0025.png",
+      "sha256": "b38db7c7e0ed5ba24c72daecaff44fe897953ee1b5c991a4ce14b1460c5908b8",
+      "sizeBytes": 6695
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0026.png",
+      "sha256": "f6afdddde280673b862634bcceb17948057bc9ca15c041948269b614121e7545",
+      "sizeBytes": 12044
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0027.png",
+      "sha256": "c97663ef26e2623f166a6542be1d455ec8bc5bac37498bd86907c80d484b73da",
+      "sizeBytes": 3063
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0028.png",
+      "sha256": "468ccafaa9a48e666fe6b7413a319d0857f7af2b65b7f916bc73ede0da855096",
+      "sizeBytes": 5456
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0029.png",
+      "sha256": "5d6306a32fe84b407b8947d7a6adc9322926b4b390eb67c9c23cf74a367dcab9",
+      "sizeBytes": 5725
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u002A.png",
+      "sha256": "71055a8ac325e6c54b3a7a4e8cea561d8c18b18ca0a826f6ff0be2ebdeb79858",
+      "sizeBytes": 7844
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u002B.png",
+      "sha256": "8462ae49a1a0d165d591ebfc5ec8ef6cf1782a7f27ee1be29b4ddc825fd2f4c0",
+      "sizeBytes": 8181
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u002C.png",
+      "sha256": "a87fbae19268809fc02edc3e8de5aea3e8b47e5a8e47c3498c353fe7862bb1de",
+      "sizeBytes": 4463
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u002D.png",
+      "sha256": "75326b484776cb48470a93d2fe52f4bd8d661fd32ac5768e69dc5e47a5a80d4a",
+      "sizeBytes": 4516
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u002E.png",
+      "sha256": "97327c42ead3126c385d381d30f8eab15fa50502c9a344d2bf095237fa78d8b1",
+      "sizeBytes": 3239
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u002F.png",
+      "sha256": "0a7b11d7c3db9b5ef5a6045e27723d89dcfb3495aa69411db4a61970f603aef8",
+      "sizeBytes": 7499
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0030.png",
+      "sha256": "928c8bb875eefae2421c8a206db321b842aa302be8bf61e50fe2720bab389cfe",
+      "sizeBytes": 13084
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0031.png",
+      "sha256": "4090fc58e39d97ad1d98d983dd754db16bd6dbf0326077977af14ddcb2633c4f",
+      "sizeBytes": 9713
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0032.png",
+      "sha256": "7fbc753e1b21930388fc66a044b1f56e77325bb52983cafd1a099edef4fbe22c",
+      "sizeBytes": 12228
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0033.png",
+      "sha256": "184d88fc1f0efe34a02a7b9c0ec1530c5c2919a636cd5b057ca10ba102bdfa73",
+      "sizeBytes": 11861
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0034.png",
+      "sha256": "a6180dee06de7cffbb84255f58208cd27738f0e5c827bdf0e8e8cce5908dccde",
+      "sizeBytes": 11244
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0035.png",
+      "sha256": "ea5ca8d307d42e9962c5d2e5ae6f3a477476ac8896bce602d554dcaf6bfe606c",
+      "sizeBytes": 11660
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0036.png",
+      "sha256": "dcd8b333d75c97938fb5996122a98c8f3354179524be86383070e0459fa6e589",
+      "sizeBytes": 11791
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0037.png",
+      "sha256": "229c0789628e9765d841ab6f11d341c919cd00f0de68608dd3074a1c3f2c88e3",
+      "sizeBytes": 9831
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0038.png",
+      "sha256": "13212a787e28f32f292ffb24441b97b60c191f25c95ae0a69624972d96fcdcdf",
+      "sizeBytes": 12785
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0039.png",
+      "sha256": "a33bb5b200fadfd6bd5f369a04b0c7bd4a9ff770f4af33ccb31d5158b693b519",
+      "sizeBytes": 12045
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u003A.png",
+      "sha256": "61ced5008361c30409e0b7d0b45e461445fd10ed6f457e03bdb6d01f87032563",
+      "sizeBytes": 3407
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u003B.png",
+      "sha256": "485b8a8928bed1b1928a3ed3e2df43cfe9abcaadcf0ac1b8c14e50e41c0fb7b8",
+      "sizeBytes": 4242
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u003D.png",
+      "sha256": "97800902d4826f3b42c44cad55ac23f696a7e65dd4695c56f01c950245d3c7aa",
+      "sizeBytes": 4215
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u003F.png",
+      "sha256": "bc278560fb3969e5e1f90877142d5ed8a4aa5a5456ac37f7cb4830053be998f8",
+      "sizeBytes": 9431
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0040.png",
+      "sha256": "cfc1853bfdab155bc3680f502933c1ed629ff6ed160c1261e23a822aba4acc8f",
+      "sizeBytes": 13828
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0041.png",
+      "sha256": "0a1068ef37c94f272a34ca480a5744bc645e75e66e1ec504f15b499c35727731",
+      "sizeBytes": 11050
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0042.png",
+      "sha256": "6625841fbf3cc61ebd9a4897dc3106ed07d99b68273d2c98b9b06a011fb16346",
+      "sizeBytes": 11094
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0043.png",
+      "sha256": "676cfc8a1272e66169ad05ca487d14b8e32cc66d011eb2ae25bf8d70162df322",
+      "sizeBytes": 10158
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0044.png",
+      "sha256": "c75751504804cc68264ac42fbeb8270e4edcb0749bee0282c83d766b35cc3b8a",
+      "sizeBytes": 10694
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0045.png",
+      "sha256": "8a2d05cd589bfbde1145aeec3eaa396908ff84211d6196910e87b58e9a19f3ec",
+      "sizeBytes": 9246
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0046.png",
+      "sha256": "90c074ad012c478199eb8c60c9ea80431f17e36ac9666d02d2862dc464891083",
+      "sizeBytes": 7072
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0047.png",
+      "sha256": "f651933818ce97eb7edb54b6638ef7da1ebeb5812bee15ae8f2b9147421f840e",
+      "sizeBytes": 11317
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0048.png",
+      "sha256": "547bb3a7a8e7fa51e9a5422d31f34a490af960b78fd1f9e9d58923eb1371c0ec",
+      "sizeBytes": 9471
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0049.png",
+      "sha256": "65a5175d4238b8668e3a477577d854ee91f5b635cc3bd4fbda2aaacd7feba316",
+      "sizeBytes": 4233
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u004A.png",
+      "sha256": "c2fbf6ea07efb5abb945106a20c3a5714e356c5438ce686adc5dc7f3b6981789",
+      "sizeBytes": 6790
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u004B.png",
+      "sha256": "fafbcfc86c052a469f2322c70bb4fe52f73c85d67e5dbe21bf5a7321089a89ac",
+      "sizeBytes": 10983
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u004C.png",
+      "sha256": "3fc12f815b9bb12ecd4506197cb52e63de1949f38e8d121c5805896570007764",
+      "sizeBytes": 5750
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u004D.png",
+      "sha256": "749d8f72c39e361f093648a70486f63e6079e916dc6aab152d03af58ce14e1a4",
+      "sizeBytes": 10598
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u004E.png",
+      "sha256": "2bb89a47f93825dd03e97eb00490c7e27c32a3594dc821db1b8fcfa750556e50",
+      "sizeBytes": 11052
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u004F.png",
+      "sha256": "364ecc383285b6c0329e17c8bba10180318f153db4e970a094ef9f7037e7e87f",
+      "sizeBytes": 12450
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0050.png",
+      "sha256": "931a5f67123ed75ffb3e3c8f86dc4461345aebbc3e38b68449d1a3ae489fed22",
+      "sizeBytes": 9292
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0051.png",
+      "sha256": "e314ab3c40362eb75d1e714417e10a2d4a085dc95d832730cb051b961eb2f642",
+      "sizeBytes": 11645
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0052.png",
+      "sha256": "f54bfef1630c66187738dd52a4756e6dbdebfde1f8c6ec34ea7ed473114ac615",
+      "sizeBytes": 11605
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0053.png",
+      "sha256": "4f2084eb41286a9f9dcccfaf2baae179263934f6955759e02d358b3fed3d20d1",
+      "sizeBytes": 10707
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0054.png",
+      "sha256": "ec44bf494851c48934d52282e0783a42d96a83fc828bc23888114759a26446c7",
+      "sizeBytes": 6221
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0055.png",
+      "sha256": "18877a3349fad047ed6fe4f4730a990fbe09a87da61ecae5581180299f480316",
+      "sizeBytes": 10041
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0056.png",
+      "sha256": "2c377a08be26d06251c2b5b6791017236d99be8338186c0c767d6d3e970edfb5",
+      "sizeBytes": 10212
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0057.png",
+      "sha256": "716ffedf8f2abbcd2e8327e039391ac0d2131c7fb9525607a924d76d02ac85cb",
+      "sizeBytes": 13470
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0058.png",
+      "sha256": "8a7299fc7e09f1810bb1e8a233467d860d4250878c7a2e8d5dfa6cf0b9f98664",
+      "sizeBytes": 12201
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0059.png",
+      "sha256": "69620da230cfd4cc993773b9bf431489203a9e39e0fdb4ce0c297acea0e0b997",
+      "sizeBytes": 8725
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u005A.png",
+      "sha256": "af6e622f9691f0b7ebeb4cdca223365a9733a0d729cf11a8b8c96e35e1bdc76e",
+      "sizeBytes": 10605
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u005B.png",
+      "sha256": "74906b887c738ba8455012abd85c7242359e871ddf65336d94cd5357b8a66d57",
+      "sizeBytes": 6206
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u005C.png",
+      "sha256": "173b1fede3e1572277da4accdcff911e1cb5d8abd7c73c30fe6ccad91896f53e",
+      "sizeBytes": 6253
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u005D.png",
+      "sha256": "01fc1bef859951908200f5bf55cbcbabe7d9a6e95b93f126e54f3cd1724f31d6",
+      "sizeBytes": 5536
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u005F.png",
+      "sha256": "fbede0b28bd235e728e4e73bc2fb5554d199ce6a7afcf296bc85688e01469a2a",
+      "sizeBytes": 4842
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0060.png",
+      "sha256": "d3f827dfaf69b0f6c145356a8134b9560331a141de5732ce7c663c9ccfc8fc36",
+      "sizeBytes": 3645
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0061.png",
+      "sha256": "114be584f0ba18f94435a007cb0c04a86a2c2071c5f30c5df75bcfa9e222eb37",
+      "sizeBytes": 9498
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0062.png",
+      "sha256": "77b1350abcea1682cc4101d199cef6460c9e31f7f73fc55f7678004a5362e77d",
+      "sizeBytes": 8938
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0063.png",
+      "sha256": "9071fcb88cbabb6bfd28172a69a414fa3f40ef51902df69db807ee955afce518",
+      "sizeBytes": 8955
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0064.png",
+      "sha256": "c5aaad4f9021ac577fd39d8dae6c06dbce2eda3a3a7d702669f8cfea613c4be1",
+      "sizeBytes": 8726
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0065.png",
+      "sha256": "12c2eeffb8ef4969238ec88e0c025dd1bdd0921b7933251b93a0d7f528ff59e8",
+      "sizeBytes": 10100
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0066.png",
+      "sha256": "469d3f7a3684bb1da0959727561e0110c585f3e4cc189a6c660cddfc267ff93c",
+      "sizeBytes": 6953
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0067.png",
+      "sha256": "7c887b10309a6f0a577b9f72d446ff508f84b991314193ed29b7a6cf6baf3954",
+      "sizeBytes": 10255
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0068.png",
+      "sha256": "9b59b6344c36654bc365126911bc30dfa0aa8cc84f7fa3a99052a37e4103944d",
+      "sizeBytes": 8085
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0069.png",
+      "sha256": "adf75bf05bb3d80b834f7f54da1d26de322e5971b86b2e0bff5d56f14ff39fbf",
+      "sizeBytes": 3821
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u006A.png",
+      "sha256": "3c738ed03cdfe9897ef2feee17e0f7167e27d52184c7e340387f0a6de199e450",
+      "sizeBytes": 5987
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u006B.png",
+      "sha256": "ea0e6db1cb39c1bc5e61b92a9cfb400b2945fc5db97a1963f3d4d713d1204255",
+      "sizeBytes": 8997
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u006C.png",
+      "sha256": "4bfcf5da6d2ed050568c46c0a28b27d2787af4f037376d799d79e80329867f06",
+      "sizeBytes": 4743
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u006D.png",
+      "sha256": "58402d4d32b65a4fe6f2da50e6eacf795e1a67b916c9d2abbc5a1efcda69bdee",
+      "sizeBytes": 11527
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u006E.png",
+      "sha256": "cbc41f507db7143ef4baf833eb4a16f3368fb4372d4d0891b9399581f97f1624",
+      "sizeBytes": 8570
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u006F.png",
+      "sha256": "38b91a2be398d388a4c6d650df7db2fd3f26e82d33164d3a5033214a7d77b81a",
+      "sizeBytes": 9730
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0070.png",
+      "sha256": "5ed4b5305eacfad14d5de6a4556efe0278548367ce748682a57bcfbd4209b2c8",
+      "sizeBytes": 9098
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0071.png",
+      "sha256": "c6a21745beed14dc0d514fb30be531c01701637c65899f96b58da5e7bc8bdb2e",
+      "sizeBytes": 9000
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0072.png",
+      "sha256": "5b710bd41711474e13b20e36464e5821725d681741fc72e418211beb079605c0",
+      "sizeBytes": 6497
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0073.png",
+      "sha256": "e813b0e0a29fb85d2341582490335a2c08b4feac752945edfe0d94b858d48e18",
+      "sizeBytes": 9840
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0074.png",
+      "sha256": "5f82b6d6a54db531ed9cbb879eb352642244705ab06292a53a497d789a2df800",
+      "sizeBytes": 7414
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0075.png",
+      "sha256": "b56c80d857f6aa6a1da0c6fa2ca009e63e379f417653c64e5b86bc401d6fe009",
+      "sizeBytes": 8996
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0076.png",
+      "sha256": "ff1056dfd2db88d77b3e5401b3d72971dadbed7f10c3262227164b238039954e",
+      "sizeBytes": 8962
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0077.png",
+      "sha256": "50919d00b5772736ea4f268f46eb4baf8b565f5ce1d051ab4f9b0be82bb5c41e",
+      "sizeBytes": 11714
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0078.png",
+      "sha256": "edc42ef26748a0326d584469bfb3bf2b21394beb9849e92df19aa455946ce2cc",
+      "sizeBytes": 10480
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u0079.png",
+      "sha256": "094c9e6c96b9aa4bc216893e2c3daafdc1a724298ef62ce57d9b3d2f5b44c586",
+      "sizeBytes": 9399
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u007A.png",
+      "sha256": "550b621c7de4dddaff5bbb8d6dc258e85e50e5aa8daa274d14a930d4f77b848e",
+      "sizeBytes": 9209
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u007B.png",
+      "sha256": "6a43f25aa62f018bd6f49272d8be992efe7ee96c370e629866cd8403e7ee8a9c",
+      "sizeBytes": 6250
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u007D.png",
+      "sha256": "309839ffca48fae44d8059b8e969e9de7e5ef6862ac69854c03ee8e8cf868972",
+      "sizeBytes": 6353
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00B4.png",
+      "sha256": "2723615b2f6ccc743987ea4b9cdcc8d474b0be0200d28a8a4ea481bd33251c0d",
+      "sizeBytes": 8944
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00C0.png",
+      "sha256": "7987983be0d5f680987f41f40056120011aa9e61887af7f88515baeb136cb5ea",
+      "sizeBytes": 11075
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00C1.png",
+      "sha256": "694955d02140359f846f80a9991154e311c28260bf9eb05fcafc162c7fc675de",
+      "sizeBytes": 10887
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00C2.png",
+      "sha256": "dc987713258a77d74661561faea47aad1d71f3b723135ed494ae18da4594da06",
+      "sizeBytes": 11242
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00C3.png",
+      "sha256": "a146a184864cf8afd5f92adf73196f33fd650d3fd2247449e2cfc45f865710c0",
+      "sizeBytes": 11448
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00C7.png",
+      "sha256": "957bf9475d77d3824c0ffdb6760591a11c4d4bf5399ca8160f0577ca90ecc2f3",
+      "sizeBytes": 9930
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00C9.png",
+      "sha256": "17079a2d402600d4decfe67d97d3cbd0b759ae3c45639757f8c659d3d1acf777",
+      "sizeBytes": 9783
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00CA.png",
+      "sha256": "5f2a037700b1b3422a2cca235a11bb313068445ac3918c14720141b7615c5294",
+      "sizeBytes": 9140
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00CD.png",
+      "sha256": "dde7486207284ba13ef764cc5047e7191dd41c7ff1cbbd58846c2bf2600c80e7",
+      "sizeBytes": 4672
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00D3.png",
+      "sha256": "55a89ce2348053d8e55fb80a1048893bef057035b1be2cbd9c29fc1f79705b3d",
+      "sizeBytes": 12130
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00D4.png",
+      "sha256": "e6bc01660abd4166080d092a1b10ea892d381098232dbc0c150baf7053e0f311",
+      "sizeBytes": 11944
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00D5.png",
+      "sha256": "30cef1a6f010e23065b614e3ce673aed93206d07905a006688de2f657a0491ae",
+      "sizeBytes": 12157
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00D7.png",
+      "sha256": "acd91e44e913ddf41d66067e8d9b74c3d92b2106432652e364ee4bba7362c9e9",
+      "sizeBytes": 7249
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00DA.png",
+      "sha256": "e223b194e9c00bd82c6d06c5eff3ef4d39acdbcd2acc5aa6328b2af161468805",
+      "sizeBytes": 10213
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00E0.png",
+      "sha256": "b12f18602a2c9924610156e9951bdfd1ede7d68da99f2ac9d9fb8b13f6ad7b2f",
+      "sizeBytes": 9652
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00E1.png",
+      "sha256": "fa2753edf54cb22b4186de98f2afff66218492d956ab75a05acd395f84dc3ce0",
+      "sizeBytes": 9353
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00E2.png",
+      "sha256": "d624077a49dff07727f730317a68da5037be7518c224636770e0e2c546c98faa",
+      "sizeBytes": 9631
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00E3.png",
+      "sha256": "f714cabfe553943d70175f14a20fad7226296d2105d29375e2feb1173d981ddf",
+      "sizeBytes": 9855
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00E7.png",
+      "sha256": "52d9dcbc3c9fea0b2108504582ee39296738333264b6f44d433c4373ae3342ab",
+      "sizeBytes": 9759
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00E9.png",
+      "sha256": "f97fbc21c6035c8b703addfa2a2e28d4ffeabf04f6d2962f099a97f3935c8015",
+      "sizeBytes": 10032
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00EA.png",
+      "sha256": "f86efcb792166a3cf1cb7812e1da2307808af19c49f39b5ef9207cf4663ab883",
+      "sizeBytes": 9999
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00ED.png",
+      "sha256": "a9905faad26a118643d55c7030d7095e6d77a7eeb39a7f1762a46a86110a7804",
+      "sizeBytes": 3819
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00F3.png",
+      "sha256": "83f50c67bb8632b00dbe2e1cc6b1c1089184f1c23c44db35ac9848be4260aa50",
+      "sizeBytes": 10245
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00F4.png",
+      "sha256": "574415d72cc8d3d7f4245c772db3974a0209fa7a6dc4b58a9a352f2bdb57607f",
+      "sizeBytes": 10231
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00F5.png",
+      "sha256": "ac285574b98ab7d015111c5ba74b71d79ffa7e70f0bfde2e2cdf4726ef019efb",
+      "sizeBytes": 10475
+    },
+    {
+      "path": "assets/fonts/glyphs/medium/u00FA.png",
+      "sha256": "7457c4a7c99d411db908747513765a56d7e80b2a172c947f88a462b860d9e125",
+      "sizeBytes": 8808
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0021.png",
+      "sha256": "698ff18629050c0c745a8395ee215759276bb82495ae022d0365484fe83dffad",
+      "sizeBytes": 3652
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0022.png",
+      "sha256": "b8d76b04d969eacb92b495fe3b00d4f96c29c2d2ac3bc6ac76bdf95d5f29f3f9",
+      "sizeBytes": 3208
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0023.png",
+      "sha256": "50eb6d5e1c51b2079996eee45703256e6c35a9118e22069e8766ad874dab3e23",
+      "sizeBytes": 6853
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0024.png",
+      "sha256": "fc50078965296742a51a272245f616b5a32ba368acf8cf6aa935d93068c86d91",
+      "sizeBytes": 5668
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0025.png",
+      "sha256": "73f67fb6ac5a64a789ad6e398ddb164f97712c5b0db5ae5bf2b693f17582fbe7",
+      "sizeBytes": 3628
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0026.png",
+      "sha256": "7bc435d4cb191b1645199ea8500d55579e1df1aadcb7948c9a2c0c2167eb62b3",
+      "sizeBytes": 6688
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0027.png",
+      "sha256": "15e8c6ffce54b634cc10c19675155c2c244ad5881ddb06a6b8921b0ff1c786d6",
+      "sizeBytes": 2641
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0028.png",
+      "sha256": "e81c1fa7bb7efb70b5d87da70ad863876fb524dfc2a0a739146734377ac24686",
+      "sizeBytes": 3326
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0029.png",
+      "sha256": "75b4e053018f719561b9b5ab53dceb07a50834e6713244d7548d61bb60167d87",
+      "sizeBytes": 3342
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u002A.png",
+      "sha256": "8f89461b668420b092e8443ecef490134c6ffc46690d20cbe7602f0a8b2ba0b2",
+      "sizeBytes": 5986
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u002B.png",
+      "sha256": "c4f109d2380991e43af3749f7655849726fd95a07eaa5cf90bc49aecb304e687",
+      "sizeBytes": 4605
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u002C.png",
+      "sha256": "b2d3b377033aa3981a44179817c78edcc3a032aa1ba52e96d51ce8290140c564",
+      "sizeBytes": 3761
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u002D.png",
+      "sha256": "4f8f2b420b1d42d9c1d2eb629144efd8146faf6d5203467642e89dc65c160918",
+      "sizeBytes": 3966
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u002E.png",
+      "sha256": "e399bb8ee821ffcfa424f8a71e63be143c7891eb2c892879f3b6fa74cc00d80d",
+      "sizeBytes": 2851
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u002F.png",
+      "sha256": "03beef16e8cc3f05cdaefd7aa1e72615dff2cc0f1a5c81737593b4e604bc5b03",
+      "sizeBytes": 4193
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0030.png",
+      "sha256": "c7509e465d3692fa85c3229cbfb145680d3bffa42a999692e5ffa88bf39da3d5",
+      "sizeBytes": 7179
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0031.png",
+      "sha256": "f8a04592e414e6d68366eae1a90a613d3a822921fbb688c0256c10bc79d800d5",
+      "sizeBytes": 5195
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0032.png",
+      "sha256": "6bdef6cc82922daf542ceab53d4aa080ea2603bbdcf39724a3533de7fd8b97bb",
+      "sizeBytes": 6509
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0033.png",
+      "sha256": "d5d489f8e380df0e367398ef96b08d88c3fb85e6dd8cd2302d24aa38d291b9c3",
+      "sizeBytes": 6414
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0034.png",
+      "sha256": "35ce29e0b222c457f568421bce84bc43f26acec2cfa89caea0111ff3ed0b2171",
+      "sizeBytes": 6176
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0035.png",
+      "sha256": "ee1103d1d941dcd805d6557d6f53a3e6b188ade40fd883bdd9df64ce79632b89",
+      "sizeBytes": 6429
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0036.png",
+      "sha256": "10c37d47bee35e60af1da6bc65f33d13376de25378d1f6364f77974a57999f82",
+      "sizeBytes": 6333
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0037.png",
+      "sha256": "9d2182b312bd5905ba07fce2e0c2a7077b4f14f570abcd554b19152a122e78ba",
+      "sizeBytes": 5282
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0038.png",
+      "sha256": "8ff1d5d9f08b72d4f8bb1f57bce738e4e8b74ade377d02cf5f08cf8287b4b422",
+      "sizeBytes": 6857
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0039.png",
+      "sha256": "570ae007f997122430e004e41b211870dcaf296239d389c91243184bef47d104",
+      "sizeBytes": 6415
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u003A.png",
+      "sha256": "e2801cf9ec7b6eea803aff19e37d76c6a60ddb24f480573b4f7190681e77647a",
+      "sizeBytes": 2986
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u003B.png",
+      "sha256": "8c2ac8d6f122a59ed3f19c8d6f18f7a683f2594a041da3cec0afec51dc3f7242",
+      "sizeBytes": 3575
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u003D.png",
+      "sha256": "f02c584382019b3f66bacb426f92f6dd80f75091601af91bec6a10e2298be1aa",
+      "sizeBytes": 3701
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u003F.png",
+      "sha256": "c3801f8c768f5f1e191884c3febf013b216484977de1be779122e623da22b17c",
+      "sizeBytes": 6589
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0040.png",
+      "sha256": "e5b3182ac849d585f48adc509ba55c94522ba0ebe32eabb05d085a761cc20c81",
+      "sizeBytes": 7969
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0041.png",
+      "sha256": "58cfbb1febbd6d22a6b6671f53a82b9bf80e95104344ee18434e44b719e69e10",
+      "sizeBytes": 5916
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0042.png",
+      "sha256": "8e8045da87bfbc72b55467bdf7420f3bfbe10ceda712c425529c7f105252f3b1",
+      "sizeBytes": 6440
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0043.png",
+      "sha256": "79743afb7e3e92b9cb54119a5da62b51c035acf27e602c61ca49ceac1f111143",
+      "sizeBytes": 5604
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0044.png",
+      "sha256": "594ecdf95fdd05d95b6d56e35a9983ff54a7cf42c443df2f453cc38d71b00a92",
+      "sizeBytes": 6010
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0045.png",
+      "sha256": "1b3200a3fad7739f9e9e677aa62f90059d96087bc8a4bff86ef955629df2371f",
+      "sizeBytes": 5305
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0046.png",
+      "sha256": "18027f13d5dcd2e677d2ced5307e55a0fccf4e911a6ad34d83c938d75d3dad66",
+      "sizeBytes": 4257
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0047.png",
+      "sha256": "c0d1c98e3fe3801f3437d0fae39b7f3c1c67adb8c684a8e0db01b6c075ffd19f",
+      "sizeBytes": 6281
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0048.png",
+      "sha256": "25a568417f50de2da1f9340db3cdfd6071138fa8e5d711f413a0db9b2ddcddd6",
+      "sizeBytes": 5599
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0049.png",
+      "sha256": "5cf6f874dd81719b66a51ade91d7c8a9faf5f38397541f39010a3b260c4d319a",
+      "sizeBytes": 2633
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u004A.png",
+      "sha256": "1646a937f22aa20aabc6f167e76e8da5137ebc3b2c831d4eb0fb52d6b21f2a06",
+      "sizeBytes": 3922
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u004B.png",
+      "sha256": "475c469028066348f89aaf27e6646a25374a39c7aa019c61e8e7c4aa2d536e7c",
+      "sizeBytes": 6350
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u004C.png",
+      "sha256": "c86256b3ab848214b44a5024e829f9dd1f5d0acc8df5cf750d07a3fab60062fb",
+      "sizeBytes": 3471
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u004D.png",
+      "sha256": "87a48255b70e690115c1233e8e616700a25a5f28b06c5085111defe75b6d93f1",
+      "sizeBytes": 6516
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u004E.png",
+      "sha256": "542e38e8a459dce0ef192d4955d6c161462f289db4bbd3b2a61cd827452f0f67",
+      "sizeBytes": 6293
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u004F.png",
+      "sha256": "187c6d64bbf7fec60d8143663f9fb68f9f9cbf2d0e23f5eb5b85d7b71e606bfd",
+      "sizeBytes": 6876
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0050.png",
+      "sha256": "67890f4c5b4dadbbd2065a8e1e945e3f1b32f3c3b0637b0a8c8550f746d75441",
+      "sizeBytes": 5237
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0051.png",
+      "sha256": "d11415d66751fc74075e24ec4a5b39f494ac15c791d1964175c353ddfe7498fa",
+      "sizeBytes": 6818
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0052.png",
+      "sha256": "b45348257f97e8da3709772e8c2751e664e4476a4525ac1ca2e5c4c4ccebb251",
+      "sizeBytes": 6377
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0053.png",
+      "sha256": "cc4ac51950b81bb89de508cf201d5ec38db8afd8b43c3cf633211a1bea93f87a",
+      "sizeBytes": 6022
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0054.png",
+      "sha256": "0a29d17d08be972a7d0e221b1e797cee09e9c882ae7edc5bbf75f9d6487a726a",
+      "sizeBytes": 3570
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0055.png",
+      "sha256": "3832fae7aebed83bb56607b88c8be19fc7fb55018f668bac30ec8f0b73f0878e",
+      "sizeBytes": 5749
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0056.png",
+      "sha256": "28a36b738006873b4a5174ff1c1a64e71da882f13c8487193a973e41ef863852",
+      "sizeBytes": 5811
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0057.png",
+      "sha256": "992eb6a2c175e55974feea455c7cd94f33cd55bc0fc4edd637a97921da25ada0",
+      "sizeBytes": 7608
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0058.png",
+      "sha256": "1d8b73123b986e2ae2f95f03f5168f441dcd354d6d50f52a5f54d6f8fcce2e0e",
+      "sizeBytes": 6809
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0059.png",
+      "sha256": "4d68aa14cf23d2f41c761e4e64715d82381463a442ee2a3b740e524de7f7f763",
+      "sizeBytes": 4926
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u005A.png",
+      "sha256": "22f3d81d17d0372070f4c20ed95795ddb7327e248349597650dc6566b9adcab1",
+      "sizeBytes": 5761
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u005B.png",
+      "sha256": "daff684d96e43eaaf3ba717e8c1f0b2bf80f730dcd6ce56e5f4e5ae72b008241",
+      "sizeBytes": 3493
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u005C.png",
+      "sha256": "a5906e0d3ae39881b5b5c66c4006935d62626f6adae20104a3efb2e4567eb9d3",
+      "sizeBytes": 3642
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u005D.png",
+      "sha256": "b69115e591c26318dc4621dbcc6b389887d0b3622e4fa106cea335b4354c5fd8",
+      "sizeBytes": 3165
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u005F.png",
+      "sha256": "bea5c45017bee024d7c34ddf368e78b20409863cbd2000663ca58a67c1dcdc78",
+      "sizeBytes": 4307
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0060.png",
+      "sha256": "8e725780f1153996e630e8dc23562bf9960e95eb3555ca9d352d42643f46b3ef",
+      "sizeBytes": 3133
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0061.png",
+      "sha256": "f0c08687dfa3491d08be2cca5b50bd32e0886468f201cb6258625d50368321d7",
+      "sizeBytes": 6372
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0062.png",
+      "sha256": "ffdc7fb17b22d13609b409345eb94e04d2603798700750eafe9dc6ff6c67b732",
+      "sizeBytes": 5093
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0063.png",
+      "sha256": "c92051c0231601346d6985ad11ccd4f55718961453012125fe25efe2fc718382",
+      "sizeBytes": 6132
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0064.png",
+      "sha256": "a9f28b202284c24dd541cccfcf9b7f69b3efa3d6397eaec3a9f03df1eb909269",
+      "sizeBytes": 4951
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0065.png",
+      "sha256": "71cd1e61a764150b85439e31d671b3e328c577366ce1bc2e3f09d17546e70df5",
+      "sizeBytes": 6818
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0066.png",
+      "sha256": "d6507770e3edb442baa3ec2a48616fa84085b24f2fefc51ba513f81aac4ef853",
+      "sizeBytes": 3758
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0067.png",
+      "sha256": "c565ec9c7cb9fa0778789af96cb698d402cb4b699fc8138954b89c8467ecc15c",
+      "sizeBytes": 5866
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0068.png",
+      "sha256": "0da1e920417d0dd54b1c21b27f5b596704ecf69c03294a82e9a0df5769b701eb",
+      "sizeBytes": 4668
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0069.png",
+      "sha256": "8ffe0f0d82d6200989e773df6aee7d10eb6ef23f329d10f0c1df1155258bcf39",
+      "sizeBytes": 3088
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u006A.png",
+      "sha256": "8d9e13e0e79ce18313697c59ae97cce42ad7601dc14c65fd9b30de1f2a14dc08",
+      "sizeBytes": 3486
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u006B.png",
+      "sha256": "6a411de08bc3860c81d807d873dd8b2385a67a24a514338ea08ac8ebb2e72c28",
+      "sizeBytes": 4930
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u006C.png",
+      "sha256": "57a94197403dd46e034ed40e1b9783ae65b03996e088be5fb6f9fda6d0731c1f",
+      "sizeBytes": 2715
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u006D.png",
+      "sha256": "f82fae9ce9c6f0d17e8960f636932e1605cf0a46833e73763aaddcc3db694308",
+      "sizeBytes": 7533
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u006E.png",
+      "sha256": "53e699f7c9cc480518991877f17803166dc8dc53d72ec223202f05048fe054e3",
+      "sizeBytes": 5947
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u006F.png",
+      "sha256": "874ed28f5979984c76dc53be2ccee6884cc5de00849aef67dcaed44633d0dc2b",
+      "sizeBytes": 6672
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0070.png",
+      "sha256": "ceff9768bd90a42d772a85ef5d82de6f8aaa479dfd693ce4896711e31dcf9167",
+      "sizeBytes": 5300
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0071.png",
+      "sha256": "fb6a0670bbe63588fa338091db01241972a31a1696a5ef81ac50512d90a34b8a",
+      "sizeBytes": 5404
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0072.png",
+      "sha256": "dd5b1512da2afc72f166a05f80c1efcf3b3c35a5bd21a84c6b855aa73eba5bc9",
+      "sizeBytes": 4380
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0073.png",
+      "sha256": "69f8e0d8bce90e84c9cd7761561bc8d02e4a55fa5b4c17eaf76985c72772b22d",
+      "sizeBytes": 6104
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0074.png",
+      "sha256": "0fadde7014d471c4581d17ba182199b5e6b2d5f0cf60b1c6d9ecde1258efd206",
+      "sizeBytes": 4487
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0075.png",
+      "sha256": "34b56da086dd1ce135a70d1dfdf0e2649d8b6dd2e5da4b2d0d416634235a0d56",
+      "sizeBytes": 6277
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0076.png",
+      "sha256": "a81343fca615f1b173abffb04f5858d10c799e2328321e232a0dbf423a46d8c2",
+      "sizeBytes": 6045
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0077.png",
+      "sha256": "928e27aa7730ad87bd9d42932b4c23cbe1808f8f34281a1a359b549d3cf86574",
+      "sizeBytes": 7937
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0078.png",
+      "sha256": "5c4261b78ffcf16308f7d611af99e15c1b495b50a6ef08dad7b5338ff35f34df",
+      "sizeBytes": 6982
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u0079.png",
+      "sha256": "7cc7d6aac39d4ee39cb2906ea2d8ec2420ab74576ef22754fe7d999245b7eb25",
+      "sizeBytes": 5436
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u007A.png",
+      "sha256": "120ed7425a9a01c557ae30d2995415ca0c69ad918a97c61023cf94d049335a94",
+      "sizeBytes": 5860
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u007B.png",
+      "sha256": "5bd80ce4a397d4482a31e8aab423e16c15a8c29d016d4f288eac809cf6ad0e2d",
+      "sizeBytes": 3748
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u007D.png",
+      "sha256": "b0d2d0eee311eb74a7da970af68f763bcea72378eb67b4e151121164c1c5ecab",
+      "sizeBytes": 3659
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00B4.png",
+      "sha256": "22a7e0e2200d84803476aa988982db48da42f27e013bdf82ae5d21e8a15f536b",
+      "sizeBytes": 7570
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00C0.png",
+      "sha256": "163d0a394e3550eade154b31898308194cd0babe49a75f3d9f6a570a6d2cbd58",
+      "sizeBytes": 6532
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00C1.png",
+      "sha256": "666e9421f126175af065304e09a6c358daba5bf21c6b4e1407b5d1abac38e1b2",
+      "sizeBytes": 5998
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00C2.png",
+      "sha256": "9aefccc5102bd75a906de8d4d0d73967a5e506d47e99e51a71297bbc0d57c11b",
+      "sizeBytes": 6548
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00C3.png",
+      "sha256": "8b582eb00c72aee49f888656f9af9269859dbd1eb63a9416f4d11ebfa04eb3e6",
+      "sizeBytes": 6523
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00C7.png",
+      "sha256": "b2a2d56034077ab6ad7281e9b0ca4c5319c91ecc0a9574d2badebe553b50d0f9",
+      "sizeBytes": 5405
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00C9.png",
+      "sha256": "b2dc9427ad3fe304f3c0a6a97aa766cce0e006ffcef2f6cd1953d0602770f033",
+      "sizeBytes": 5606
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00CA.png",
+      "sha256": "7959e7d5502d2f3c0eadb3feafc30d6f3a973f1ce7d87d24092b2508b93ae26b",
+      "sizeBytes": 5147
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00CD.png",
+      "sha256": "d150853823fc82ad9fc24fbc39efb9b14c6724343e44e45f320d52092de221a8",
+      "sizeBytes": 2784
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00D3.png",
+      "sha256": "6ca541db98d5ccfc1dd58a9e923271a9d11cc8bdbf35ff4d3170ec5dd35e9d55",
+      "sizeBytes": 6798
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00D4.png",
+      "sha256": "be9b1574da0ad06b598a0b19d50ad85a7889e5dda1816c0229b9c66de7cda130",
+      "sizeBytes": 7209
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00D5.png",
+      "sha256": "bc42b65d8d6788e5ef4586d4e28c02afcc32a94b91734cf9af567778f62043a1",
+      "sizeBytes": 6984
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00D7.png",
+      "sha256": "037d9e084f15d4727f173feb386976f7e0b3674122195b3c55f5f6f9b135c351",
+      "sizeBytes": 6128
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00DA.png",
+      "sha256": "afd999ba5f2b3113c9963af12b62057c0ce3807a7d9efda6ffb4daf6a1ee485c",
+      "sizeBytes": 6099
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00E0.png",
+      "sha256": "3a22473e6d9909a1c8d85106c1b9a144753338a73207b975d6b0db7ecce78f13",
+      "sizeBytes": 6858
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00E1.png",
+      "sha256": "ef3dee960c3ca6200a1037160e469fe5cd4bcfa693e67927aabecf8d6397f82a",
+      "sizeBytes": 6679
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00E2.png",
+      "sha256": "48d46aab0b2b908e2fe41a68e5456956b4f3f4d9112e7dc0b491f27bf676be5e",
+      "sizeBytes": 7020
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00E3.png",
+      "sha256": "a702047ea3365ac1ecdaa54aaf8e688bf91e1452589e72691254d94a929ad7ae",
+      "sizeBytes": 7178
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00E7.png",
+      "sha256": "d7a0a2cd71ed6f1f70ddcbf03351a5d6d862f4edc6907b2bf4ae4405b343b941",
+      "sizeBytes": 5561
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00E9.png",
+      "sha256": "f9bbd29c76e745238cda0e64d42621b7201402086716e9f9b44c8dfcf9524e37",
+      "sizeBytes": 6928
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00EA.png",
+      "sha256": "4afa2f9fdd8c10ed91fe7e321909b52ce6b9bef881242d62c1b0facd8d574afd",
+      "sizeBytes": 7174
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00ED.png",
+      "sha256": "60f507fada9b834e883a18858e337960bd72fac9c53f04c7886ebc50d32b689f",
+      "sizeBytes": 2770
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00F3.png",
+      "sha256": "b2c1f8493dd8cd3fa36b8875b76c884085de662d23015d14f965e9bb80d89116",
+      "sizeBytes": 7313
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00F4.png",
+      "sha256": "9394a673659b5c2d7af20d0b0bc384b8ae15517b8074b3967279aa1e195f6f5a",
+      "sizeBytes": 7479
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00F5.png",
+      "sha256": "0ccd028b18d2be5e2b78a0c9b0a77f3995d0fda3c241718f411202972757a5b8",
+      "sizeBytes": 7521
+    },
+    {
+      "path": "assets/fonts/glyphs/small/u00FA.png",
+      "sha256": "5fb0a362d8fa4615e5e2df5c807ceec70b3b564bf376875608aca51efe0a445c",
+      "sizeBytes": 6157
+    },
+    {
+      "path": "docs/ACCEPTANCE_TESTS_FONT_V3.md",
+      "sha256": "9e00621cbf5029b6a59ae84aa81861dd0eb734f7afa1211168a7a8c71a63974d",
+      "sizeBytes": 1261
+    },
+    {
+      "path": "docs/CLEANUP_REPORT_V4.json",
+      "sha256": "0aa4834e2898df17110c96c3ef7e2d92f06b973e048d013355a36e2d0d3af2ec",
+      "sizeBytes": 15847
+    },
+    {
+      "path": "docs/CURSOR_MIGRATION_PROMPT.txt",
+      "sha256": "8dbb5463447e09bb109c7b92c69a25456fe3c0370c0a198b11eed75bfa65bedd",
+      "sizeBytes": 313
+    },
+    {
+      "path": "docs/FONT_ASSET_LOCK_V3.json",
+      "sha256": "bb4d54f38ea0cf3028085ecb89243177b49f1f20804bba27676cecd552c8e329",
+      "sizeBytes": 62366
+    },
+    {
+      "path": "docs/FONT_FIX_HANDOFF.md",
+      "sha256": "563258277d97b5a51dd7aa58950018e44b1c432347c798e2a942f468eb984872",
+      "sizeBytes": 157
+    },
+    {
+      "path": "docs/FONT_METRICS_V4.json",
+      "sha256": "00b3311dd6b2b5e4c18f87bcf9468d88711dcde9f20e1c77108b3e08236872d9",
+      "sizeBytes": 85796
+    },
+    {
+      "path": "docs/SEPARATOR_CLEANUP_REPORT.json",
+      "sha256": "e6e92462459403569be50b1f73479d591b36ec2a53155f98bac76a2616af71be",
+      "sizeBytes": 4450
+    },
+    {
+      "path": "docs/VALIDATION_REPORT_V3.json",
+      "sha256": "ac0b40761762f932c7d2cf55ca673ede3a6a0d23a429900d6a826e30dbb76adc",
+      "sizeBytes": 109
+    },
+    {
+      "path": "docs/VALIDATION_REPORT_V4.json",
+      "sha256": "7a0542043ed9288e8d99485267c4a251703e5ca7596365c76f147fd36fbd2a85",
+      "sizeBytes": 61
+    },
+    {
+      "path": "src/ui/GlyphBitmapText.tsx",
+      "sha256": "131b7033d8e326db3a8fb3b5a3de7c2df8f57b9161a185ff873cc8350f03178c",
+      "sizeBytes": 2936
+    },
+    {
+      "path": "src/ui/font-fix-v2.css",
+      "sha256": "a58afe046a98923e09646e2dddd583dcf90f30650f8f7b22d6172e31c8c24d98",
+      "sizeBytes": 290
+    },
+    {
+      "path": "src/ui/font-glyphs.ts",
+      "sha256": "f93e44b20d34a0ec88bbd3d6203972c299027fd8463e4ef5d472927eb3e1a603",
+      "sizeBytes": 21041
+    },
+    {
+      "path": "previews/COPA_ESPERANCA_large.png",
+      "sha256": "1bc6a77c956fc7d77bea3cc66bf1fd503ab925902bc2574e4223b3ec3111a81f",
+      "sizeBytes": 107159
+    },
+    {
+      "path": "previews/FONT_FIX_PROOF.png",
+      "sha256": "f2cb14a7b4660e491f79f8062bf49b3955f0618e33daf77cb3a8e06405bb4fa4",
+      "sizeBytes": 402917
+    },
+    {
+      "path": "previews/FONT_FIX_V3_PROOF.png",
+      "sha256": "412251566ef3f844a0720fe1f42e979865f6f4f5dccc699e8327cc2817b55919",
+      "sizeBytes": 392149
+    },
+    {
+      "path": "previews/FONT_FIX_V4_PROOF.png",
+      "sha256": "4b8166a8f760f8b7d3dfa90322421b9388e992a1045737ef4508000b992d55f5",
+      "sizeBytes": 412451
+    },
+    {
+      "path": "previews/GLYPH_CONTACT_SHEET.png",
+      "sha256": "91a8cebfe21ac9bccc7ef8e8d6c1690fd3566d8f9cc165eb8a182c67d9bfa3eb",
+      "sizeBytes": 598545
+    },
+    {
+      "path": "previews/PORTUGUESE_SAMPLE.png",
+      "sha256": "54cf9df8a45b88f96a13de075604bf242b0241e7b8e11c5a1b2b5492b1d3efd2",
+      "sizeBytes": 157061
+    },
+    {
+      "path": "previews/PRESS_START_medium.png",
+      "sha256": "00797f65c64132c670fae512da96b5bd5f4f3640a465da25a65406379ff3215c",
+      "sizeBytes": 58875
+    },
+    {
+      "path": "previews/SUBTITLE_small.png",
+      "sha256": "5e24cb228c8ae6c57633eff16880d4c0199b5f1eac5d861de202417864e01b22",
+      "sizeBytes": 82141
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "jobTypes": [
+    "fighter_master",
+    "frame"
+  ],
+  "defaultConcurrency": 1,
+  "oneParticipantPerRequest": true,
+  "oneImagePerRequest": true,
+  "masterTemplate": "tools/fighter-generator/templates/idle_01.png",
+  "derivedFrames": [
+    "idle_02",
+    "walk_01",
+    "walk_02",
+    "attack",
+    "hurt",
+    "victory",
+    "lying"
+  ],
+  "outputContract": {
+    "canvas": [
+      576,
+      576
+    ],
+    "format": "png",
+    "alpha": true,
+    "outputDirectoryPattern": "assets/participants/{participantId}/fighter/"
+  },
+  "generationGate": {
+    "masterMustBeApprovedBeforeDerivedFrames": true,
+    "missingSourceMustBlock": true,
+    "neverOverwriteApprovedWithoutForce": true
+  }
+}

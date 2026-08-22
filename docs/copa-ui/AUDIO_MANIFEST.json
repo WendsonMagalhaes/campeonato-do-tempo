@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 2,
+  "status": "PENDING_FINAL_AUDIO",
+  "rejectedPrototypeIncluded": false,
+  "direction": "Original 1990s arcade fighting-game announcer + Foley. Human voice, punch/body impact, hurt vocal, fall and crowd. No generic 8-bit boings.",
+  "events": {
+    "announcer.round1": "assets/audio/announcer/round_1.wav",
+    "announcer.round2": "assets/audio/announcer/round_2.wav",
+    "announcer.finalRound": "assets/audio/announcer/final_round.wav",
+    "announcer.fight": "assets/audio/announcer/fight.wav",
+    "announcer.ko": "assets/audio/announcer/ko.wav",
+    "announcer.perfect": "assets/audio/announcer/perfect.wav",
+    "announcer.winner": "assets/audio/announcer/winner.wav",
+    "combat.punchLight": "assets/audio/combat/punch_light.wav",
+    "combat.punchHeavy": "assets/audio/combat/punch_heavy.wav",
+    "combat.hurtMale01": "assets/audio/combat/hurt_male_01.wav",
+    "combat.hurtFemale01": "assets/audio/combat/hurt_female_01.wav",
+    "combat.fall": "assets/audio/combat/fall.wav",
+    "combat.bodyImpact": "assets/audio/combat/body_impact.wav",
+    "crowd.ambient": "assets/audio/crowd/ambient_loop.wav",
+    "crowd.cheerShort": "assets/audio/crowd/cheer_short.wav",
+    "crowd.cheerBig": "assets/audio/crowd/cheer_big.wav",
+    "ui.cursorMove": "assets/audio/ui/cursor_move.wav",
+    "ui.cursorLock": "assets/audio/ui/cursor_lock.wav",
+    "ui.duoReveal": "assets/audio/ui/duo_reveal.wav",
+    "ui.bracketAdvance": "assets/audio/ui/bracket_advance.wav"
+  },
+  "semanticRules": {
+    "PERFECT": "Play only when a duo wins the MATCH 2-0. It does NOT mean exact target-time hit.",
+    "KO": "Play only when the match-finishing combat animation resolves.",
+    "finalRound": "Use for Round 3 after 1-1, immediately before FIGHT."
+  }
+}

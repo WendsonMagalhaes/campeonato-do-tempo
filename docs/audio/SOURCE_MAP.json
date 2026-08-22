@@ -1,0 +1,46 @@
+{
+  "female_hurt_01": {
+    "uploadedSourceName": "Female_fighter_hurt__#2-1786794741851.wav",
+    "sourceSha256": "d4c308ce3599f9618b45809ce40e490f26b3e382181cb6a7b3aa4b8c7f1bcf7d"
+  },
+  "male_hurt_01": {
+    "uploadedSourceName": "Male_fighter_hurt_re_#3-1786794573499.wav",
+    "sourceSha256": "695c62f090e1bddd275baf6bebca67b1540eb09ec8937ee0b525831033c31f53"
+  },
+  "male_hurt_02": {
+    "uploadedSourceName": "Male_fighter_hurt_re_#4-1786794559568.wav",
+    "sourceSha256": "d5bb9e07f364bd1007b33408d6b2c564e591a33742b893f734b6c725aae4b6b2"
+  },
+  "knockdown_01": {
+    "uploadedSourceName": "Fighter_being_knocke_#3-1786794473327.wav",
+    "sourceSha256": "21186168a33f1975add6ac04203f8c04dd5c4b3699ffaf3a05c8ebfabab43269"
+  },
+  "knockdown_02": {
+    "uploadedSourceName": "Fighter_being_knocke_#4-1786794466841.wav",
+    "sourceSha256": "6885373dec4ec60efc918b65b4463432343a0771f269b0451dba2d5829b3717f"
+  },
+  "heavy_hit": {
+    "uploadedSourceName": "Heavy_arcade_fightin_#2-1786794141078.wav",
+    "sourceSha256": "c684dca6f8f9be11bd7d17406b1f52eb0a1ffe8b10f91700a45ae9eb1b8c6f20"
+  },
+  "final_round_fight_combo": {
+    "uploadedSourceName": "ElevenLabs_audio_elevenlabs-v3_[dramatically] _2026-08-15T11_40_20.mp3",
+    "sourceSha256": "5e73bc72cb4ce580a31ff4d2f88a90e6ee815de895cc8759896d67b00e6da14d"
+  },
+  "fight": {
+    "uploadedSourceName": "ElevenLabs_audio_elevenlabs-v3_[shouts] FIGHT!_2026-08-15T11_39_49.mp3",
+    "sourceSha256": "5877deb22eb504c8c42018bd72a1785204594ff3e412ca4a636a189ed80dcf6e"
+  },
+  "perfect": {
+    "uploadedSourceName": "ElevenLabs_audio_elevenlabs-v3_[shouts] PERFEC_2026-08-15T11_39_07.mp3",
+    "sourceSha256": "178a865ff67d978f287a004bb3d2acd1da547b6281225435f0dba9ad1031b03c"
+  },
+  "exhausted_vocal_01": {
+    "uploadedSourceName": "ElevenLabs_audio_elevenlabs-v3_[tired, low ene_2026-08-15T11_36_50.mp3",
+    "sourceSha256": "6fa3def9a33a34f4297fe9d6d46d3548a91c86a82454ac98f2198e93bd453bf2"
+  },
+  "ko": {
+    "uploadedSourceName": "ElevenLabs_audio_elevenlabs-v3_[shouts] K.O.!_2026-08-15T11_34_33.mp3",
+    "sourceSha256": "a16a405b9c43214ed98936422f687ada2c767beb7669646834b45ca34f55b541"
+  }
+}

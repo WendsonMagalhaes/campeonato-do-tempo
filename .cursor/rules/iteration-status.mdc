@@ -1,0 +1,18 @@
+---
+description: Status check e versionamento GitHub ao fim de cada iteração do agente
+alwaysApply: true
+---
+
+# Status e versionamento por iteração
+
+Nenhuma iteração termina sem status e git.
+
+Antes de encerrar o turno:
+
+1. Atualize `docs/STATUS.md` com fase, etapa, checks `PASS`/`FAIL`/`N/A`, bloqueios e próxima ação.
+2. Acrescente uma linha em `docs/ITERATION_LOG.md`. Não reescreva linhas antigas.
+3. Commitar specs, código e status juntos. Não commitar `.env`, secrets, `node_modules/` ou fotos reais sem autorização.
+4. `git push` para `origin`, salvo se o humano pedir para não enviar.
+5. Se um check exigível falhar, declare `FAIL` no STATUS. Não fingir verde.
+
+GitHub versiona o projeto. O app do campeonato continua local-first e não pode depender de rede no runtime.

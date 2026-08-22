@@ -1,0 +1,64 @@
+{
+  "canonical": true,
+  "doNotModifyTemplates": true,
+  "files": {
+    "idle_01.png": {
+      "width": 576,
+      "height": 576,
+      "mode": "RGBA",
+      "hasAlpha": true
+    },
+    "idle_02.png": {
+      "width": 576,
+      "height": 576,
+      "mode": "RGBA",
+      "hasAlpha": true
+    },
+    "walk_01.png": {
+      "width": 576,
+      "height": 576,
+      "mode": "RGBA",
+      "hasAlpha": true
+    },
+    "walk_02.png": {
+      "width": 576,
+      "height": 576,
+      "mode": "RGBA",
+      "hasAlpha": true
+    },
+    "attack.png": {
+      "width": 576,
+      "height": 576,
+      "mode": "RGBA",
+      "hasAlpha": true
+    },
+    "hurt.png": {
+      "width": 576,
+      "height": 576,
+      "mode": "RGBA",
+      "hasAlpha": true
+    },
+    "victory.png": {
+      "width": 576,
+      "height": 576,
+      "mode": "RGBA",
+      "hasAlpha": true
+    },
+    "lying.png": {
+      "width": 576,
+      "height": 576,
+      "mode": "RGBA",
+      "hasAlpha": true
+    }
+  },
+  "semanticMap": {
+    "idle_01.png": "master/idle pose A",
+    "idle_02.png": "idle pose B",
+    "walk_01.png": "walk frame A",
+    "walk_02.png": "walk frame B",
+    "attack.png": "attack/punch",
+    "hurt.png": "taking hit/reaction",
+    "victory.png": "victory celebration",
+    "lying.png": "KO/defeated on ground"
+  }
+}

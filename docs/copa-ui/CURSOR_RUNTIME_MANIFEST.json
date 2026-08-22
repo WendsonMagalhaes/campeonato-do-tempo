@@ -1,0 +1,46 @@
+{
+  "version": 3,
+  "updated": "2026-08-15",
+  "policy": "CSS_SLOT_HIGHLIGHT — Team Formation and Round 3 no longer render SelectionCursor sprite overlays (human direction 2026-08-15).",
+  "tfPolicy": "Team Formation uses CSS .ce-slot-highlight (P1 blue / P2 red; thick neon outline+glow glued to per-column photo holes; idle pulse / lock solid). Sprite moldura frames retained on disk for tooling only.",
+  "r3Policy": "Round 3 uses CSS .ce-r3-portrait-slot.is-draft-p1|p2 ::after neon ring on the 9% portrait hole (glued to green frame). Candidate names = BitmapText only (no name_plate_base). Bottom SELECIONADOS row removed. Triangular p*_selected.png rejected.",
+  "versusPolicy": "Versus intro: selection-scale 360×360 PlayerPortrait pairs per side (match Round 3); member names BitmapText medium@0.5 + status BitmapText only (no name_plate_base). Soft side entrance + VS CSS pulse; AGUARDANDO blinks. No confetti/mist/vignette.",
+  "sheet": {
+    "path": "/assets/ui/selection_cursor_frame_sheet.png",
+    "size": { "w": 1024, "h": 768 },
+    "formatNote": "Installed from chat JPEG; rewritten as PNG with alpha keyed from near-black. Not used at runtime on TF/R3 after v3."
+  },
+  "rejected": {
+    "triangularPointer": [
+      "/assets/ui/selection_cursor_sheet.png",
+      "/assets/ui/selection_cursor.png",
+      "/assets/runtime/ui/p1_idle.png",
+      "/assets/runtime/ui/p1_move.png",
+      "/assets/runtime/ui/p1_lock.png",
+      "/assets/runtime/ui/p1_selected.png",
+      "/assets/runtime/ui/p2_idle.png",
+      "/assets/runtime/ui/p2_move.png",
+      "/assets/runtime/ui/p2_lock.png",
+      "/assets/runtime/ui/p2_selected.png"
+    ],
+    "spriteMolduraOnTfAndR3": [
+      "/assets/runtime/cursors/p1/*",
+      "/assets/runtime/cursors/p2/*"
+    ],
+    "reason": "Human prefers CSS border/highlight over any sprite cursor covering photo boxes on TF and Round 3"
+  },
+  "runtimeRoot": "/assets/runtime/cursors/",
+  "layout": {
+    "players": { "p1": "left blue", "p2": "right red" },
+    "presentation": "css-outline",
+    "states": ["idle", "lock"],
+    "cssClasses": {
+      "teamFormation": "ce-slot-highlight ce-slot-highlight--{p1|p2} ce-slot-highlight--{idle|lock}",
+      "round3": "ce-r3-portrait-slot is-draft-{p1|p2}"
+    }
+  },
+  "fit": {
+    "note": "Legacy CURSOR_FIT kept for unused SelectionCursor component; runtime TF uses per-column gridSlotBox + CSS outline; R3 uses 9%/82% inset outline"
+  },
+  "detail": "See docs/copa-ui/SELECTION_CURSOR_FRAMES.json for archived per-frame sourceROI + hole"
+}

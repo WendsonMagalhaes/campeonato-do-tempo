@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+<rect width="1600" height="900" fill="#07110d"/>
+<rect x="28" y="28" width="1544" height="844" rx="14" fill="none" stroke="#00A060" stroke-width="4"/>
+<text x="60" y="88" fill="#fff" font-family="Arial, sans-serif" font-size="34">FAKE SHUFFLE — FORMAÇÃO DA DUPLA</text>
+
+<circle cx="430" cy="410" r="155" fill="none" stroke="#00A060" stroke-width="5"/>
+<text x="340" y="420" fill="#fff" font-family="monospace" font-size="34">FOTO A</text>
+<text x="735" y="405" fill="#fff" font-family="monospace" font-size="62">+</text>
+<rect x="960" y="245" width="380" height="330" fill="none" stroke="#fff" stroke-width="3"/>
+<text x="1060" y="340" fill="#fff" font-family="monospace" font-size="26">SHUFFLE...</text>
+<text x="1045" y="405" fill="#fff" font-family="monospace" font-size="24">NOME 01</text>
+<text x="1045" y="450" fill="#fff" font-family="monospace" font-size="24">NOME 02</text>
+<text x="1045" y="495" fill="#00A060" font-family="monospace" font-size="28">PARCEIRO</text>
+<text x="555" y="720" fill="#fff" font-family="monospace" font-size="34">DUPLA #07 FORMADA!</text>
+</svg>
