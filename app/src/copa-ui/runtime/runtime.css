@@ -702,7 +702,7 @@
 /* ---- Team Formation header: logo far-left, title truly centered (top) ---- */
 .ce-formation-header {
   position: absolute;
-  top: 50px;
+  top: 70px;
   left: 0;
   right: 0;
   height: 90px;
@@ -740,7 +740,7 @@
 /* ---- Team Formation status -- image plate behind, BitmapText on top ---- */
 .ce-formation-status {
   position: absolute;
-  bottom: 10px;
+  bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
@@ -769,4 +769,109 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ---- Team Formation: grid dims when a duo "lands", so DuoRevealScene pops ---- */
+.ce-formation-dim {
+  position: absolute;
+  inset: 0;
+  transition: filter 260ms ease-out, opacity 260ms ease-out;
+}
+.ce-formation-dim.is-dimmed {
+  filter: brightness(0.35) saturate(0.7) blur(1px);
+  opacity: 0.85;
+}
+
+/* ---- Duo Reveal: big overlay shown while phase === 'landed' ---- */
+.ce-duo-reveal {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  animation: ce-duo-reveal-in 320ms ease-out;
+}
+
+.ce-duo-reveal__name {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.ce-duo-reveal__canvas {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+}
+.ce-duo-reveal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.70) 100%);
+}
+
+.ce-duo-reveal__headline {
+  position: absolute;
+  top: 90px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.ce-duo-reveal__pair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.ce-duo-reveal__member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 600px;
+}
+
+.ce-duo-reveal__member--left { animation: ce-duo-slide-left 380ms ease-out; }
+.ce-duo-reveal__member--right { animation: ce-duo-slide-right 380ms ease-out; }
+
+.ce-duo-reveal__photo {
+  width: 750px;
+  height: 800px;
+  object-fit: cover;
+  object-position: top center;
+  filter: drop-shadow(0 0 24px rgba(255, 204, 0, 0.35));
+}
+
+.ce-duo-reveal__plus {
+  color: #ffcc00;
+  text-shadow: 0 0 12px #ff8800;
+}
+
+.ce-duo-reveal__teamname {
+  position: absolute;
+  bottom: 110px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes ce-duo-reveal-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes ce-duo-slide-left {
+  from { opacity: 0; transform: translateX(-80px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes ce-duo-slide-right {
+  from { opacity: 0; transform: translateX(80px); }
+  to   { opacity: 1; transform: translateX(0); }
 }

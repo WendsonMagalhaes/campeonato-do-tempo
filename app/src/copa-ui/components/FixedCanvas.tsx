@@ -3,7 +3,16 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 const DESIGN_W = 1920;
 const DESIGN_H = 1080;
 
-export function FixedCanvas({ children, className }: { children: ReactNode; className?: string }) {
+export function FixedCanvas({
+  children,
+  className,
+  transparent,
+}: {
+  children: ReactNode;
+  className?: string;
+  /** Quando true, não aplica o preenchimento preto padrão -- deixa o que está atrás aparecer. */
+  transparent?: boolean;
+}) {
   const hostRef = useRef<HTMLDivElement>(null);
   const [frame, setFrame] = useState({ scale: 1, left: 0, top: 0 });
 
@@ -12,7 +21,6 @@ export function FixedCanvas({ children, className }: { children: ReactNode; clas
     if (!host) return;
     const update = () => {
       const r = host.getBoundingClientRect();
-      // "cover" fit: always fills 100% width (and height), cropping overflow instead of leaving bars.
       const scale = Math.max(r.width / DESIGN_W, r.height / DESIGN_H);
       setFrame({
         scale,
@@ -38,7 +46,17 @@ export function FixedCanvas({ children, className }: { children: ReactNode; clas
   };
 
   return (
-    <div ref={hostRef} className={className ?? ''} style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', background: '#020706' }}>
+    <div
+      ref={hostRef}
+      className={className ?? ''}
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        background: transparent ? 'transparent' : '#020706',
+      }}
+    >
       <div style={stageStyle}>{children}</div>
     </div>
   );

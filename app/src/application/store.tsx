@@ -27,6 +27,10 @@ interface Store {
   importBackup: (json: string) => Promise<void>
   simulateTimer: (seconds: number) => void
   revealNextWithCinematic: () => void
+  /** Roda DrawBracket e transmite a revelação ao telão dupla por dupla. */
+  drawBracketWithCinematic: () => void
+  /** Embaralha a ordem de revelação das duplas (state.teams[].revealOrder). Pode ser chamado várias vezes antes de iniciar a revelação. Empilha no histórico de undo. */
+  shuffleTeamRevealOrder: () => void
   /** Live draft highlight on scoreboard before SelectRound3Representatives confirm. */
   publishRound3Draft: (participantAId: string | null, participantBId: string | null) => void
 }
@@ -195,6 +199,36 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
         })
       }
       dispatch({ type: 'RevealNextTeam' })
+    },
+    drawBracketWithCinematic() {
+      dispatch({ type: 'DrawBracket' })
+      const next = stateRef.current
+      // Comando falhou (ex: chave já confirmada) — erro já foi setado pelo dispatch.
+      if (next.status !== 'bracket_drawn') return
+      const oitavas = [...next.matches]
+        .filter((match) => match.stage === 'oitavas')
+        .sort((a, b) => a.position - b.position)
+      const order = oitavas.flatMap((match) => {
+        if (!match.teamAId || !match.teamBId) return []
+        return [
+          { matchId: match.id, side: 'A' as const, teamId: match.teamAId },
+          { matchId: match.id, side: 'B' as const, teamId: match.teamBId },
+        ]
+      })
+      display.publishCinematic({ type: 'bracket_draw', order })
+    },
+    shuffleTeamRevealOrder() {
+      history.current.push(structuredClone(stateRef.current))
+      const shuffled = [...stateRef.current.teams]
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+          ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+      }
+      const next: TournamentState = {
+        ...stateRef.current,
+        teams: shuffled.map((team, index) => ({ ...team, revealOrder: index + 1 })),
+      }
+      commit(next, 'ui_select')
     },
     publishRound3Draft(participantAId, participantBId) {
       display.publishCinematic({

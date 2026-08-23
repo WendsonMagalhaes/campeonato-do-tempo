@@ -33,7 +33,11 @@ export type CinematicEvent =
       candidateIds: string[]
       teamName: string
     }
-  | { type: 'bracket_draw' }
+  | {
+      type: 'bracket_draw'
+      /** Ordem de revelação: 16 passos, 2 por confronto das oitavas (A depois B). */
+      order: Array<{ matchId: string; side: 'A' | 'B'; teamId: string }>
+    }
   | { type: 'vs_impact' }
   | {
       type: 'round3_draft'

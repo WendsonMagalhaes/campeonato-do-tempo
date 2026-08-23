@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import type { ScoreboardProjection } from '../../domain/projections.ts'
 import { BitmapText } from '../components/BitmapText.tsx'
 import { FixedCanvas } from '../components/FixedCanvas.tsx'
-import { PlayerPortrait } from '../components/PlayerPortrait.tsx'
 import { canonicalUi } from '../../battle/battle-assets.ts'
 import { globalAudio } from '../../audio/singleton.ts'
 import {
@@ -20,8 +19,18 @@ import {
 } from '../layouts/bracketGeometry.ts'
 import './runtime.css'
 
+// Copie o PNG enviado pra pasta de assets do projeto e ajuste este caminho.
+import { DuplaFrame } from '../components/DuplaFrame.tsx'
+
+
 type MatchView = ScoreboardProjection['matches'][number]
 type MemberView = NonNullable<MatchView['membersA']>[number]
+
+type RevealOverride = {
+  active: boolean
+  revealedKeys: Set<string>
+  lastKey: string | null
+} | null
 
 type TeamSlot = {
   key: string
@@ -32,6 +41,7 @@ type TeamSlot = {
   /** Dim when this team lost a completed match still shown in R16. */
   eliminated: boolean
   box: Box
+  justRevealed: boolean
 }
 
 type Props = {
@@ -39,6 +49,7 @@ type Props = {
   getPhoto: (photoAssetId: string | null | undefined) => string | null
   status?: ScoreboardProjection['status']
   focusMatchId?: string | null
+  revealOverride?: RevealOverride
 }
 
 function sortStage(matches: MatchView[], stage: MatchView['stage']) {
@@ -50,9 +61,10 @@ function teamSlotFromMatch(
   side: 'A' | 'B',
   box: Box,
   key: string,
+  justRevealed = false,
 ): TeamSlot {
   if (!match) {
-    return { key, name: 'A DEFINIR', members: null, winner: false, eliminated: false, box }
+    return { key, name: 'A DEFINIR', members: null, winner: false, eliminated: false, box, justRevealed: false }
   }
   const name = side === 'A' ? match.teamA : match.teamB
   const members = side === 'A' ? match.membersA : match.membersB
@@ -69,10 +81,11 @@ function teamSlotFromMatch(
     winner,
     eliminated,
     box,
+    justRevealed,
   }
 }
 
-function buildSlots(matches: MatchView[]): { slots: TeamSlot[]; paths: string[] } {
+function buildSlots(matches: MatchView[], revealOverride?: RevealOverride): { slots: TeamSlot[]; paths: string[] } {
   const oitavas = sortStage(matches, 'oitavas')
   const quartas = sortStage(matches, 'quartas')
   const semis = sortStage(matches, 'semifinais')
@@ -95,7 +108,10 @@ function buildSlots(matches: MatchView[]): { slots: TeamSlot[]; paths: string[] 
       const teamSide: 'A' | 'B' = i % 2 === 0 ? 'A' : 'B'
       const box = cardBox(cols[0], BRACKET.round16Ys[i]!)
       r16Boxes.push(box)
-      slots.push(teamSlotFromMatch(match, teamSide, box, `${side}-r16-${i}`))
+      const revealKey = match ? `${match.id}-${teamSide}` : null
+      const masked = Boolean(revealOverride?.active) && (!revealKey || !revealOverride!.revealedKeys.has(revealKey))
+      const justRevealed = Boolean(revealKey && revealOverride?.lastKey === revealKey)
+      slots.push(teamSlotFromMatch(masked ? undefined : match, teamSide, box, `${side}-r16-${i}`, justRevealed))
     }
 
     const qfBoxes: Box[] = []
@@ -143,6 +159,17 @@ function stageAccentClass(slotKey: string): string {
   return ''
 }
 
+// Timings/escala da animação de revelação: aparece grande no centro do
+// canvas, segura um tempo, e depois "voa" até a posição real do slot.
+const REVEAL_CENTER_SCALE = 3.2
+const REVEAL_HOLD_MS = 2000 // quanto tempo fica grande no centro
+const REVEAL_FLY_MS = 1800 // duração do voo até o slot
+
+// Duração total de uma revelação (hold + voo). O ScoreboardApp usa isso pra
+// espaçar as duplas — se o intervalo entre elas for menor que isso, a
+// animação da dupla anterior é cortada no meio quando a próxima começa.
+export const REVEAL_TOTAL_MS = REVEAL_HOLD_MS + REVEAL_FLY_MS
+
 function TeamCard({
   slot,
   getPhoto,
@@ -150,23 +177,78 @@ function TeamCard({
   slot: TeamSlot
   getPhoto: Props['getPhoto']
 }) {
+  const [animPhase, setAnimPhase] = useState<'hidden' | 'center' | 'flying' | 'settled'>(
+    slot.justRevealed ? 'hidden' : 'settled',
+  )
+  // Guarda qual reveal (por key) já foi iniciado, pra não reiniciar o
+  // timeline se o componente re-renderizar enquanto os timers ainda correm.
+  const startedForKeyRef = useRef<string | null>(null)
+
+  // Cleanup de verdade só quando o componente desmonta de fato.
+  const isMountedRef = useRef(true)
+  useEffect(() => {
+    isMountedRef.current = true
+    return () => {
+      isMountedRef.current = false
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!slot.justRevealed) return
+    if (startedForKeyRef.current === slot.key) return // já iniciado, não reinicia
+
+    startedForKeyRef.current = slot.key
+    setAnimPhase('hidden')
+
+    // Sem cleanup cancelando os timers aqui de propósito: se slot.justRevealed
+    // virar false no próximo passo do sorteio (a próxima dupla começando a
+    // ser revelada), não queremos interromper o hold/voo desta dupla no
+    // meio do caminho.
+  }, [slot.justRevealed, slot.key])
+
+  const box = slot.box
+  const boxCenterX = box.x + box.w / 2
+  const boxCenterY = box.y + box.h / 2
+  const dx = DESIGN.width / 2 - boxCenterX
+  const dy = DESIGN.height / 2 - boxCenterY
+
+  let revealStyle: CSSProperties = {}
+  if (slot.justRevealed) {
+    if (animPhase === 'hidden') {
+      revealStyle = {
+        opacity: 0,
+        transform: `translate(${dx}px, ${dy}px) scale(${REVEAL_CENTER_SCALE})`,
+        zIndex: 50,
+      }
+    } else if (animPhase === 'center') {
+      revealStyle = {
+        opacity: 1,
+        transform: `translate(${dx}px, ${dy}px) scale(${REVEAL_CENTER_SCALE})`,
+        transition: 'opacity 350ms ease-out, transform 350ms ease-out',
+        zIndex: 50,
+      }
+    } else if (animPhase === 'flying') {
+      revealStyle = {
+        opacity: 1,
+        transform: 'translate(0px, 0px) scale(1)',
+        transition: `transform ${REVEAL_FLY_MS}ms cubic-bezier(0.34, 1.1, 0.64, 1)`,
+        zIndex: 50,
+      }
+    }
+  }
+
   const m0 = slot.members?.[0]
   const m1 = slot.members?.[1]
   const isTbd = slot.name === 'A DEFINIR' && !slot.members
   const stateClass = slot.winner ? 'is-winner' : slot.eliminated ? 'is-eliminated' : ''
   const stageClass = stageAccentClass(slot.key)
-  const cardClass = [
-    'ce-bracket-card',
-    isTbd ? 'ce-bracket-card--tbd' : '',
-    stageClass,
-    stateClass,
-  ]
-    .filter(Boolean)
-    .join(' ')
 
   if (isTbd) {
+    // "A definir" continua usando o card CSS antigo (com fundo/borda) — só o
+    // slot preenchido é que passa a usar apenas a imagem da moldura.
+    const tbdClass = ['ce-bracket-card', 'ce-bracket-card--tbd', stageClass].filter(Boolean).join(' ')
     return (
-      <div className={cardClass} style={absoluteBox(slot.box)} data-slot={slot.key}>
+      <div className={tbdClass} style={absoluteBox(slot.box)} data-slot={slot.key}>
         <div className="ce-bracket-card__tbd">
           <BitmapText
             text="A DEFINIR"
@@ -180,42 +262,43 @@ function TeamCard({
     )
   }
 
+  // filtro visual pro estado da dupla, aplicado direto na moldura (sem depender
+  // de background/border de classe — a moldura em si já é o visual completo)
+  const stateFilter =
+    slot.winner ? 'drop-shadow(0 0 10px rgba(255, 214, 64, 0.65))'
+      : slot.eliminated ? 'grayscale(0.6) brightness(0.7)'
+        : 'none'
+
   return (
-    <div className={cardClass} style={absoluteBox(slot.box)} data-slot={slot.key}>
-      <div className="ce-bracket-card__member">
-        <div className="ce-bracket-card__portrait">
-          <PlayerPortrait
-            src={m0 ? (m0.photoAssetId ? getPhoto(m0.photoAssetId) : m0.avatarUrl ?? null) : null}
-            alt={m0?.name ?? ''}
-          />
-        </div>
-        <div className="ce-bracket-card__label">
-          <BitmapText
-            text={(m0?.name || '?').toUpperCase()}
-            size={BRACKET_HUD.teamName.size}
-            scale={BRACKET_HUD.teamName.scale}
-            maxWidth={BRACKET_HUD.teamName.maxWidth}
-            align="left"
-          />
-        </div>
-      </div>
-      <div className="ce-bracket-card__member">
-        <div className="ce-bracket-card__portrait">
-          <PlayerPortrait
-            src={m1 ? (m1.photoAssetId ? getPhoto(m1.photoAssetId) : m1.avatarUrl ?? null) : null}
-            alt={m1?.name ?? ''}
-          />
-        </div>
-        <div className="ce-bracket-card__label">
-          <BitmapText
-            text={(m1?.name || '?').toUpperCase()}
-            size={BRACKET_HUD.teamName.size}
-            scale={BRACKET_HUD.teamName.scale}
-            maxWidth={BRACKET_HUD.teamName.maxWidth}
-            align="left"
-          />
-        </div>
-      </div>
+    <div
+      // sem 'ce-bracket-card': evita herdar background/border do CSS antigo.
+      // stageClass/stateClass mantidos só se você usa pra outra coisa além de fundo (ex: z-index).
+      className={[stageClass, stateClass].filter(Boolean).join(' ')}
+      style={{
+        ...absoluteBox(slot.box),
+        position: 'absolute',
+        transformOrigin: 'center center',
+        background: 'none',
+        border: 'none',
+        boxShadow: 'none',
+        padding: 0,
+        // centraliza a moldura dentro do slot (ela mantém a proporção 1536:1024
+        // e pode não preencher a altura inteira do box — evita esticar/deformar)
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...revealStyle,
+      }}
+      data-slot={slot.key}
+    >
+      <DuplaFrame
+        style={{ width: '100%', filter: stateFilter }}
+        duplaName={slot.name}
+        memberAPhoto={m0 ? (m0.photoAssetId ? getPhoto(m0.photoAssetId) : m0.avatarUrl ?? null) : null}
+        memberBPhoto={m1 ? (m1.photoAssetId ? getPhoto(m1.photoAssetId) : m1.avatarUrl ?? null) : null}
+        memberAAlt={m0?.name ?? ''}
+        memberBAlt={m1?.name ?? ''}
+      />
     </div>
   )
 }
@@ -224,19 +307,19 @@ function TeamCard({
  * Telão Chave — FixedCanvas 1920×1080 layered bilateral bracket.
  * Hybrid rule: canonical layers (not Team Formation structural PNG).
  */
-export function BracketScene({ matches, getPhoto, status, focusMatchId }: Props) {
-  const { slots, paths } = buildSlots(matches)
+export function BracketScene({ matches, getPhoto, status, focusMatchId, revealOverride }: Props) {
+  const { slots, paths } = buildSlots(matches, revealOverride)
   const [cameraState, setCameraState] = useState<'overview' | 'tourAll' | 'focusMatch'>('overview')
   const [tourIndex, setTourIndex] = useState(0)
   const [focusCenter, setFocusCenter] = useState<{ x: number; y: number } | null>(null)
-  
+
   const prevStatusRef = useRef(status)
   useEffect(() => {
     if (prevStatusRef.current === 'bracket_drawn' && status === 'in_progress') {
       setCameraState('tourAll')
       setTourIndex(0)
       globalAudio.play('ui.cursorMove')
-      
+
       let currentIdx = 0
       const interval = setInterval(() => {
         currentIdx++
@@ -249,7 +332,7 @@ export function BracketScene({ matches, getPhoto, status, focusMatchId }: Props)
           globalAudio.play('ui.cursorMove')
         }
       }, 2500)
-      
+
       return () => { clearInterval(interval) }
     }
     prevStatusRef.current = status
@@ -261,11 +344,11 @@ export function BracketScene({ matches, getPhoto, status, focusMatchId }: Props)
       if (match) {
         setFocusCenter(getMatchCenter(match.stage, match.position))
         setCameraState('focusMatch')
-        
+
         const t = setTimeout(() => {
           setCameraState('overview')
         }, 2500)
-        
+
         return () => clearTimeout(t)
       }
     }
@@ -279,8 +362,6 @@ export function BracketScene({ matches, getPhoto, status, focusMatchId }: Props)
     const ty = 540 - focus.y * scale
     transform = `translate(${tx}px, ${ty}px) scale(${scale})`
   } else if (cameraState === 'focusMatch' && focusCenter) {
-    // Zoom to 1.5x, center on focusCenter
-    // Container is 1920x1080. Center of screen is 960x540.
     const scale = 1.5
     const tx = 960 - focusCenter.x * scale
     const ty = 540 - focusCenter.y * scale
@@ -289,11 +370,11 @@ export function BracketScene({ matches, getPhoto, status, focusMatchId }: Props)
 
   return (
     <FixedCanvas className="ce-scene-host ce-bracket-host">
-      <div 
-        style={{ 
-          width: '100%', 
-          height: '100%', 
-          transform, 
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          transform,
           transition: 'transform 1s cubic-bezier(0.25, 1, 0.5, 1)',
           transformOrigin: '0 0'
         }}

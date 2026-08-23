@@ -423,17 +423,16 @@ export function getParticipantFighterSprites(idOrPerson: string | { id?: string;
   if (!p || p.sourceStatus !== 'ready') return null;
   // All 'ready' participants have generated fighter sprites mapped in assets
   return {
-    idle_01: `/assets/participants/${p.slug}/fighter/idle_01.webp`,
-    idle_02: `/assets/participants/${p.slug}/fighter/idle_02.webp`,
-    walk_01: `/assets/participants/${p.slug}/fighter/walk_01.webp`,
-    walk_02: `/assets/participants/${p.slug}/fighter/walk_02.webp`,
-    attack: `/assets/participants/${p.slug}/fighter/attack.webp`,
-    hurt: `/assets/participants/${p.slug}/fighter/hurt.webp`,
-    victory: `/assets/participants/${p.slug}/fighter/victory.webp`,
-    lying: `/assets/participants/${p.slug}/fighter/lying.webp`,
+    idle_01: `/assets/participants/${p.slug}/fighter/idle_01.png`,
+    idle_02: `/assets/participants/${p.slug}/fighter/idle_02.png`,
+    walk_01: `/assets/participants/${p.slug}/fighter/walk_01.png`,
+    walk_02: `/assets/participants/${p.slug}/fighter/walk_02.png`,
+    attack: `/assets/participants/${p.slug}/fighter/attack.png`,
+    hurt: `/assets/participants/${p.slug}/fighter/hurt.png`,
+    victory: `/assets/participants/${p.slug}/fighter/victory.png`,
+    lying: `/assets/participants/${p.slug}/fighter/lying.png`,
   };
 }
-
 /**
  * Returns the canonical "fight avatar" (battle portrait) URL for a
  * participant, by convention path, or null if the source isn't ready.

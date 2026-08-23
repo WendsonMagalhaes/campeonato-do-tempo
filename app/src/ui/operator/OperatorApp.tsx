@@ -394,7 +394,7 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
     fetch('http://127.0.0.1:8765/roi', { cache: 'no-store' })
       .then((res) => res.json())
       .then((data) => setRoi(data))
-      .catch(() => {})
+      .catch(() => { })
   }, [isOpen])
 
   if (!isOpen) {
@@ -411,7 +411,7 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ index })
-    }).catch(() => {})
+    }).catch(() => { })
   }
 
   const toggleCapture = () => {
@@ -421,7 +421,7 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ enabled: next })
-    }).catch(() => {})
+    }).catch(() => { })
   }
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -430,7 +430,7 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
     const rect = img.getBoundingClientRect()
     const scaleX = img.naturalWidth / rect.width
     const scaleY = img.naturalHeight / rect.height
-    
+
     const x = Math.max(0, (e.clientX - rect.left) * scaleX)
     const y = Math.max(0, (e.clientY - rect.top) * scaleY)
     setIsDragging(true)
@@ -445,13 +445,13 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
     const rect = img.getBoundingClientRect()
     const scaleX = img.naturalWidth / rect.width
     const scaleY = img.naturalHeight / rect.height
-    
+
     const currentX = Math.max(0, Math.min((e.clientX - rect.left) * scaleX, img.naturalWidth))
     const currentY = Math.max(0, Math.min((e.clientY - rect.top) * scaleY, img.naturalHeight))
-    
+
     // update display size for the render pass
     setDisplaySize({ w: rect.width, h: rect.height })
-    
+
     setRoi({
       x: Math.min(dragStart.x, currentX),
       y: Math.min(dragStart.y, currentY),
@@ -472,7 +472,7 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
         w: Math.round(roi.w),
         h: Math.round(roi.h),
       })
-    }).catch(() => {})
+    }).catch(() => { })
   }
 
   const updateDisplaySize = (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -481,7 +481,7 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
     setDisplaySize({ w: img.width, h: img.height })
     img.style.display = 'block'
     if (img.nextElementSibling) {
-      ;(img.nextElementSibling as HTMLElement).style.display = 'none'
+      ; (img.nextElementSibling as HTMLElement).style.display = 'none'
     }
   }
 
@@ -492,11 +492,11 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
         <button className="op-btn ghost small" onClick={() => setIsOpen(false)}>Fechar</button>
       </div>
       <p className="op-subtitle" style={{ color: '#555' }}>Desenhe um retângulo sobre os dígitos do cronômetro para configurar a área de leitura (ROI).</p>
-      
+
       <div style={{ display: 'flex', gap: 8, marginBottom: 16, alignItems: 'center' }}>
         <label>Câmera:</label>
-        <select 
-          value={cameraIndex} 
+        <select
+          value={cameraIndex}
           onChange={(e) => switchCamera(Number(e.target.value))}
           style={{ padding: 4 }}
         >
@@ -506,7 +506,7 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
           <option value={3}>Câmera 3</option>
         </select>
 
-        <button 
+        <button
           className={`op-btn ${captureEnabled ? 'danger' : 'secondary'} small`}
           onClick={toggleCapture}
         >
@@ -514,21 +514,21 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
         </button>
       </div>
 
-      <div 
+      <div
         style={{ position: 'relative', display: 'inline-block', border: '1px solid #ccc', cursor: 'crosshair', userSelect: 'none', backgroundColor: '#000', minWidth: 320, minHeight: 240 }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
       >
-        <img 
-          src={`http://127.0.0.1:8765/stream?t=${cameraIndex}`} 
-          alt="Câmera" 
+        <img
+          src={`http://127.0.0.1:8765/stream?t=${cameraIndex}`}
+          alt="Câmera"
           style={{ display: 'block', maxWidth: '100%', pointerEvents: 'none' }}
           onError={(e) => {
             e.currentTarget.style.display = 'none'
             if (e.currentTarget.nextElementSibling) {
-              ;(e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex'
+              ; (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex'
             }
           }}
           onLoad={updateDisplaySize}
@@ -538,7 +538,7 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
           <span>Servidor de câmera offline.</span>
           <code style={{ marginTop: 8, padding: 4, backgroundColor: '#eee', borderRadius: 4 }}>Inicie o python server.py em timer-capture/</code>
         </div>
-        
+
         {roi.w > 0 && roi.h > 0 && naturalSize.w > 0 && (
           <div style={{
             position: 'absolute',
@@ -721,13 +721,23 @@ export function OperatorApp() {
             <div className="op-card" style={{ gridColumn: '1 / -1' }}>
               <h2>Iniciar campeonato</h2>
               <p className="op-subtitle">Exige 32 participantes titulares e 16 duplas cadastradas.</p>
-              <button
-                className="op-btn"
-                disabled={state.participants.length < 32 || state.teams.length !== 16}
-                onClick={() => dispatch({ type: 'StartTeamReveal' })}
-              >
-                Iniciar revelação cenográfica
-              </button>
+              <div className="op-form-row">
+                <button
+                  className="op-btn ghost"
+                  disabled={state.teams.length === 0}
+                  title="Embaralha a ordem de revelação das duplas. Pode clicar quantas vezes quiser antes de iniciar."
+                  onClick={() => store.shuffleTeamRevealOrder()}
+                >
+                  Sortear ordem de revelação
+                </button>
+                <button
+                  className="op-btn"
+                  disabled={state.participants.length < 32 || state.teams.length !== 16}
+                  onClick={() => dispatch({ type: 'StartTeamReveal' })}
+                >
+                  Iniciar revelação cenográfica
+                </button>
+              </div>
             </div>
           </div>
         ) : null}
@@ -757,7 +767,7 @@ export function OperatorApp() {
             <h2>Sorteio real da chave</h2>
             <p className="op-subtitle">Este sorteio pode ser real e definirá os 8 confrontos das oitavas.</p>
             <div className="op-form-row">
-              <button className="op-btn" onClick={() => dispatch({ type: 'DrawBracket' })}>Sortear 8 confrontos</button>
+              <button className="op-btn" onClick={() => store.drawBracketWithCinematic()}>Sortear 8 confrontos</button>
               {state.status === 'bracket_drawn' ? (
                 <button className="op-btn" onClick={() => dispatch({ type: 'ConfirmBracket' })}>Confirmar chave</button>
               ) : null}

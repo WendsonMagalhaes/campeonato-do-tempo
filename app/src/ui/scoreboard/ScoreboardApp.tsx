@@ -8,7 +8,7 @@ import { BattleScene } from '../../battle/BattleScene.tsx'
 import { ChampionScene } from '../../battle/ChampionScene.tsx'
 import { DuoQualifiedScene } from '../../battle/DuoQualifiedScene.tsx'
 import { globalAudio } from '../../audio/singleton.ts'
-import { BracketScene } from '../../copa-ui/runtime/BracketScene.tsx'
+import { BracketScene, REVEAL_TOTAL_MS } from '../../copa-ui/runtime/BracketScene.tsx'
 import type { CursorAnimState } from '../../copa-ui/components/selectionCursorFrames.ts'
 import {
   TeamFormationScene,
@@ -23,6 +23,7 @@ import {
   ROUND_WIN_HOLD_MS,
   resolveScoreboardLayers,
 } from './scoreboardLayers.ts'
+import { DuoRevealScene } from '../../copa-ui/runtime/DuoRevealScene.tsx'
 
 function shuffleArray<T>(items: T[]): T[] {
   const arr = [...items]
@@ -90,6 +91,11 @@ function useProjection() {
     a: null,
     b: null,
   })
+  const [bracketReveal, setBracketReveal] = useState<{
+    active: boolean
+    revealedKeys: Set<string>
+    lastKey: string | null
+  }>({ active: false, revealedKeys: new Set(), lastKey: null })
 
   const participantsRef = useRef<ScoreboardProjection['participants']>([])
   useEffect(() => {
@@ -102,12 +108,37 @@ function useProjection() {
       if (state) setProjection(projectScoreboard(state))
     })
     let generation = 0
+    let bracketGeneration = 0
     const unsubscribe = subscribeScoreboard(
       (json) => setProjection(JSON.parse(json) as ScoreboardProjection),
       (event) => {
         setCinematic(event)
         if (event.type === 'round3_draft') {
           setRound3Draft({ a: event.participantAId, b: event.participantBId })
+          return
+        }
+        if (event.type === 'bracket_draw') {
+          bracketGeneration += 1
+          const myGeneration = bracketGeneration
+          setBracketReveal({ active: true, revealedKeys: new Set(), lastKey: null })
+          // Intervalo entre a revelação de cada dupla no sorteio do bracket.
+          // Nunca pode ser menor que REVEAL_TOTAL_MS (hold + voo), senão a
+          // animação da dupla anterior é cortada quando a próxima começa.
+          const STEP_DELAY_MS = REVEAL_TOTAL_MS + 300
+          event.order.forEach((step, idx) => {
+            window.setTimeout(() => {
+              if (myGeneration !== bracketGeneration) return
+              const key = `${step.matchId}-${step.side}`
+              const isLast = idx === event.order.length - 1
+              globalAudio.play(step.side === 'B' ? 'ui.selectionLock' : 'ui.cursorMove')
+              setBracketReveal((prev) => {
+                const revealedKeys = new Set(prev.revealedKeys)
+                revealedKeys.add(key)
+                return { active: !isLast, revealedKeys, lastKey: key }
+              })
+              if (isLast) globalAudio.play('bracket_lock')
+            }, STEP_DELAY_MS * (idx + 1))
+          })
           return
         }
         if (event.type === 'fake_shuffle') {
@@ -161,7 +192,7 @@ function useProjection() {
     )
     return unsubscribe
   }, [])
-  return { projection, cinematic, spinningId1, spinningId2, phase, round3Draft, setRound3Draft }
+  return { projection, cinematic, spinningId1, spinningId2, phase, round3Draft, setRound3Draft, bracketReveal }
 }
 
 /**
@@ -251,21 +282,32 @@ function FakeShuffleScreen({
           : 'FORMANDO AS DUPLAS'
 
   return (
-    <TeamFormationScene
-      participants={formationParticipants}
-      cursors={cursors}
-      status={status}
-      backgroundUrl="/assets/backgrounds/draw-background.png"
-      duoLabel={phase === 'landed' && teamName ? teamName : undefined}
-      spotlightLeft={spotlightLeftParticipant ? { participant: spotlightLeftParticipant, state: p1State } : null}
-      spotlightRight={spotlightRightParticipant ? { participant: spotlightRightParticipant, state: p2State } : null}
-      usedParticipantIds={usedParticipantIds}
-    />
+    <>
+      <div className={`ce-formation-dim ${phase === 'landed' ? 'is-dimmed' : ''}`}>
+        <TeamFormationScene
+          participants={formationParticipants}
+          cursors={cursors}
+          status={status}
+          backgroundUrl="/assets/backgrounds/draw-background.png"
+          duoLabel={phase === 'landed' && teamName ? teamName : undefined}
+          spotlightLeft={spotlightLeftParticipant ? { participant: spotlightLeftParticipant, state: p1State } : null}
+          spotlightRight={spotlightRightParticipant ? { participant: spotlightRightParticipant, state: p2State } : null}
+          usedParticipantIds={usedParticipantIds}
+        />
+      </div>
+      {phase === 'landed' && spotlightLeftParticipant && spotlightRightParticipant ? (
+        <DuoRevealScene
+          teamName={teamName}
+          memberA={spotlightLeftParticipant}
+          memberB={spotlightRightParticipant}
+        />
+      ) : null}
+    </>
   )
 }
 
 export function ScoreboardApp() {
-  const { projection, cinematic, spinningId1, spinningId2, phase, round3Draft, setRound3Draft } = useProjection()
+  const { projection, cinematic, spinningId1, spinningId2, phase, round3Draft, setRound3Draft, bracketReveal } = useProjection()
   const getPhoto = usePhotoCache()
   const playedOpeningRef = useRef(false)
   const lastScreenRef = useRef<string | undefined>(undefined)
@@ -582,6 +624,7 @@ export function ScoreboardApp() {
             getPhoto={getPhoto}
             status={projection.status}
             focusMatchId={focusMatchId}
+            revealOverride={bracketReveal}
           />
         ) : null}
         {layers.showVersus && projection.versus ? (
