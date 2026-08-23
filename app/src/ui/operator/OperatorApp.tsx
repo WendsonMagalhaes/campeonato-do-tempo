@@ -63,17 +63,21 @@ function Pagination({ page, pageCount, onChange, total }: { page: number; pageCo
 function ParticipantsPanel({
   participants,
   photoOf,
+  fightPhotoOf,
   onAdd,
   onEdit,
   onRemove,
   onPhoto,
+  onFightPhoto,
 }: {
   participants: Participant[]
   photoOf: (person: Participant) => string | null
+  fightPhotoOf: (person: Participant) => string | null
   onAdd: (name: string, fighterVariant: 'male' | 'female') => void
   onEdit: (id: string, name: string, fighterVariant: 'male' | 'female') => void
   onRemove: (id: string) => void
   onPhoto: (id: string, dataUrl: string) => void
+  onFightPhoto: (id: string, dataUrl: string) => void
 }) {
   const [name, setName] = useState('')
   const [fighterVariant, setFighterVariant] = useState<'male' | 'female'>('male')
@@ -131,6 +135,7 @@ function ParticipantsPanel({
               <th>Nome</th>
               <th>Variante</th>
               <th>Foto</th>
+              <th>Avatar de luta</th>
               <th style={{ textAlign: 'right' }}>Ações</th>
             </tr>
           </thead>
@@ -183,6 +188,25 @@ function ParticipantsPanel({
                       }}
                     />
                   </label>
+                </td>
+                <td>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <Thumb src={fightPhotoOf(person)} name={person.name} />
+                    <label className="op-file-label">
+                      Trocar
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        onChange={(event) => {
+                          const file = event.target.files?.[0]
+                          if (!file) return
+                          const reader = new FileReader()
+                          reader.onload = () => onFightPhoto(person.id, String(reader.result))
+                          reader.readAsDataURL(file)
+                        }}
+                      />
+                    </label>
+                  </div>
                 </td>
                 <td style={{ textAlign: 'right' }}>
                   {editingId === person.id ? (
@@ -563,6 +587,9 @@ export function OperatorApp() {
   const photoOf = (person: Participant) =>
     (person.photoAssetId && photos[person.photoAssetId]) || person.avatar || getParticipantAvatar(person) || null
 
+  const fightPhotoOf = (person: Participant) =>
+    (person.fightPhotoAssetId && photos[person.fightPhotoAssetId]) || person.fightAvatar || null
+
   const round = state.rounds.find((item) => item.id === state.activeRoundId)
   const match = state.matches.find((item) => item.id === state.activeMatchId)
   const roundControls = useMemo(() => deriveMatchRoundControls(round), [round])
@@ -660,12 +687,14 @@ export function OperatorApp() {
             <ParticipantsPanel
               participants={state.participants}
               photoOf={photoOf}
+              fightPhotoOf={fightPhotoOf}
               onAdd={(name, fighterVariant) => dispatch({ type: 'RegisterParticipant', name, fighterVariant })}
               onEdit={(id, name, fighterVariant) =>
                 dispatch({ type: 'EditParticipant', participantId: id, name, fighterVariant })
               }
               onRemove={(id) => dispatch({ type: 'RemoveParticipant', participantId: id })}
               onPhoto={(id, dataUrl) => void store.uploadPhoto(id, dataUrl)}
+              onFightPhoto={(id, dataUrl) => void store.uploadFightPhoto(id, dataUrl)}
             />
             <TeamsPanel
               participants={state.participants}

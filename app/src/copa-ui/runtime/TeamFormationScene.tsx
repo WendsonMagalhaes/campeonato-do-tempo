@@ -1,19 +1,9 @@
-import { useState, type CSSProperties } from 'react'
+import { useMemo } from 'react'
 import { FixedCanvas } from '../components/FixedCanvas.tsx'
 import { BitmapText } from '../components/BitmapText.tsx'
+import { AvatarFrame } from '../components/AvatarFrame.tsx'
 import type { CursorAnimState, CursorPlayer } from '../components/selectionCursorFrames.ts'
-import {
-  TEAM_FORMATION_BG,
-  LEFT_PORTRAIT,
-  RIGHT_PORTRAIT,
-  LEFT_NAMEPLATE,
-  RIGHT_NAMEPLATE,
-  LOWER_PANEL,
-  absoluteBox,
-  gridSlotBox,
-  isRandomSlot,
-  type Box,
-} from '../layouts/teamFormationGeometry.ts'
+import { computeAutoGrid, type GridArea } from '../layouts/autoFormationGrid.ts'
 import './runtime.css'
 
 export type FormationParticipant = {
@@ -22,220 +12,194 @@ export type FormationParticipant = {
   photoUrl?: string | null
   avatarUrl?: string | null
   bodyImageUrl?: string | null
+  fightAvatarUrl?: string | null
 }
 
 export type FormationCursor = {
   player: CursorPlayer
   state: CursorAnimState
-  cell: { row: number; col: number }
+  participantId: string
 }
 
-/** Photo overlay only — never redraws baked frames; never uses brand logo as fallback. */
-function CoverPhoto({
-  src,
-  alt,
-  box,
-  className,
-  fit = 'cover',
-  position = '50% 28%',
-}: {
-  src?: string | null
-  alt: string
-  box: Box
-  className?: string
-  fit?: 'cover' | 'contain'
-  position?: string
-}) {
-  const [failed, setFailed] = useState(false)
-  const hasPhoto = Boolean(src) && !failed
-  const style: CSSProperties = {
-    ...absoluteBox(box),
-    overflow: 'hidden',
-    pointerEvents: 'none',
-  }
+export type FormationSpotlight = {
+  participant: FormationParticipant
+  state: CursorAnimState
+}
+
+const GRID_AREA: GridArea = { x: 470, y: 240, w: 980, h: 560 }
+const CARD_ASPECT = 0.8
+const CARD_GAP = -10
+
+const DEFAULT_LOGO_SRC = '/assets/brand/drow-logo.png'
+const DEFAULT_TITLE_SRC = '/assets/brand/drow-title.png'
+const DEFAULT_STATUS_PLATE_SRC = '/assets/brand/status-plate.png'
+
+function SceneBackground({ src }: { src?: string | null }) {
+  if (!src) return null
+  return (
+    <img
+      src={src}
+      alt=""
+      aria-hidden="true"
+      draggable={false}
+      className="ce-formation-background"
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}
+    />
+  )
+}
+
+function SidePanel({ side, spotlight }: { side: 'left' | 'right'; spotlight?: FormationSpotlight | null }) {
+  const participant = spotlight?.participant ?? null
+  const backdropSrc = participant
+    ? participant.bodyImageUrl ?? participant.photoUrl ?? participant.avatarUrl
+    : null
 
   return (
-    <div className={`ce-cover-photo ${className ?? ''}`} style={style}>
-      {hasPhoto ? (
-        <img
-          src={src!}
-          alt={alt}
-          onError={() => setFailed(true)}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: fit,
-            objectPosition: position,
-            display: 'block',
-          }}
+    <div className={`ce-formation-side ce-formation-side--${side}`}>
+      {backdropSrc ? (
+        <img src={backdropSrc} alt="" aria-hidden="true" draggable={false} className="ce-formation-side__backdrop" />
+      ) : null}
+      <div className="ce-formation-side__fade" aria-hidden="true" />
+      <div
+        className={[
+          'ce-formation-side__badge',
+          side === 'left' ? 'accent-p1' : 'accent-p2',
+          spotlight?.state === 'lock' ? 'is-locked' : '',
+        ].join(' ').trim()}
+      >
+        <BitmapText
+          text={side === 'left' ? '1P' : '2P'}
+          size="small"
+          align="center"
+          scale={0.4}
         />
-      ) : (
-        <div className="ce-cover-photo__fallback" aria-label={`${alt} sem foto`}>
-          ?
-        </div>
-      )}
+      </div>      <div className="ce-formation-side__card">
+        {participant ? (
+          <AvatarFrame
+            name={participant.name}
+            photoSrc={participant.bodyImageUrl}
+            active={spotlight?.state === 'lock'}
+            selected={spotlight?.state === 'idle'}
+            accent={side === 'left' ? 'p1' : 'p2'}
+            nameScale={0.5}
+          />
+        ) : (
+          <div className="ce-formation-side__placeholder" aria-hidden="true">?</div>
+        )}
+      </div>
     </div>
   )
 }
 
-function cells(participants: FormationParticipant[]) {
-  const out: Array<{
-    row: number
-    col: number
-    participant?: FormationParticipant
-    random?: true
-  }> = []
-  let i = 0
-  for (let row = 1; row <= 3; row++) {
-    for (let col = 1; col <= 11; col++) {
-      if (isRandomSlot(row, col)) out.push({ row, col, random: true })
-      else out.push({ row, col, participant: participants[i++] })
-    }
-  }
-  return out
-}
-
 /**
- * Team Formation (fake shuffle) — structural UI comes entirely from
- * `team_formation_variant_03.png`. Dynamic layers only: grid photos,
- * CSS slot highlight (no SelectionCursor sprite), large selected
- * portraits/names, lower-panel messages.
- * Hybrid human rule: do NOT migrate this screen to pure canonical layers.
+ * Team Formation (fake shuffle) -- dynamic grid in the center, two spotlight
+ * side panels (P1 left / P2 right), a fixed top header (logo left / title
+ * centered) and a status / duo-formed label pinned to the bottom.
  */
 export function TeamFormationScene({
   participants,
   cursors = [],
-  /** @deprecated Prefer `cursors` (supports independent P1+P2). */
-  cursorCell,
-  cursorPlayer = 'p1',
-  cursorState = 'idle',
-  selectedTop,
-  selectedBottom,
   status = 'SELECIONANDO DUPLA',
   duoLabel,
+  spotlightLeft = null,
+  spotlightRight = null,
+  backgroundUrl = null,
+  usedParticipantIds,
+  logoSrc = DEFAULT_LOGO_SRC,
+  titleSrc = DEFAULT_TITLE_SRC,
+  statusPlateSrc = DEFAULT_STATUS_PLATE_SRC,
 }: {
   participants: FormationParticipant[]
-  /** Up to two independent cursors (P1 blue + P2 red). */
   cursors?: FormationCursor[]
-  cursorCell?: { row: number; col: number } | null
-  cursorPlayer?: CursorPlayer
-  cursorState?: CursorAnimState
-  /** First selected participant (left large portrait). Null while idle / before spin. */
-  selectedTop?: FormationParticipant | null
-  /** Second selected participant (right large portrait). */
-  selectedBottom?: FormationParticipant | null
   status?: string
   duoLabel?: string
+  spotlightLeft?: FormationSpotlight | null
+  spotlightRight?: FormationSpotlight | null
+  backgroundUrl?: string | null
+  usedParticipantIds?: Set<string>
+  logoSrc?: string
+  titleSrc?: string
+  statusPlateSrc?: string
 }) {
-  if (participants.length !== 32) {
-    throw new Error(`TeamFormationScene requires exactly 32 participants; got ${participants.length}`)
+  const sortedParticipants = useMemo(
+    () => [...participants].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR')),
+    [participants],
+  )
+
+  const grid = useMemo(
+    () => computeAutoGrid(sortedParticipants.length, GRID_AREA, { aspectRatio: CARD_ASPECT, gap: CARD_GAP }),
+    [sortedParticipants.length],
+  )
+
+  const cursorByParticipantId = useMemo(() => {
+    const map = new Map<string, FormationCursor>()
+    for (const c of cursors) map.set(c.participantId, c)
+    return map
+  }, [cursors])
+
+  if (sortedParticipants.length < 2) {
+    return (
+      <FixedCanvas className="ce-scene-host">
+        <SceneBackground src={backgroundUrl} />
+        <div className="ce-center" style={{ position: 'absolute', inset: 0 }}>
+          <BitmapText text="AGUARDANDO PARTICIPANTES" size="medium" align="center" scale={0.5} maxWidth={1200} />
+        </div>
+      </FixedCanvas>
+    )
   }
-
-  const gridCells = cells(participants)
-  const lowerText = duoLabel
-    ? `DUPLA FORMADA\n${duoLabel.toUpperCase()}`
-    : status.toUpperCase()
-
-  const resolvedCursors: FormationCursor[] =
-    cursors.length > 0
-      ? cursors
-      : cursorCell
-        ? [{ player: cursorPlayer, state: cursorState, cell: cursorCell }]
-        : []
 
   return (
     <FixedCanvas className="ce-scene-host">
-      {/* Layer 1: full structural background */}
-      <img
-        src={TEAM_FORMATION_BG}
-        alt=""
-        aria-hidden="true"
-        className="ce-team-formation-bg"
-        draggable={false}
-      />
+      <SceneBackground src={backgroundUrl} />
 
-      {/* Layer 2: 32 small grid photos (skip "?" slot) */}
-      {gridCells.map((cell, idx) => {
-        if (cell.random) return null
-        const box = gridSlotBox(cell.row, cell.col)
-        return (
-          <CoverPhoto
-            key={`${cell.row}-${cell.col}`}
-            box={box}
-            src={cell.participant?.avatarUrl ?? cell.participant?.photoUrl}
-            alt={cell.participant?.name ?? `Participante ${idx + 1}`}
-            className="ce-team-grid-photo"
-          />
-        )
-      })}
+      <SidePanel side="left" spotlight={spotlightLeft} />
+      <SidePanel side="right" spotlight={spotlightRight} />
 
-      {/* Layer 3: CSS border highlight on active/locked slots (P1 blue / P2 red) */}
-      {resolvedCursors.map((c) => {
-        const box = gridSlotBox(c.cell.row, c.cell.col)
+      {/* Top header: logo pinned left, title centered independently */}
+      <div className="ce-formation-header">
+        <img src={logoSrc} alt="" aria-hidden="true" draggable={false} className="ce-formation-header__logo" />
+        <img src={titleSrc} alt="" aria-hidden="true" draggable={false} className="ce-formation-header__title-img" />
+      </div>
+
+      {/* Dynamic grid of participant avatars -- alphabetical order */}
+      {sortedParticipants.map((participant, i) => {
+        const box = grid.cells[i]
+        const cursor = cursorByParticipantId.get(participant.id)
         return (
           <div
-            key={`cursor-${c.player}`}
-            className={`ce-slot-highlight ce-slot-highlight--${c.player} ce-slot-highlight--${c.state}`}
-            style={absoluteBox(box)}
-            data-player={c.player}
-            data-cursor-state={c.state}
-            aria-hidden="true"
-          />
+            key={participant.id}
+            style={{ position: 'absolute', left: box.x, top: box.y, width: box.w, height: box.h, zIndex: 2 }}
+          >
+            <AvatarFrame
+              name={participant.name}
+              photoSrc={participant.photoUrl}
+              active={Boolean(cursor)}
+              used={usedParticipantIds?.has(participant.id) ?? false}
+              accent={cursor?.player ?? null}
+              nameScale={0.1}
+            />
+          </div>
         )
       })}
 
-      {/* Layer 4–5: first selected large photo + name (left) */}
-      {selectedTop && (
-        <>
-          <CoverPhoto
-            box={LEFT_PORTRAIT}
-            src={selectedTop.bodyImageUrl ?? selectedTop.avatarUrl ?? selectedTop.photoUrl}
-            alt={selectedTop.name}
-            className="ce-team-large-photo"
-            fit="cover"
-            position="50% 15%"
+      {/* Bottom status / duo-formed label -- image plate behind, text on top */}
+      <div className="ce-formation-status">
+        <img
+          src={statusPlateSrc}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          className="ce-formation-status__plate"
+        />
+        <div className="ce-formation-status__label">
+          <BitmapText
+            text={duoLabel ? `DUPLA FORMADA\n${duoLabel.toUpperCase()}` : status.toUpperCase()}
+            size="small"
+            align="center"
+            scale={0.35}
+            maxWidth={1000}
           />
-          <div style={absoluteBox(LEFT_NAMEPLATE)} className="ce-center ce-team-nameplate">
-            <BitmapText
-              text={selectedTop.name.toUpperCase()}
-              size="small"
-              align="center"
-              scale={0.36}
-              maxWidth={LEFT_NAMEPLATE.w - 16}
-            />
-          </div>
-        </>
-      )}
-
-      {/* Layer 6–7: second selected large photo + name (right) — no extra VS */}
-      {selectedBottom && (
-        <>
-          <CoverPhoto
-            box={RIGHT_PORTRAIT}
-            src={selectedBottom.bodyImageUrl ?? selectedBottom.avatarUrl ?? selectedBottom.photoUrl}
-            alt={selectedBottom.name}
-            className="ce-team-large-photo"
-            fit="cover"
-            position="50% 15%"
-          />
-          <div style={absoluteBox(RIGHT_NAMEPLATE)} className="ce-center ce-team-nameplate">
-            <BitmapText
-              text={selectedBottom.name.toUpperCase()}
-              size="small"
-              align="center"
-              scale={0.36}
-              maxWidth={RIGHT_NAMEPLATE.w - 16}
-            />
-          </div>
-        </>
-      )}
-
-      {/* Layer 8: dynamic duo info on lower panel */}
-      <div
-        style={absoluteBox(LOWER_PANEL)}
-        className={`ce-center ce-team-lower-panel ${duoLabel ? 'is-reveal' : ''}`}
-      >
-        <BitmapText text={lowerText} size="small" align="center" scale={0.425} maxWidth={LOWER_PANEL.w - 24} />
+        </div>
       </div>
     </FixedCanvas>
   )

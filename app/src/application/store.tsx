@@ -22,6 +22,7 @@ interface Store {
   loadOfficialRoster: () => void
   seedDemo: () => void
   uploadPhoto: (participantId: string, dataUrl: string) => Promise<void>
+  uploadFightPhoto: (participantId: string, dataUrl: string) => Promise<void>
   exportBackup: () => Promise<string>
   importBackup: (json: string) => Promise<void>
   simulateTimer: (seconds: number) => void
@@ -64,14 +65,14 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
       const active = next.rounds.find((round) => round.id === next.activeRoundId)
       const sound =
         command.type === 'ConfirmBracket' ? 'bracket_lock'
-        : command.type === 'ConfirmRound' ? 'round_win'
-        : command.type === 'ConfirmMatchWinner' ? 'match_win'
-        : command.type === 'RevealRound' ? 'round_reveal'
-        : command.type === 'CalculateRound' && active?.status === 'tie' ? 'tie'
-        // Assign time: soft pack lock click — never the old synthetic ui_confirm blip.
-        : command.type === 'AssignTimerValue' || command.type === 'RegisterManualTime'
-          ? 'ui_select'
-        : 'ui_confirm'
+          : command.type === 'ConfirmRound' ? 'round_win'
+            : command.type === 'ConfirmMatchWinner' ? 'match_win'
+              : command.type === 'RevealRound' ? 'round_reveal'
+                : command.type === 'CalculateRound' && active?.status === 'tie' ? 'tie'
+                  // Assign time: soft pack lock click — never the old synthetic ui_confirm blip.
+                  : command.type === 'AssignTimerValue' || command.type === 'RegisterManualTime'
+                    ? 'ui_select'
+                    : 'ui_confirm'
       commit(next, sound)
     } catch (err) {
       history.current.pop()
@@ -87,9 +88,14 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
         setPersistenceLabel('restaurado')
         const nextPhotos: Record<string, string> = {}
         for (const person of loaded.participants) {
-          if (!person.photoAssetId) continue
-          const data = await persistence.getPhoto(person.photoAssetId)
-          if (data) nextPhotos[person.photoAssetId] = data
+          if (person.photoAssetId) {
+            const data = await persistence.getPhoto(person.photoAssetId)
+            if (data) nextPhotos[person.photoAssetId] = data
+          }
+          if (person.fightPhotoAssetId) {
+            const data = await persistence.getPhoto(person.fightPhotoAssetId)
+            if (data) nextPhotos[person.fightPhotoAssetId] = data
+          }
         }
         if (Object.keys(nextPhotos).length > 0) {
           setPhotos((current) => ({ ...current, ...nextPhotos }))
@@ -154,6 +160,12 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
       await persistence.savePhoto(id, dataUrl)
       setPhotos((current) => ({ ...current, [id]: dataUrl }))
       dispatch({ type: 'UploadParticipantPhoto', participantId, photoAssetId: id })
+    },
+    async uploadFightPhoto(participantId, dataUrl) {
+      const id = `fight_photo_${participantId}`
+      await persistence.savePhoto(id, dataUrl)
+      setPhotos((current) => ({ ...current, [id]: dataUrl }))
+      dispatch({ type: 'UploadParticipantFightPhoto', participantId, fightPhotoAssetId: id })
     },
     exportBackup() {
       return persistence.exportBackup()

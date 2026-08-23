@@ -4,12 +4,10 @@ import { createIndexedDbPersistence } from '../../persistence/indexedDb.ts'
 import { projectScoreboard, type ScoreboardProjection } from '../../domain/projections.ts'
 import type { CinematicEvent } from '../../application/ports.ts'
 import { CHANNEL } from '../../domain/constants.ts'
-import { buildFormationGrid, shuffleFormationOccupants } from '../canonical/duo-formation-grid.ts'
 import { BattleScene } from '../../battle/BattleScene.tsx'
 import { ChampionScene } from '../../battle/ChampionScene.tsx'
 import { DuoQualifiedScene } from '../../battle/DuoQualifiedScene.tsx'
 import { globalAudio } from '../../audio/singleton.ts'
-import { BitmapText } from '../../copa-ui/components/BitmapText.tsx'
 import { BracketScene } from '../../copa-ui/runtime/BracketScene.tsx'
 import type { CursorAnimState } from '../../copa-ui/components/selectionCursorFrames.ts'
 import {
@@ -25,6 +23,7 @@ import {
   ROUND_WIN_HOLD_MS,
   resolveScoreboardLayers,
 } from './scoreboardLayers.ts'
+
 function shuffleArray<T>(items: T[]): T[] {
   const arr = [...items]
   for (let i = arr.length - 1; i > 0; i -= 1) {
@@ -75,6 +74,12 @@ function usePhotoCache() {
   }
   return get
 }
+
+/**
+ * `participantsRef` always mirrors the participants actually on screen,
+ * so the spin frame pool never contains a stale/orphan id (the previous
+ * cause of "freezes on one character but draws another").
+ */
 function useProjection() {
   const [projection, setProjection] = useState<ScoreboardProjection | null>(null)
   const [cinematic, setCinematic] = useState<CinematicEvent | null>(null)
@@ -85,6 +90,12 @@ function useProjection() {
     a: null,
     b: null,
   })
+
+  const participantsRef = useRef<ScoreboardProjection['participants']>([])
+  useEffect(() => {
+    if (projection) participantsRef.current = projection.participants
+  }, [projection])
+
   useEffect(() => {
     const persistence = createIndexedDbPersistence()
     void persistence.load().then((state) => {
@@ -105,8 +116,18 @@ function useProjection() {
           setPhase('spin1')
           setSpinningId1(null)
           setSpinningId2(null)
-          const frames1 = buildSpinFrames(event.candidateIds, event.firstParticipantId, 25)
-          const frames2 = buildSpinFrames(event.candidateIds, event.destinationParticipantId, 25)
+
+          const onScreenIds = new Set(participantsRef.current.map((p) => p.id))
+          const safePool = event.candidateIds.filter((id) => onScreenIds.has(id))
+          const pool1 = safePool.includes(event.firstParticipantId)
+            ? safePool
+            : [...safePool, event.firstParticipantId]
+          const pool2 = safePool.includes(event.destinationParticipantId)
+            ? safePool
+            : [...safePool, event.destinationParticipantId]
+
+          const frames1 = buildSpinFrames(pool1, event.firstParticipantId, 25)
+          const frames2 = buildSpinFrames(pool2, event.destinationParticipantId, 25)
           let lastSlotId: string | null = null
           const runFrame = (i: number, isPhase2: boolean) => {
             if (myGeneration !== generation) return
@@ -118,7 +139,6 @@ function useProjection() {
               setSpinningId1(id ?? event.firstParticipantId)
             }
             if (i >= frames.length - 1) {
-              // Confirm lock SFX once per landing (not on React re-renders).
               globalAudio.play('ui.selectionLock')
               if (!isPhase2) {
                 setPhase('spin2')
@@ -129,7 +149,6 @@ function useProjection() {
               }
               return
             }
-            // Move SFX only when the active slot actually changes.
             if (id && id !== lastSlotId) {
               globalAudio.play('ui.cursorMove')
               lastSlotId = id
@@ -144,12 +163,12 @@ function useProjection() {
   }, [])
   return { projection, cinematic, spinningId1, spinningId2, phase, round3Draft, setRound3Draft }
 }
-function cellForParticipantIndex(participantIndex: number): { row: number; col: number } | null {
-  const cell = buildFormationGrid().find(
-    (entry) => entry.kind === 'participant' && entry.participantIndex === participantIndex,
-  )
-  return cell && cell.kind === 'participant' ? { row: cell.row, col: cell.col } : null
-}
+
+/**
+ * Renders every registered participant (no more fixed 32-slot cut), and
+ * hands cursors to TeamFormationScene by `participantId` -- matching the
+ * grid's own render order, so there is never a lookup mismatch.
+ */
 function FakeShuffleScreen({
   participants,
   phase,
@@ -159,6 +178,7 @@ function FakeShuffleScreen({
   destId,
   teamName,
   getPhoto,
+  usedParticipantIds,
 }: {
   participants: ScoreboardProjection['participants']
   phase: 'idle' | 'spin1' | 'spin2' | 'landed'
@@ -168,21 +188,11 @@ function FakeShuffleScreen({
   destId: string | null
   teamName: string | null
   getPhoto: (photoAssetId: string | null | undefined) => string | null
+  /** Ids of participants already drawn into a duo -- shown off/grayscale in the grid. */
+  usedParticipantIds: Set<string>
 }) {
   const [p1State, setP1State] = useState<CursorAnimState>('idle')
   const [p2State, setP2State] = useState<CursorAnimState>('idle')
-
-  /** Use the 32 titular roster participants for the 32-cell formation grid. */
-  const titularParticipants = useMemo(() => {
-    return participants.slice(0, 32)
-  }, [participants])
-
-  /** Presentation-only face order — does not change duo pairings / spin landings. */
-  const idsKey = titularParticipants.map((p) => p.id).join('|')
-  const shuffledIds = useMemo(() => {
-    if (titularParticipants.length !== 32) return [] as string[]
-    return shuffleFormationOccupants(titularParticipants.map((p) => p.id))
-  }, [idsKey])
 
   useEffect(() => {
     // IDLE = waiting + navigating; LOCK = confirmed. Never MOVE/SELECTED (invade neighbors).
@@ -200,69 +210,60 @@ function FakeShuffleScreen({
     setP2State('lock')
   }, [phase])
 
-  if (titularParticipants.length !== 32 || shuffledIds.length !== 32) {
-    return (
-      <div className="scoreboard-stage pixel-frame" style={{ display: 'grid', placeItems: 'center' }}>
-        <BitmapText text="AGUARDANDO 32 PARTICIPANTES" size="medium" align="center" scale={0.5} maxWidth={1200} />
-      </div>
-    )
-  }
-  const byId = new Map(titularParticipants.map((p) => [p.id, p]))
-  const formationParticipants: FormationParticipant[] = shuffledIds.map((id) => {
-    const p = byId.get(id)!
-    return {
-      id: p.id,
-      name: p.name,
-      photoUrl: (p.photoAssetId && getPhoto(p.photoAssetId)) || p.avatarUrl || null,
-      avatarUrl: (p.photoAssetId && getPhoto(p.photoAssetId)) || p.avatarUrl || null,
-      bodyImageUrl: p.bodyImageUrl || (p.photoAssetId && getPhoto(p.photoAssetId)) || p.avatarUrl || null,
-    }
-  })
-  const cellForId = (id: string | null): { row: number; col: number } | null => {
-    if (!id) return null
-    const idx = shuffledIds.findIndex((pid) => pid === id)
-    return idx >= 0 ? cellForParticipantIndex(idx) : null
-  }
+  const formationParticipants: FormationParticipant[] = useMemo(
+    () =>
+      participants.map((p) => ({
+        id: p.id,
+        name: p.name,
+        photoUrl: (p.photoAssetId && getPhoto(p.photoAssetId)) || p.avatarUrl || null,
+        avatarUrl: (p.photoAssetId && getPhoto(p.photoAssetId)) || p.avatarUrl || null,
+        bodyImageUrl: p.bodyImageUrl || (p.photoAssetId && getPhoto(p.photoAssetId)) || p.avatarUrl || null,
+      })),
+    [participants, getPhoto],
+  )
 
   const cursors: FormationCursor[] = []
   if (phase === 'spin1') {
-    const cell = cellForId(spinningId1)
-    if (cell) cursors.push({ player: 'p1', state: p1State, cell })
+    if (spinningId1) cursors.push({ player: 'p1', state: p1State, participantId: spinningId1 })
   } else if (phase === 'spin2' || phase === 'landed') {
-    const p1Cell = cellForId(anchorId)
-    if (p1Cell) cursors.push({ player: 'p1', state: p1State, cell: p1Cell })
+    if (anchorId) cursors.push({ player: 'p1', state: p1State, participantId: anchorId })
     const p2Id = phase === 'spin2' ? spinningId2 : destId
-    const p2Cell = cellForId(p2Id)
-    if (p2Cell) cursors.push({ player: 'p2', state: p2State, cell: p2Cell })
+    if (p2Id) cursors.push({ player: 'p2', state: p2State, participantId: p2Id })
   }
 
-  const selectedTopId = phase === 'idle' ? null : (phase === 'spin1' ? spinningId1 : anchorId)
-  const selectedBottomId =
-    phase === 'spin2' ? spinningId2
-      : phase === 'landed' ? destId
-        : null
-  const selectedTop = selectedTopId
-    ? formationParticipants.find((p) => p.id === selectedTopId) ?? null
+  // Same source ids as the grid cursors above, just fed into the side
+  // spotlight panels instead: P1 (left) shows first, P2 (right) shows once
+  // P1 is locked in.
+  const spotlightLeftId = phase === 'idle' ? null : phase === 'spin1' ? spinningId1 : anchorId
+  const spotlightRightId = phase === 'spin2' ? spinningId2 : phase === 'landed' ? destId : null
+
+  const spotlightLeftParticipant = spotlightLeftId
+    ? formationParticipants.find((p) => p.id === spotlightLeftId) ?? null
     : null
-  const selectedBottom = selectedBottomId
-    ? formationParticipants.find((p) => p.id === selectedBottomId) ?? null
+  const spotlightRightParticipant = spotlightRightId
+    ? formationParticipants.find((p) => p.id === spotlightRightId) ?? null
     : null
+
   const status =
     phase === 'landed' ? 'DUPLA FORMADA'
       : phase === 'spin2' ? 'ESCOLHENDO PARCEIRO'
         : phase === 'spin1' ? 'SELECIONANDO DUPLA'
           : 'FORMANDO AS DUPLAS'
+
   return (
     <TeamFormationScene
       participants={formationParticipants}
       cursors={cursors}
-      selectedTop={selectedTop}
-      selectedBottom={selectedBottom}
       status={status}
+      backgroundUrl="/assets/backgrounds/draw-background.png"
       duoLabel={phase === 'landed' && teamName ? teamName : undefined}
+      spotlightLeft={spotlightLeftParticipant ? { participant: spotlightLeftParticipant, state: p1State } : null}
+      spotlightRight={spotlightRightParticipant ? { participant: spotlightRightParticipant, state: p2State } : null}
+      usedParticipantIds={usedParticipantIds}
     />
   )
 }
+
 export function ScoreboardApp() {
   const { projection, cinematic, spinningId1, spinningId2, phase, round3Draft, setRound3Draft } = useProjection()
   const getPhoto = usePhotoCache()
@@ -273,8 +274,13 @@ export function ScoreboardApp() {
   const lastRound3HoldRef = useRef<string | null>(null)
   const [flash, setFlash] = useState(false)
   const [audioUnlocked, setAudioUnlocked] = useState(false)
-  /** False until KO hold timer completes while on match_win. */
   const [koHoldDone, setKoHoldDone] = useState(false)
+
+  // Tracks which participants have already been drawn into a duo during the
+  // current fake-shuffle run -- consumed by FakeShuffleScreen to show the
+  // "off" frame + grayscale photo for already-paired participants in the grid.
+  const usedParticipantIdsRef = useRef<Set<string>>(new Set())
+  const [, bumpUsed] = useState(0)
 
   const handleUnlockAudio = useCallback(async () => {
     await globalAudio.unlock()
@@ -294,14 +300,12 @@ export function ScoreboardApp() {
     }
   }, [projection?.screen])
 
-  // Attempt auto-unlock on mount & listen for any key/click interaction
   useEffect(() => {
     const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
     if (AudioContextClass) {
       try {
         const testCtx = new AudioContextClass()
         if (testCtx.state === 'running') {
-          // Browser allows autoplay
           globalAudio.unlock().then(() => setAudioUnlocked(true))
         }
         void testCtx.close()
@@ -323,7 +327,7 @@ export function ScoreboardApp() {
       window.removeEventListener('pointerdown', onUserInteraction)
     }
   }, [audioUnlocked, handleUnlockAudio])
-  /** False until round-win hold timer completes while on round3. */
+
   const [round3HoldDone, setRound3HoldDone] = useState(false)
   const koHold = projection?.screen === 'match_win' && !koHoldDone
   const round3Hold = projection?.screen === 'round3' && !round3HoldDone
@@ -333,8 +337,8 @@ export function ScoreboardApp() {
   useEffect(() => {
     if (!projection) return
     if (prevMatchesRef.current) {
-      const justCompleted = projection.matches.find(m => 
-        m.status === 'completed' && 
+      const justCompleted = projection.matches.find(m =>
+        m.status === 'completed' &&
         prevMatchesRef.current!.find(p => p.id === m.id)?.status !== 'completed'
       )
       if (justCompleted) {
@@ -388,6 +392,11 @@ export function ScoreboardApp() {
       if (projection.screen === 'round3') {
         setRound3Draft({ a: null, b: null })
       }
+      // New fake-shuffle run starting -- clear the "already paired" tracker.
+      if (projection.screen === 'fake_shuffle' && lastScreenRef.current !== 'fake_shuffle') {
+        usedParticipantIdsRef.current = new Set()
+        bumpUsed((n) => n + 1)
+      }
       if (projection.screen === 'bracket') {
         globalAudio.play('bracket_shuffle')
         setTimeout(() => globalAudio.play('bracket_lock'), 800)
@@ -400,17 +409,13 @@ export function ScoreboardApp() {
       lastScreenRef.current = projection.screen
     }
     if (projection.versus?.roundWinner && projection.versus.roundWinner !== lastRoundWinnerRef.current) {
-      // No full-screen flash on round reveal — battle walk-in + impact FX carry the beat.
-      // (Previous flash-white + mint HUD pulse read as a mysterious green blink.)
       lastRoundWinnerRef.current = projection.versus.roundWinner
     } else if (!projection.versus?.roundWinner) {
       lastRoundWinnerRef.current = null
     }
-    // Match end: hold KO timeline on battle, THEN duo-qualified (do not skip KO).
     if (projection.screen === 'match_win' && !lastMatchWinnerRef.current) {
       lastMatchWinnerRef.current = 'playing'
       setKoHoldDone(false)
-      // Impact/KO timeline provides hit feedback — skip scoreboard flash-white.
       window.setTimeout(() => {
         setKoHoldDone(true)
         lastMatchWinnerRef.current = 'done'
@@ -422,11 +427,9 @@ export function ScoreboardApp() {
       lastMatchWinnerRef.current = null
       setKoHoldDone(false)
     }
-    // R2 → 1–1: hold round-win punch on battle, THEN Round 3 selection (not KO).
     if (projection.screen === 'round3' && projection.versus && !lastRound3HoldRef.current) {
       lastRound3HoldRef.current = 'playing'
       setRound3HoldDone(false)
-      // Round-win punch beat — skip scoreboard flash-white (avoid green blink).
       window.setTimeout(() => {
         setRound3HoldDone(true)
         lastRound3HoldRef.current = 'done'
@@ -441,6 +444,24 @@ export function ScoreboardApp() {
       globalAudio.play('tie')
     }
   }, [projection, koHold, round3Hold, setRound3Draft])
+
+  const anchorId = cinematic?.type === 'fake_shuffle' ? cinematic.firstParticipantId : null
+  const destId = cinematic?.type === 'fake_shuffle' ? cinematic.destinationParticipantId : null
+
+  // Once a duo "lands", mark both members as used so the grid greys them out
+  // for the rest of the fake-shuffle run.
+  useEffect(() => {
+    if (phase === 'landed' && anchorId && destId) {
+      if (!usedParticipantIdsRef.current.has(anchorId) || !usedParticipantIdsRef.current.has(destId)) {
+        const next = new Set(usedParticipantIdsRef.current)
+        next.add(anchorId)
+        next.add(destId)
+        usedParticipantIdsRef.current = next
+        bumpUsed((n) => n + 1)
+      }
+    }
+  }, [phase, anchorId, destId])
+
   if (!projection) {
     return (
       <div className="scoreboard">
@@ -448,8 +469,6 @@ export function ScoreboardApp() {
       </div>
     )
   }
-  const anchorId = cinematic?.type === 'fake_shuffle' ? cinematic.firstParticipantId : null
-  const destId = cinematic?.type === 'fake_shuffle' ? cinematic.destinationParticipantId : null
   const layers = resolveScoreboardLayers({
     screen: projection.screen,
     hasVersus: Boolean(projection.versus),
@@ -554,6 +573,7 @@ export function ScoreboardApp() {
             destId={destId}
             teamName={cinematic?.type === 'fake_shuffle' ? cinematic.teamName : null}
             getPhoto={getPhoto}
+            usedParticipantIds={usedParticipantIdsRef.current}
           />
         ) : null}
         {projection.screen === 'bracket' ? (
@@ -686,53 +706,53 @@ export function ScoreboardApp() {
             members={
               winnerSideBlue
                 ? [
-                    {
-                      id: projection.versus.membersA[0].id,
-                      name: projection.versus.membersA[0].name,
-                      photoUrl:
-                        projection.versus.membersA[0].bodyImageUrl ||
-                        (projection.versus.membersA[0].photoAssetId &&
-                          getPhoto(projection.versus.membersA[0].photoAssetId)) ||
-                        projection.versus.membersA[0].avatarUrl ||
-                        null,
-                      fighterVariant: projection.versus.membersA[0].fighterVariant,
-                    },
-                    {
-                      id: projection.versus.membersA[1].id,
-                      name: projection.versus.membersA[1].name,
-                      photoUrl:
-                        projection.versus.membersA[1].bodyImageUrl ||
-                        (projection.versus.membersA[1].photoAssetId &&
-                          getPhoto(projection.versus.membersA[1].photoAssetId)) ||
-                        projection.versus.membersA[1].avatarUrl ||
-                        null,
-                      fighterVariant: projection.versus.membersA[1].fighterVariant,
-                    },
-                  ]
+                  {
+                    id: projection.versus.membersA[0].id,
+                    name: projection.versus.membersA[0].name,
+                    photoUrl:
+                      projection.versus.membersA[0].bodyImageUrl ||
+                      (projection.versus.membersA[0].photoAssetId &&
+                        getPhoto(projection.versus.membersA[0].photoAssetId)) ||
+                      projection.versus.membersA[0].avatarUrl ||
+                      null,
+                    fighterVariant: projection.versus.membersA[0].fighterVariant,
+                  },
+                  {
+                    id: projection.versus.membersA[1].id,
+                    name: projection.versus.membersA[1].name,
+                    photoUrl:
+                      projection.versus.membersA[1].bodyImageUrl ||
+                      (projection.versus.membersA[1].photoAssetId &&
+                        getPhoto(projection.versus.membersA[1].photoAssetId)) ||
+                      projection.versus.membersA[1].avatarUrl ||
+                      null,
+                    fighterVariant: projection.versus.membersA[1].fighterVariant,
+                  },
+                ]
                 : [
-                    {
-                      id: projection.versus.membersB[0].id,
-                      name: projection.versus.membersB[0].name,
-                      photoUrl:
-                        projection.versus.membersB[0].bodyImageUrl ||
-                        (projection.versus.membersB[0].photoAssetId &&
-                          getPhoto(projection.versus.membersB[0].photoAssetId)) ||
-                        projection.versus.membersB[0].avatarUrl ||
-                        null,
-                      fighterVariant: projection.versus.membersB[0].fighterVariant,
-                    },
-                    {
-                      id: projection.versus.membersB[1].id,
-                      name: projection.versus.membersB[1].name,
-                      photoUrl:
-                        projection.versus.membersB[1].bodyImageUrl ||
-                        (projection.versus.membersB[1].photoAssetId &&
-                          getPhoto(projection.versus.membersB[1].photoAssetId)) ||
-                        projection.versus.membersB[1].avatarUrl ||
-                        null,
-                      fighterVariant: projection.versus.membersB[1].fighterVariant,
-                    },
-                  ]
+                  {
+                    id: projection.versus.membersB[0].id,
+                    name: projection.versus.membersB[0].name,
+                    photoUrl:
+                      projection.versus.membersB[0].bodyImageUrl ||
+                      (projection.versus.membersB[0].photoAssetId &&
+                        getPhoto(projection.versus.membersB[0].photoAssetId)) ||
+                      projection.versus.membersB[0].avatarUrl ||
+                      null,
+                    fighterVariant: projection.versus.membersB[0].fighterVariant,
+                  },
+                  {
+                    id: projection.versus.membersB[1].id,
+                    name: projection.versus.membersB[1].name,
+                    photoUrl:
+                      projection.versus.membersB[1].bodyImageUrl ||
+                      (projection.versus.membersB[1].photoAssetId &&
+                        getPhoto(projection.versus.membersB[1].photoAssetId)) ||
+                      projection.versus.membersB[1].avatarUrl ||
+                      null,
+                    fighterVariant: projection.versus.membersB[1].fighterVariant,
+                  },
+                ]
             }
           />
         ) : null}

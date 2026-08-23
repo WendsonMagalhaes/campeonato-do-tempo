@@ -39,11 +39,15 @@ export interface Participant {
   id: ParticipantId
   name: string
   photoAssetId: string | null
+  /** IndexedDB photo key for the dedicated "fight avatar" portrait (distinct from photoAssetId). */
+  fightPhotoAssetId: string | null
   fighterVariant: FighterVariant
   slug?: string
   displayName?: string
   avatar?: string | null
   bodyImage?: string | null
+  /** Canonical/official fight-avatar path fallback (registry convention), when no upload exists. */
+  fightAvatar?: string | null
 }
 
 export interface Team {

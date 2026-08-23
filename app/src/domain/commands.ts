@@ -16,10 +16,13 @@ export type Command =
       photoAssetId?: string | null
       avatar?: string | null
       bodyImage?: string | null
+      /** Fight-avatar registry fallback, resolved like avatar/bodyImage when omitted. */
+      fightAvatar?: string | null
     }
   | { type: 'EditParticipant'; participantId: ParticipantId; name: string; fighterVariant: FighterVariant }
   | { type: 'RemoveParticipant'; participantId: ParticipantId }
   | { type: 'UploadParticipantPhoto'; participantId: ParticipantId; photoAssetId: string | null }
+  | { type: 'UploadParticipantFightPhoto'; participantId: ParticipantId; fightPhotoAssetId: string | null }
   | {
       type: 'DefineTeam'
       name: string

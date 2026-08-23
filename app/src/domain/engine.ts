@@ -9,7 +9,7 @@ import {
 } from './constants.ts'
 import { DomainError } from './errors.ts'
 import { partnerOf, teamHasParticipant } from './teams.ts'
-import { getParticipantAvatar, getParticipantBodyImage } from './participants.ts'
+import { getParticipantAvatar, getParticipantBodyImage, getParticipantFightAvatar } from './participants.ts'
 import { absoluteDifference, secondsToMs, startingPrize } from './time.ts'
 import type {
   AssignedAttempt,
@@ -109,7 +109,7 @@ function handleRegisterParticipant(
   command: Extract<Command, { type: 'RegisterParticipant' }>,
   deps: EngineDeps,
 ): void {
-  const { name, fighterVariant, id, slug, photoAssetId, avatar, bodyImage } = command
+  const { name, fighterVariant, id, slug, photoAssetId, avatar, bodyImage, fightAvatar } = command
   if (state.status !== 'setup') fail('SETUP_LOCKED', 'Cadastro só é permitido na preparação.')
   if (state.participants.length >= MAX_REGISTERED_PARTICIPANTS) {
     fail('PARTICIPANT_LIMIT', 'Limite de participantes cadastrados atingido.')
@@ -127,11 +127,13 @@ function handleRegisterParticipant(
     id: participantId,
     name: trimmed,
     photoAssetId: photoAssetId ?? null,
+    fightPhotoAssetId: null,
     fighterVariant,
     slug: slug ?? participantId,
     displayName: trimmed,
     avatar: avatar !== undefined ? avatar : getParticipantAvatar(participantId) ?? getParticipantAvatar(trimmed),
     bodyImage: bodyImage !== undefined ? bodyImage : getParticipantBodyImage(participantId) ?? getParticipantBodyImage(trimmed),
+    fightAvatar: fightAvatar !== undefined ? fightAvatar : getParticipantFightAvatar(participantId) ?? getParticipantFightAvatar(trimmed),
   })
 }
 
@@ -510,7 +512,7 @@ function handleReceiveCandidate(
     frameId: command.frameId,
   }
   state.detectedValues.push(detected)
-  
+
   let pendingCount = 0
   for (let i = state.detectedValues.length - 1; i >= 0; i--) {
     if (state.detectedValues[i].status === 'pending') {
@@ -814,6 +816,12 @@ export function handleCommand(
       const participant = state.participants.find((item) => item.id === command.participantId)
       if (!participant) fail('PARTICIPANT_MISSING', 'Participante não encontrado.')
       participant.photoAssetId = command.photoAssetId
+      break
+    }
+    case 'UploadParticipantFightPhoto': {
+      const participant = state.participants.find((item) => item.id === command.participantId)
+      if (!participant) fail('PARTICIPANT_MISSING', 'Participante não encontrado.')
+      participant.fightPhotoAssetId = command.fightPhotoAssetId
       break
     }
     case 'DefineTeam':

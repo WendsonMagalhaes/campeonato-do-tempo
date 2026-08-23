@@ -12,8 +12,7 @@ export function FixedCanvas({ children, className }: { children: ReactNode; clas
     if (!host) return;
     const update = () => {
       const r = host.getBoundingClientRect();
-      // "cover" fit: always fills 100% width (and height), cropping overflow instead of leaving bars.
-      const scale = Math.max(r.width / DESIGN_W, r.height / DESIGN_H);
+      const scale = Math.min(r.width / DESIGN_W, r.height / DESIGN_H);
       setFrame({
         scale,
         left: Math.floor((r.width - DESIGN_W * scale) / 2),
