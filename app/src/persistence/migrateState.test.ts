@@ -4,13 +4,18 @@ import { DEMO_PARTICIPANTS } from '../domain/seed.ts'
 import type { TournamentState } from '../domain/types.ts'
 import { migrateTournamentState } from './migrateState.ts'
 
-function baseState(participants: TournamentState['participants']): TournamentState {
+/** Shape de participante salvo antes de campos serem adicionados (ex: fightPhotoAssetId, fighterVariant).
+ *  Usado só nos testes de migração — dado real legado pode não ter esses campos. */
+type LegacyParticipant = Partial<TournamentState['participants'][number]> &
+  Pick<TournamentState['participants'][number], 'id' | 'name'>
+
+function baseState(participants: LegacyParticipant[]): TournamentState {
   return {
     schemaVersion: SCHEMA_VERSION,
     id: 'tour-test',
     name: 'Teste',
     status: 'setup',
-    participants,
+    participants: participants as TournamentState['participants'],
     teams: [],
     matches: [],
     rounds: [],
@@ -28,7 +33,7 @@ describe('migrateTournamentState / fighterVariant', () => {
     const migrated = migrateTournamentState(
       baseState([
         { id: 'p1', name: 'Custom', photoAssetId: null, fighterVariant: 'female' },
-        { id: 'p2', name: 'SemCampo', photoAssetId: null } as TournamentState['participants'][number],
+        { id: 'p2', name: 'SemCampo', photoAssetId: null },
       ]),
     )
     expect(migrated.participants[0]?.fighterVariant).toBe('female')
