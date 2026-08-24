@@ -21,7 +21,6 @@ type Props = {
 // Tamanho de cada moldura de dupla — DuplaFrame mantém a proporção real
 // do PNG (1536:1024) sozinho via aspectRatio, só precisamos dar a largura.
 const DUO_W = 420
-const DUO_H = DUO_W * (1024 / 1536)
 const VS_SIZE = 120
 
 // Duração da transição de saída (fade+slide) antes de trocar de confronto —
