@@ -18,6 +18,7 @@ import {
 import { OpeningScene } from '../../copa-ui/runtime/OpeningScene.tsx'
 import { Round3SelectionScene } from '../../copa-ui/runtime/Round3SelectionScene.tsx'
 import { VersusScene } from '../../copa-ui/runtime/VersusScene.tsx'
+import { RoundAnnounceScene } from '../../copa-ui/runtime/RoundAnnounceScene.tsx'
 import {
   MATCH_KO_HOLD_MS,
   ROUND_WIN_HOLD_MS,
@@ -74,6 +75,30 @@ function usePhotoCache() {
     return null
   }
   return get
+}
+
+/** Acha o membro ativo (lado A ou B) pelo id, dentro de uma dupla — usado
+ * pra montar os dados exibidos na RoundAnnounceScene. Inclui bodyImageUrl
+ * (foto de corpo inteiro), mesmo campo já usado por DuoQualifiedScene e
+ * ChampionScene. */
+function findMemberById(
+  members: ScoreboardProjection['versus'] extends infer V
+    ? V extends { membersA: infer M }
+    ? M
+    : never
+    : never,
+  id: string | null,
+) {
+  if (!id) return undefined
+  return (members as Array<{ id: string }>).find((m) => m.id === id) as
+    | {
+      id: string
+      name: string
+      photoAssetId: string | null
+      avatarUrl: string | null
+      bodyImageUrl?: string | null
+    }
+    | undefined
 }
 
 /**
@@ -328,6 +353,12 @@ export function ScoreboardApp() {
   const usedParticipantIdsRef = useRef<Set<string>>(new Set())
   const [, bumpUsed] = useState(0)
 
+  // Anúncio "quem vai lutar nessa rodada" (RoundAnnounceScene) — aparece
+  // logo que a rodada entra em cena (Rodada 1 selecionada manualmente ou
+  // Rodada 2 automática), por cima do BattleScene, e some sozinho.
+  const [roundAnnounceHold, setRoundAnnounceHold] = useState(false)
+  const lastRoundAnnounceKeyRef = useRef<string | null>(null)
+
   const handleUnlockAudio = useCallback(async () => {
     await globalAudio.unlock()
     setAudioUnlocked(true)
@@ -393,6 +424,28 @@ export function ScoreboardApp() {
     }
     prevMatchesRef.current = projection.matches
   }, [projection?.matches])
+
+  // Anúncio da rodada: dispara sempre que a chave entra em 'round' com os
+  // dois participantes ativos já definidos (cobre Rodada 1 manual e Rodada 2
+  // automática — ambas passam por screen === 'round' com activeAId/activeBId
+  // preenchidos). Usa uma chave estável (estágio+rodada+dupla de ids) pra
+  // não reabrir a cada re-render enquanto a mesma dupla ainda está lutando.
+  useEffect(() => {
+    if (!projection || projection.screen !== 'round' || !projection.versus) {
+      lastRoundAnnounceKeyRef.current = null
+      return
+    }
+    const { versus } = projection
+    if (!versus.activeAId || !versus.activeBId) return
+
+    const key = `${versus.stage}-r${versus.roundNumber}-${versus.activeAId}-${versus.activeBId}`
+    if (lastRoundAnnounceKeyRef.current === key) return
+
+    lastRoundAnnounceKeyRef.current = key
+    setRoundAnnounceHold(true)
+    const t = window.setTimeout(() => setRoundAnnounceHold(false), 2500)
+    return () => window.clearTimeout(t)
+  }, [projection])
 
   useEffect(() => {
     if (!projection) return
@@ -536,6 +589,17 @@ export function ScoreboardApp() {
     (projection.versus != null &&
       projection.versus.matchWinnerSide == null &&
       projection.versus.scoreA > projection.versus.scoreB)
+
+  // Dados dos 2 participantes ativos da rodada atual — usados só pela
+  // RoundAnnounceScene abaixo. Foto de corpo (bodyImageUrl) tem prioridade
+  // sobre o retrato de rosto.
+  const roundAnnounceLeft = projection.versus
+    ? findMemberById(projection.versus.membersA, projection.versus.activeAId)
+    : undefined
+  const roundAnnounceRight = projection.versus
+    ? findMemberById(projection.versus.membersB, projection.versus.activeBId)
+    : undefined
+
   return (
     <>
       {!audioUnlocked && (
@@ -750,6 +814,30 @@ export function ScoreboardApp() {
             getPhoto={getPhoto}
             forceMatchFinish={layers.forceMatchFinish}
             forceRoundWin={layers.forceRoundWin}
+          />
+        ) : null}
+        {roundAnnounceHold && projection.versus && roundAnnounceLeft && roundAnnounceRight ? (
+          <RoundAnnounceScene
+            roundLabel={`RODADA ${projection.versus.roundNumber ?? ''}`}
+            left={{
+              id: roundAnnounceLeft.id,
+              name: roundAnnounceLeft.name,
+              photoUrl:
+                roundAnnounceLeft.bodyImageUrl ||
+                (roundAnnounceLeft.photoAssetId && getPhoto(roundAnnounceLeft.photoAssetId)) ||
+                roundAnnounceLeft.avatarUrl ||
+                null,
+            }}
+            right={{
+              id: roundAnnounceRight.id,
+              name: roundAnnounceRight.name,
+              photoUrl:
+                roundAnnounceRight.bodyImageUrl ||
+                (roundAnnounceRight.photoAssetId && getPhoto(roundAnnounceRight.photoAssetId)) ||
+                roundAnnounceRight.avatarUrl ||
+                null,
+            }}
+            onDone={() => setRoundAnnounceHold(false)}
           />
         ) : null}
         {layers.showDuoQualified && projection.versus ? (
