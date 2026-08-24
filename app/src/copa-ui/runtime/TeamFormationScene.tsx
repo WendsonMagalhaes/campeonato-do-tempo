@@ -79,7 +79,7 @@ function SidePanel({ side, spotlight }: { side: 'left' | 'right'; spotlight?: Fo
             name={participant.name}
             photoSrc={participant.bodyImageUrl}
             active={spotlight?.state === 'lock'}
-            selected={spotlight?.state === 'idle'}
+            selected={spotlight?.state === 'idle' || spotlight?.state === 'lock'}
             accent={side === 'left' ? 'p1' : 'p2'}
             nameScale={0.5}
           />
@@ -161,7 +161,12 @@ export function TeamFormationScene({
         <img src={titleSrc} alt="" aria-hidden="true" draggable={false} className="ce-formation-header__title-img" />
       </div>
 
-      {/* Dynamic grid of participant avatars -- alphabetical order */}
+      {/* Dynamic grid of participant avatars -- alphabetical order.
+          `active` here only drives the glow/accent color (p1/p2) while a
+          participant is under the cursor or just locked in -- it no longer
+          swaps the frame image, so the grid card keeps the same frame the
+          whole time (selecting + chosen). Only `used` (already paired)
+          changes the frame, to the greyed "off" one. */}
       {sortedParticipants.map((participant, i) => {
         const box = grid.cells[i]
         const cursor = cursorByParticipantId.get(participant.id)

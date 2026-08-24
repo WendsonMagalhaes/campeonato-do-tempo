@@ -18,11 +18,11 @@ export function AvatarFrame({
 }: {
     photoSrc?: string | null
     name: string
-    /** Highlighted / currently the draw target (keeps the select frame + adds glow). */
+    /** Highlighted / currently the draw target (adds glow + accent color only -- does not change the frame image). */
     active?: boolean
     /** Shows the "off" (grayed) frame -- e.g. already paired. */
     used?: boolean
-    /** Shows the "select" frame -- e.g. currently under the cursor / selectable. */
+    /** Shows the "select" (thin) frame -- e.g. currently under the cursor / selectable. */
     selected?: boolean
     /** Cursor color when active: p1 = blue, p2 = red. */
     accent?: AvatarAccent
@@ -31,7 +31,12 @@ export function AvatarFrame({
 }) {
     const [failed, setFailed] = useState(false)
     const hasPhoto = Boolean(photoSrc) && !failed
-    const frameSrc = used ? FRAME_OFF : (selected || active) ? FRAME_SELECT : FRAME_ON
+    // `active` only drives the glow/accent (see `is-active` class below) --
+    // it no longer swaps the frame image. Only `selected` shows the thin
+    // "select" frame. This keeps the grid on the same frame throughout the
+    // draw (spinning + locked), while callers that still want the select
+    // frame (e.g. the side spotlight panels) opt in via `selected`.
+    const frameSrc = used ? FRAME_OFF : selected ? FRAME_SELECT : FRAME_ON
 
     const classes = [
         'ce-avatar-frame',
