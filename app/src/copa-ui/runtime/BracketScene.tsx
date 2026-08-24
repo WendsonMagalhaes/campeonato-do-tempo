@@ -21,6 +21,7 @@ import './runtime.css'
 
 // Copie o PNG enviado pra pasta de assets do projeto e ajuste este caminho.
 import { DuplaFrame } from '../components/DuplaFrame.tsx'
+import { MatchupRevealScene } from './MatchupRevealScene.tsx'
 
 
 type MatchView = ScoreboardProjection['matches'][number]
@@ -207,7 +208,7 @@ function TeamCard({
 
   useEffect(() => {
     if (!slot.justRevealed) return
-    if (startedForKeyRef.current === slot.key) return
+    if (startedForKeyRef.current === slot.key) return // já iniciado, não reinicia
 
     startedForKeyRef.current = slot.key
     setAnimPhase('hidden')
@@ -218,24 +219,31 @@ function TeamCard({
     const raf = requestAnimationFrame(() => {
       if (!isMountedRef.current) return
       setAnimPhase('center')
-      globalAudio.play('ui.selectionLock') // troque pelo sfx de "pop" que vocês tiverem, se houver um dedicado
+      globalAudio.play('ui.selectionLock') // som de "pop" grande no centro
     })
 
-    window.setTimeout(() => {
+    // Depois do hold no centro, começa o voo até o slot real.
+    const flyTimer = window.setTimeout(() => {
       if (!isMountedRef.current) return
       setAnimPhase('flying')
-      globalAudio.play('ui.cursorMove') // troque por um "whoosh" dedicado, se existir no audio singleton
+      globalAudio.play('ui.cursorMove') // som de "whoosh" do voo
     }, REVEAL_HOLD_MS)
 
-    window.setTimeout(() => {
+    // Quando o voo termina, larga no estado final (sem transform inline,
+    // volta a obedecer só o layout normal do slot).
+    const settleTimer = window.setTimeout(() => {
       if (!isMountedRef.current) return
       setAnimPhase('settled')
     }, REVEAL_HOLD_MS + REVEAL_FLY_MS)
 
-    // Só cancela o rAF (é one-shot, não interfere no hold/voo em andamento).
-    // Os setTimeouts continuam de propósito, mesmo se a próxima dupla começar
-    // a ser revelada antes — mesma lógica que já existia aqui.
-    return () => cancelAnimationFrame(raf)
+    // Cleanup só cancela o rAF (é local a este mount). Os timers de
+    // hold/voo continuam de propósito mesmo se a próxima dupla começar
+    // a ser revelada antes — pra não cortar a animação desta no meio.
+    return () => {
+      cancelAnimationFrame(raf)
+      window.clearTimeout(flyTimer)
+      window.clearTimeout(settleTimer)
+    }
   }, [slot.justRevealed, slot.key])
 
   const box = slot.box
@@ -256,7 +264,7 @@ function TeamCard({
       revealStyle = {
         opacity: 1,
         transform: `translate(${dx}px, ${dy}px) scale(${REVEAL_CENTER_SCALE})`,
-        transition: 'opacity 350ms ease-out, transform 350ms ease-out',
+        transition: 'opacity 350ms ease-out',
         zIndex: 50,
       }
     } else if (animPhase === 'flying') {
@@ -267,6 +275,7 @@ function TeamCard({
         zIndex: 50,
       }
     }
+    // 'settled': revealStyle fica {} — volta ao layout normal do slot.
   }
 
   const m0 = slot.members?.[0]
@@ -341,31 +350,18 @@ function TeamCard({
  */
 export function BracketScene({ matches, getPhoto, status, focusMatchId, revealOverride }: Props) {
   const { slots, paths } = buildSlots(matches, revealOverride)
-  const [cameraState, setCameraState] = useState<'overview' | 'tourAll' | 'focusMatch'>('overview')
-  const [tourIndex, setTourIndex] = useState(0)
+  const [cameraState, setCameraState] = useState<'overview' | 'focusMatch'>('overview')
   const [focusCenter, setFocusCenter] = useState<{ x: number; y: number } | null>(null)
+
+  // Substituiu o antigo "tour de câmera" (zoom nos cards pequenos do
+  // bracket) por uma apresentação em tela cheia de cada confronto das
+  // oitavas — ver MatchupRevealScene.tsx.
+  const [showMatchupReveal, setShowMatchupReveal] = useState(false)
 
   const prevStatusRef = useRef(status)
   useEffect(() => {
     if (prevStatusRef.current === 'bracket_drawn' && status === 'in_progress') {
-      setCameraState('tourAll')
-      setTourIndex(0)
-      globalAudio.play('ui.cursorMove')
-
-      let currentIdx = 0
-      const interval = setInterval(() => {
-        currentIdx++
-        if (currentIdx >= 8) {
-          clearInterval(interval)
-          setCameraState('overview')
-          globalAudio.play('ui.cursorMove')
-        } else {
-          setTourIndex(currentIdx)
-          globalAudio.play('ui.cursorMove')
-        }
-      }, 2500)
-
-      return () => { clearInterval(interval) }
+      setShowMatchupReveal(true)
     }
     prevStatusRef.current = status
   }, [status])
@@ -389,13 +385,7 @@ export function BracketScene({ matches, getPhoto, status, focusMatchId, revealOv
   // "overview" agora tem uma leve margem (ver OVERVIEW_TRANSFORM acima) em
   // vez de scale(1) colado nas quatro bordas.
   let transform = OVERVIEW_TRANSFORM
-  if (cameraState === 'tourAll') {
-    const focus = getMatchCenter('oitavas', tourIndex)
-    const scale = 1.6
-    const tx = 960 - focus.x * scale
-    const ty = 540 - focus.y * scale
-    transform = `translate(${tx}px, ${ty}px) scale(${scale})`
-  } else if (cameraState === 'focusMatch' && focusCenter) {
+  if (cameraState === 'focusMatch' && focusCenter) {
     const scale = 1.5
     const tx = 960 - focusCenter.x * scale
     const ty = 540 - focusCenter.y * scale
@@ -403,87 +393,97 @@ export function BracketScene({ matches, getPhoto, status, focusMatchId, revealOv
   }
 
   return (
-    <FixedCanvas className="ce-scene-host ce-bracket-host">
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          transform,
-          transition: 'transform 1s cubic-bezier(0.25, 1, 0.5, 1)',
-          transformOrigin: '0 0'
-        }}
-      >
-        <img
-          src={BRACKET_BG}
-          alt=""
-          aria-hidden="true"
-          className="ce-bracket-stage-bg"
-          draggable={false}
-        />
-        <div className="ce-team-vignette ce-bracket-vignette" aria-hidden="true" />
-
-        {BRACKET_ROUND_LABELS.map((label) => {
-          const labelW = label.w ?? BRACKET.card.w
-          return (
-            <div
-              key={`${label.text}-${label.x}`}
-              className="ce-center ce-bracket-round-label"
-              style={absoluteBox({
-                x: label.x,
-                y: BRACKET.roundLabel.y,
-                w: labelW,
-                h: BRACKET.roundLabel.h,
-              })}
-            >
-              <BitmapText
-                text={label.text}
-                size={BRACKET_HUD.roundLabel.size}
-                scale={BRACKET_HUD.roundLabel.scale}
-                align="center"
-                maxWidth={labelW}
-              />
-            </div>
-          )
-        })}
-
-        <svg
-          className="ce-bracket-connectors"
-          viewBox={`0 0 ${DESIGN.width} ${DESIGN.height}`}
-          aria-hidden="true"
+    <>
+      <FixedCanvas className="ce-scene-host ce-bracket-host">
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            transform,
+            transition: 'transform 1s cubic-bezier(0.25, 1, 0.5, 1)',
+            transformOrigin: '0 0'
+          }}
         >
-          {paths.map((d, i) => (
-            <path key={i} className="ce-bracket-connector" d={d} />
+          <img
+            src={BRACKET_BG}
+            alt=""
+            aria-hidden="true"
+            className="ce-bracket-stage-bg"
+            draggable={false}
+          />
+          <div className="ce-team-vignette ce-bracket-vignette" aria-hidden="true" />
+
+          {BRACKET_ROUND_LABELS.map((label) => {
+            const labelW = label.w ?? BRACKET.card.w
+            return (
+              <div
+                key={`${label.text}-${label.x}`}
+                className="ce-center ce-bracket-round-label"
+                style={absoluteBox({
+                  x: label.x,
+                  y: BRACKET.roundLabel.y,
+                  w: labelW,
+                  h: BRACKET.roundLabel.h,
+                })}
+              >
+                <BitmapText
+                  text={label.text}
+                  size={BRACKET_HUD.roundLabel.size}
+                  scale={BRACKET_HUD.roundLabel.scale}
+                  align="center"
+                  maxWidth={labelW}
+                />
+              </div>
+            )
+          })}
+
+          <svg
+            className="ce-bracket-connectors"
+            viewBox={`0 0 ${DESIGN.width} ${DESIGN.height}`}
+            aria-hidden="true"
+          >
+            {paths.map((d, i) => (
+              <path key={i} className="ce-bracket-connector" d={d} />
+            ))}
+          </svg>
+
+          <img
+            src={BRACKET_LOGO}
+            alt=""
+            aria-hidden="true"
+            className="ce-bracket-logo"
+            style={{
+              ...absoluteBox(BRACKET.logo),
+              objectFit: 'contain',
+            }}
+            draggable={false}
+          />
+
+          <img
+            src={canonicalUi.vsEmblem}
+            alt=""
+            aria-hidden="true"
+            className="ce-bracket-trophy"
+            style={{
+              ...absoluteBox(BRACKET.vs),
+              objectFit: 'contain',
+            }}
+            draggable={false}
+          />
+
+          {slots.map((slot) => (
+            <TeamCard key={slot.key} slot={slot} getPhoto={getPhoto} />
           ))}
-        </svg>
+        </div>
+      </FixedCanvas>
 
-        <img
-          src={BRACKET_LOGO}
-          alt=""
-          aria-hidden="true"
-          className="ce-bracket-logo"
-          style={{
-            ...absoluteBox(BRACKET.logo),
-            objectFit: 'contain',
-          }}
-          draggable={false}
+      {showMatchupReveal ? (
+        <MatchupRevealScene
+          matches={sortStage(matches, 'oitavas')}
+          getPhoto={getPhoto}
+          onDone={() => setShowMatchupReveal(false)}
         />
-
-        <img
-          src={canonicalUi.vsEmblem}
-          alt=""
-          aria-hidden="true"
-          className="ce-bracket-trophy"
-          style={{
-            ...absoluteBox(BRACKET.vs),
-            objectFit: 'contain',
-          }}
-          draggable={false}
-        />
-
-        {slots.map((slot) => (
-          <TeamCard key={slot.key} slot={slot} getPhoto={getPhoto} />
-        ))}
-      </div>
-    </FixedCanvas>
+      ) : null}
+    </>
   )
 }
