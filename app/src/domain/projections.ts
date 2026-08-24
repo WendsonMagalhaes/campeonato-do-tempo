@@ -34,6 +34,13 @@ export interface ScoreboardProjection {
     destinationParticipantId: string
     prize: string
   }>
+  /**
+   * Ids of participants who already belong to a revealed team (status !==
+   * 'registered'), persisted in `state.teams`. Survives a screen refresh --
+   * unlike the runtime "just landed" tracker kept in ScoreboardApp, which
+   * only covers the current fake-shuffle animation run.
+   */
+  usedParticipantIds: string[]
   matches: Array<{
     id: string
     stage: Match['stage']
@@ -261,6 +268,13 @@ export function projectScoreboard(state: TournamentState): ScoreboardProjection 
           prize: formatPrize(team.guaranteedPrize),
         }
       }),
+    // Persisted "already drawn" participants -- any team whose status moved
+    // past `registered` (i.e. actually revealed on screen at some point).
+    // Recomputed fresh from `state.teams` on every projection, so a screen
+    // refresh mid fake-shuffle-run still shows the correct grayed-out grid.
+    usedParticipantIds: state.teams
+      .filter((team) => team.status !== 'registered')
+      .flatMap((team) => [team.participant1Id, team.participant2Id]),
     matches: state.matches.map((item) => {
       const tA = item.teamAId ? state.teams.find((team) => team.id === item.teamAId) : undefined
       const tB = item.teamBId ? state.teams.find((team) => team.id === item.teamBId) : undefined

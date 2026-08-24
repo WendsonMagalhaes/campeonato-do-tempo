@@ -321,6 +321,10 @@ export function ScoreboardApp() {
   // Tracks which participants have already been drawn into a duo during the
   // current fake-shuffle run -- consumed by FakeShuffleScreen to show the
   // "off" frame + grayscale photo for already-paired participants in the grid.
+  // This is only the *runtime* signal (fires the instant a duo lands, before
+  // the operator's "revealed" status round-trips through persistence). The
+  // durable signal lives in `projection.usedParticipantIds` -- see the merge
+  // in `usedParticipantIds` below -- which is what survives a screen refresh.
   const usedParticipantIdsRef = useRef<Set<string>>(new Set())
   const [, bumpUsed] = useState(0)
 
@@ -504,6 +508,16 @@ export function ScoreboardApp() {
     }
   }, [phase, anchorId, destId])
 
+  // Merge the durable, persisted "revealed" participants (survives a screen
+  // refresh, since it's derived straight from `state.teams` on every
+  // projection) with the ephemeral in-run tracker above (covers the instant
+  // a duo lands, ahead of the operator's confirm round-tripping back here).
+  const usedParticipantIds = useMemo(() => {
+    const persisted = projection?.usedParticipantIds ?? []
+    if (persisted.length === 0 && usedParticipantIdsRef.current.size === 0) return usedParticipantIdsRef.current
+    return new Set([...persisted, ...usedParticipantIdsRef.current])
+  }, [projection?.usedParticipantIds, phase, anchorId, destId])
+
   if (!projection) {
     return (
       <div className="scoreboard">
@@ -615,7 +629,7 @@ export function ScoreboardApp() {
             destId={destId}
             teamName={cinematic?.type === 'fake_shuffle' ? cinematic.teamName : null}
             getPhoto={getPhoto}
-            usedParticipantIds={usedParticipantIdsRef.current}
+            usedParticipantIds={usedParticipantIds}
           />
         ) : null}
         {projection.screen === 'bracket' ? (

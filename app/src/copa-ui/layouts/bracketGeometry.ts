@@ -18,27 +18,16 @@ export const BRACKET_BG = '/assets/backgrounds/bracket_city_plaza_bg.png' as con
  */
 export const BRACKET = {
   card: { w: 200, h: 84 },
-  /** Oitavas / Quartas / Semis (left → inward). */
   leftColumns: [40, 260, 480] as const,
-  /** Oitavas / Quartas / Semis (right → inward). */
   rightColumns: [1680, 1460, 1240] as const,
-  round16Ys: [78, 198, 318, 438, 558, 678, 798, 918] as const,
-  quarterYs: [138, 378, 618, 858] as const,
-  semiYs: [258, 738] as const,
-  finalLeft: { x: 700, y: 498 },
-  finalRight: { x: 1020, y: 498 },
-  vs: { x: 900, y: 480, w: 120, h: 120 },
+  round16Ys: [98, 218, 338, 458, 578, 698, 818, 938] as const,
+  quarterYs: [158, 398, 638, 878] as const,
+  semiYs: [278, 758] as const,
+  finalLeft: { x: 700, y: 518 },
+  finalRight: { x: 1020, y: 518 },
+  vs: { x: 900, y: 500, w: 120, h: 120 },
   trophy: { x: 840, y: 220, w: 240, h: 240 },
-  /**
-   * Esperança logo — centered under the phase-label row, above SF cards / VS.
-   * Aspect ≈ 3.38∶1 from brand PNG; must not cover match cards.
-   */
   logo: { x: 750, y: 72, w: 420, h: 124 },
-  /**
-   * Phase labels sit in a shared header band ABOVE the tallest column tops
-   * (oitavas at round16Ys[0]). Gap below label box → first card: 12px.
-   * Must stay clear of card tops after card.h grew to 84 for 2-line names.
-   */
   roundLabel: { y: 38, h: 28 },
 } as const
 

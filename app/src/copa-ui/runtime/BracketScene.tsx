@@ -170,6 +170,18 @@ const REVEAL_FLY_MS = 1800 // duração do voo até o slot
 // animação da dupla anterior é cortada no meio quando a próxima começa.
 export const REVEAL_TOTAL_MS = REVEAL_HOLD_MS + REVEAL_FLY_MS
 
+/**
+ * Escala padrão da câmera (estado "overview"). Antes era scale(1) sem
+ * margem nenhuma, então os labels de rodada (OITAVAS/QUARTAS/...), que
+ * ficam em roundLabel.y = 38, coladinhos na borda de cima do canvas
+ * 1920x1080, acabavam sem folga na tela real. Encolher só a ALTURA (largura
+ * fica 1:1), centralizado verticalmente em y=540, dá folga em cima/embaixo
+ * sem estreitar a cena nem mudar a posição horizontal de nada.
+ */
+const OVERVIEW_SCALE_Y = 0.93
+const OVERVIEW_TY = (DESIGN.height / 2) * (1 - OVERVIEW_SCALE_Y)
+const OVERVIEW_TRANSFORM = `translate(0px, ${OVERVIEW_TY}px) scale(1, ${OVERVIEW_SCALE_Y})`
+
 function TeamCard({
   slot,
   getPhoto,
@@ -195,15 +207,35 @@ function TeamCard({
 
   useEffect(() => {
     if (!slot.justRevealed) return
-    if (startedForKeyRef.current === slot.key) return // já iniciado, não reinicia
+    if (startedForKeyRef.current === slot.key) return
 
     startedForKeyRef.current = slot.key
     setAnimPhase('hidden')
 
-    // Sem cleanup cancelando os timers aqui de propósito: se slot.justRevealed
-    // virar false no próximo passo do sorteio (a próxima dupla começando a
-    // ser revelada), não queremos interromper o hold/voo desta dupla no
-    // meio do caminho.
+    // rAF pra garantir que o navegador pinte o estado 'hidden' (opacity 0,
+    // escala grande) antes de mudarmos pra 'center' — senão a transição de
+    // opacity/scale pode ser "engolida" por acontecer no mesmo frame.
+    const raf = requestAnimationFrame(() => {
+      if (!isMountedRef.current) return
+      setAnimPhase('center')
+      globalAudio.play('ui.selectionLock') // troque pelo sfx de "pop" que vocês tiverem, se houver um dedicado
+    })
+
+    window.setTimeout(() => {
+      if (!isMountedRef.current) return
+      setAnimPhase('flying')
+      globalAudio.play('ui.cursorMove') // troque por um "whoosh" dedicado, se existir no audio singleton
+    }, REVEAL_HOLD_MS)
+
+    window.setTimeout(() => {
+      if (!isMountedRef.current) return
+      setAnimPhase('settled')
+    }, REVEAL_HOLD_MS + REVEAL_FLY_MS)
+
+    // Só cancela o rAF (é one-shot, não interfere no hold/voo em andamento).
+    // Os setTimeouts continuam de propósito, mesmo se a próxima dupla começar
+    // a ser revelada antes — mesma lógica que já existia aqui.
+    return () => cancelAnimationFrame(raf)
   }, [slot.justRevealed, slot.key])
 
   const box = slot.box
@@ -354,7 +386,9 @@ export function BracketScene({ matches, getPhoto, status, focusMatchId, revealOv
     }
   }, [focusMatchId, matches])
 
-  let transform = 'translate(0px, 0px) scale(1)'
+  // "overview" agora tem uma leve margem (ver OVERVIEW_TRANSFORM acima) em
+  // vez de scale(1) colado nas quatro bordas.
+  let transform = OVERVIEW_TRANSFORM
   if (cameraState === 'tourAll') {
     const focus = getMatchCenter('oitavas', tourIndex)
     const scale = 1.6
