@@ -37,6 +37,32 @@ interface Store {
 
 const Ctx = createContext<Store | null>(null)
 
+/**
+ * Duração estimada da animação de fake-shuffle exibida no telão (veja
+ * `frameDelay` / `buildSpinFrames` em `ScoreboardApp.tsx`): 25 frames por
+ * fase (spin1 + spin2), delay(i) = 55 + (i/24)^2 * 300ms, mais um gap de
+ * 300ms entre as duas fases. Se o telão mudar frameCount, o gap entre fases
+ * ou a curva de delay, atualize esta constante junto -- ela existe só pra
+ * saber quanto tempo esperar aqui antes de marcar a dupla como "revelada"
+ * (e portanto "off" na grade via usedParticipantIds).
+ */
+function estimateFakeShuffleDurationMs(frameCount: number): number {
+  let total = 0
+  for (let i = 0; i < frameCount; i += 1) {
+    const t = i / Math.max(frameCount - 1, 1)
+    total += 55 + t * t * 300
+  }
+  return total
+}
+
+const FAKE_SHUFFLE_FRAME_COUNT = 25
+const FAKE_SHUFFLE_PHASE_GAP_MS = 300
+const FAKE_SHUFFLE_SAFETY_BUFFER_MS = 500
+const FAKE_SHUFFLE_ANIMATION_MS =
+  estimateFakeShuffleDurationMs(FAKE_SHUFFLE_FRAME_COUNT) * 2 +
+  FAKE_SHUFFLE_PHASE_GAP_MS +
+  FAKE_SHUFFLE_SAFETY_BUFFER_MS
+
 export function TournamentProvider({ children }: { children: ReactNode }) {
   const depsRef = useRef(createLiveDeps())
   const persistence = useRef(createIndexedDbPersistence()).current
@@ -50,6 +76,10 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
   const [photos, setPhotos] = useState<Record<string, string>>({})
   const [persistenceLabel, setPersistenceLabel] = useState('carregando…')
   const [error, setError] = useState<string | null>(null)
+  // Evita disparar uma segunda cinemática de fake-shuffle (e um segundo
+  // RevealNextTeam) enquanto a animação da dupla atual ainda está rodando
+  // no telão -- ver revealNextWithCinematic() abaixo.
+  const revealInFlightRef = useRef(false)
 
   const commit = useCallback((next: TournamentState, sound?: string) => {
     stateRef.current = next
@@ -183,22 +213,42 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
       mockTimer.simulate(seconds)
     },
     revealNextWithCinematic() {
+      // Já existe uma animação em andamento para a dupla atual -- ignora o
+      // clique repetido em vez de disparar uma segunda cinemática para a
+      // mesma dupla (que ainda está com status 'registered').
+      if (revealInFlightRef.current) return
+
       const pending = [...stateRef.current.teams]
         .filter((team) => team.status === 'registered')
         .sort((a, b) => a.revealOrder - b.revealOrder)[0]
-      if (pending) {
-        const others = stateRef.current.participants
-          .map((item) => item.id)
-          .filter((id) => id !== pending.firstRevealParticipantId && id !== fakeShuffleDestination(pending))
-        display.publishCinematic({
-          type: 'fake_shuffle',
-          firstParticipantId: pending.firstRevealParticipantId,
-          destinationParticipantId: fakeShuffleDestination(pending),
-          candidateIds: others,
-          teamName: pending.name,
-        })
+
+      if (!pending) {
+        // Nada pendente: deixa o domínio emitir o erro ALL_REVEALED normalmente.
+        dispatch({ type: 'RevealNextTeam' })
+        return
       }
-      dispatch({ type: 'RevealNextTeam' })
+
+      const others = stateRef.current.participants
+        .map((item) => item.id)
+        .filter((id) => id !== pending.firstRevealParticipantId && id !== fakeShuffleDestination(pending))
+      display.publishCinematic({
+        type: 'fake_shuffle',
+        firstParticipantId: pending.firstRevealParticipantId,
+        destinationParticipantId: fakeShuffleDestination(pending),
+        candidateIds: others,
+        teamName: pending.name,
+      })
+
+      // Só marca a dupla como 'revealed' (o que a deixa "off"/cinza na
+      // grade via usedParticipantIds, projetado em projectScoreboard) DEPOIS
+      // que a animação de fake-shuffle já terminou de rodar no telão --
+      // senão o estado persistido chega adiantado via display.publish() e a
+      // dupla aparece cinza antes mesmo de ser sorteada/exibida.
+      revealInFlightRef.current = true
+      window.setTimeout(() => {
+        revealInFlightRef.current = false
+        dispatch({ type: 'RevealNextTeam' })
+      }, FAKE_SHUFFLE_ANIMATION_MS)
     },
     drawBracketWithCinematic() {
       dispatch({ type: 'DrawBracket' })
