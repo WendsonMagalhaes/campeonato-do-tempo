@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
-import { createBroadcastDisplay } from '../adapters/display/broadcastChannel.ts'
 import { createLocalAudio } from '../adapters/audio/localAudio.ts'
 import { createLocalhostTimerCapture, createMockTimerCapture } from '../adapters/timerCapture/timerCapture.ts'
 import type { Command } from '../domain/commands.ts'
@@ -11,6 +10,8 @@ import { createInitialState, createLiveDeps } from '../domain/state.ts'
 import { fakeShuffleDestination } from '../domain/teams.ts'
 import type { TournamentState } from '../domain/types.ts'
 import { createIndexedDbPersistence } from '../persistence/indexedDb.ts'
+import { createSupabaseDisplay } from '../adapters/display/supabaseChannel.ts'
+
 
 interface Store {
   state: TournamentState
@@ -67,7 +68,9 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
   const depsRef = useRef(createLiveDeps())
   const persistence = useRef(createIndexedDbPersistence()).current
   const audio = useRef(createLocalAudio()).current
-  const display = useRef(createBroadcastDisplay()).current
+  const display = useRef(
+    createSupabaseDisplay(() => JSON.stringify(projectScoreboard(stateRef.current)))
+  ).current
   const mockTimer = useRef(createMockTimerCapture()).current
   const localTimer = useRef(createLocalhostTimerCapture()).current
   const history = useRef<TournamentState[]>([])

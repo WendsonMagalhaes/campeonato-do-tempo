@@ -91,16 +91,13 @@ function ParticipantsPanel({
     <div className="op-card">
       <h2>Participantes</h2>
       <p className="op-subtitle">Cadastro individual com foto e variante do sprite (masculino/feminino). Lista paginada.</p>
-      <div className="op-progress-track">
-        <div className="op-progress-fill" style={{ width: `${Math.min(100, (participants.length / 32) * 100)}%` }} />
-      </div>
-      <div className="op-subtitle" style={{ marginTop: -10 }}>{participants.length} participantes cadastrados (32 titulares em 16 duplas)</div>
 
-      <div className="op-form-row">
+      <div className="op-card-actions">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Nome do participante"
+          style={{ flex: 2, minWidth: 160 }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && name.trim()) {
               onAdd(name, fighterVariant)
@@ -125,73 +122,61 @@ function ParticipantsPanel({
         </button>
       </div>
 
+      <div className="op-progress-track">
+        <div className="op-progress-fill" style={{ width: `${Math.min(100, (participants.length / 32) * 100)}%` }} />
+      </div>
+      <div className="op-subtitle" style={{ marginTop: -10 }}>{participants.length} participantes cadastrados (32 titulares em 16 duplas)</div>
+
       {pageItems.length === 0 ? (
         <div className="op-empty">Nenhum participante nesta página.</div>
       ) : (
-        <table className="op-table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Nome</th>
-              <th>Variante</th>
-              <th>Foto</th>
-              <th>Avatar de luta</th>
-              <th style={{ textAlign: 'right' }}>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pageItems.map((person) => (
-              <tr key={person.id}>
-                <td><Thumb src={photoOf(person)} name={person.name} /></td>
-                <td>
-                  {editingId === person.id ? (
-                    <input value={editingName} onChange={(e) => setEditingName(e.target.value)} />
-                  ) : (
-                    person.name
-                  )}
-                </td>
-                <td>
-                  {editingId === person.id ? (
-                    <select
-                      value={editingVariant}
-                      onChange={(e) => setEditingVariant(e.target.value as 'male' | 'female')}
-                      aria-label={`Variante de ${person.name}`}
-                    >
-                      <option value="male">Masculino</option>
-                      <option value="female">Feminino</option>
-                    </select>
-                  ) : (
-                    <span
-                      className={
-                        (person.fighterVariant ?? 'male') === 'female'
-                          ? 'op-variant-badge op-variant-badge--female'
-                          : 'op-variant-badge op-variant-badge--male'
-                      }
-                      title="Variante do sprite na batalha"
-                    >
-                      {(person.fighterVariant ?? 'male') === 'female' ? 'Feminino' : 'Masculino'}
-                    </span>
-                  )}
-                </td>
-                <td>
-                  <label className="op-file-label">
-                    Trocar
-                    <input
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      onChange={(event) => {
-                        const file = event.target.files?.[0]
-                        if (!file) return
-                        const reader = new FileReader()
-                        reader.onload = () => onPhoto(person.id, String(reader.result))
-                        reader.readAsDataURL(file)
-                      }}
-                    />
-                  </label>
-                </td>
-                <td>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <Thumb src={fightPhotoOf(person)} name={person.name} />
+        <div className="op-table-wrap">
+          <table className="op-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Nome</th>
+                <th>Variante</th>
+                <th>Foto</th>
+                <th>Avatar de luta</th>
+                <th style={{ textAlign: 'right' }}>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pageItems.map((person) => (
+                <tr key={person.id}>
+                  <td><Thumb src={photoOf(person)} name={person.name} /></td>
+                  <td>
+                    {editingId === person.id ? (
+                      <input value={editingName} onChange={(e) => setEditingName(e.target.value)} />
+                    ) : (
+                      person.name
+                    )}
+                  </td>
+                  <td>
+                    {editingId === person.id ? (
+                      <select
+                        value={editingVariant}
+                        onChange={(e) => setEditingVariant(e.target.value as 'male' | 'female')}
+                        aria-label={`Variante de ${person.name}`}
+                      >
+                        <option value="male">Masculino</option>
+                        <option value="female">Feminino</option>
+                      </select>
+                    ) : (
+                      <span
+                        className={
+                          (person.fighterVariant ?? 'male') === 'female'
+                            ? 'op-variant-badge op-variant-badge--female'
+                            : 'op-variant-badge op-variant-badge--male'
+                        }
+                        title="Variante do sprite na batalha"
+                      >
+                        {(person.fighterVariant ?? 'male') === 'female' ? 'Feminino' : 'Masculino'}
+                      </span>
+                    )}
+                  </td>
+                  <td>
                     <label className="op-file-label">
                       Trocar
                       <input
@@ -201,47 +186,66 @@ function ParticipantsPanel({
                           const file = event.target.files?.[0]
                           if (!file) return
                           const reader = new FileReader()
-                          reader.onload = () => onFightPhoto(person.id, String(reader.result))
+                          reader.onload = () => onPhoto(person.id, String(reader.result))
                           reader.readAsDataURL(file)
                         }}
                       />
                     </label>
-                  </div>
-                </td>
-                <td style={{ textAlign: 'right' }}>
-                  {editingId === person.id ? (
-                    <>
-                      <button
-                        className="op-btn small"
-                        onClick={() => {
-                          onEdit(person.id, editingName, editingVariant)
-                          setEditingId(null)
-                        }}
-                      >
-                        Salvar
-                      </button>{' '}
-                      <button className="op-btn ghost small" onClick={() => setEditingId(null)}>Cancelar</button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        className="op-btn ghost small"
-                        onClick={() => {
-                          setEditingId(person.id)
-                          setEditingName(person.name)
-                          setEditingVariant(person.fighterVariant ?? 'male')
-                        }}
-                      >
-                        Editar
-                      </button>{' '}
-                      <button className="op-btn danger small" onClick={() => onRemove(person.id)}>Excluir</button>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  </td>
+                  <td>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <Thumb src={fightPhotoOf(person)} name={person.name} />
+                      <label className="op-file-label">
+                        Trocar
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          onChange={(event) => {
+                            const file = event.target.files?.[0]
+                            if (!file) return
+                            const reader = new FileReader()
+                            reader.onload = () => onFightPhoto(person.id, String(reader.result))
+                            reader.readAsDataURL(file)
+                          }}
+                        />
+                      </label>
+                    </div>
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    {editingId === person.id ? (
+                      <>
+                        <button
+                          className="op-btn small"
+                          onClick={() => {
+                            onEdit(person.id, editingName, editingVariant)
+                            setEditingId(null)
+                          }}
+                        >
+                          Salvar
+                        </button>{' '}
+                        <button className="op-btn ghost small" onClick={() => setEditingId(null)}>Cancelar</button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="op-btn ghost small"
+                          onClick={() => {
+                            setEditingId(person.id)
+                            setEditingName(person.name)
+                            setEditingVariant(person.fighterVariant ?? 'male')
+                          }}
+                        >
+                          Editar
+                        </button>{' '}
+                        <button className="op-btn danger small" onClick={() => onRemove(person.id)}>Excluir</button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       <Pagination page={page} pageCount={pageCount} total={sorted.length} onChange={setPage} />
     </div>
@@ -286,13 +290,9 @@ function TeamsPanel({
     <div className="op-card">
       <h2>Duplas</h2>
       <p className="op-subtitle">Formação previamente cadastrada. O telão apenas encena a revelação — nunca sorteia de fato.</p>
-      <div className="op-progress-track">
-        <div className="op-progress-fill" style={{ width: `${Math.min(100, (teams.length / 16) * 100)}%` }} />
-      </div>
-      <div className="op-subtitle" style={{ marginTop: -10 }}>{teams.length}/16 duplas formadas · {available.length} participante(s) disponível(is)</div>
 
-      <div className="op-form-row">
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome da dupla (opcional)" />
+      <div className="op-card-actions">
+        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome da dupla (opcional)" style={{ flex: 2, minWidth: 160 }} />
         <select value={p1} onChange={(e) => setP1(e.target.value)}>
           <option value="">Integrante 1</option>
           {available.map((person) => <option key={person.id} value={person.id}>{person.name}</option>)}
@@ -313,48 +313,55 @@ function TeamsPanel({
         </button>
       </div>
 
+      <div className="op-progress-track">
+        <div className="op-progress-fill" style={{ width: `${Math.min(100, (teams.length / 16) * 100)}%` }} />
+      </div>
+      <div className="op-subtitle" style={{ marginTop: -10 }}>{teams.length}/16 duplas formadas · {available.length} participante(s) disponível(is)</div>
+
       {pageItems.length === 0 ? (
         <div className="op-empty">Nenhuma dupla nesta página.</div>
       ) : (
-        <table className="op-table">
-          <thead>
-            <tr>
-              <th>Ordem</th>
-              <th>Dupla</th>
-              <th>Integrantes</th>
-              <th>Revela 1º</th>
-              <th style={{ textAlign: 'right' }}>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pageItems.map((team) => (
-              <tr key={team.id}>
-                <td>{team.revealOrder}</td>
-                <td>{team.name}</td>
-                <td>{byId.get(team.participant1Id)?.name ?? '?'} & {byId.get(team.participant2Id)?.name ?? '?'}</td>
-                <td>{byId.get(team.firstRevealParticipantId)?.name ?? '?'}</td>
-                <td style={{ textAlign: 'right' }}>
-                  <button
-                    className="op-btn ghost small"
-                    onClick={() => {
-                      setEditingId(team.id)
-                      setEditState({
-                        name: team.name,
-                        p1: team.participant1Id,
-                        p2: team.participant2Id,
-                        firstReveal: team.firstRevealParticipantId,
-                        order: team.revealOrder,
-                      })
-                    }}
-                  >
-                    Editar
-                  </button>{' '}
-                  <button className="op-btn danger small" onClick={() => onRemove(team.id)}>Desfazer</button>
-                </td>
+        <div className="op-table-wrap">
+          <table className="op-table">
+            <thead>
+              <tr>
+                <th>Ordem</th>
+                <th>Dupla</th>
+                <th>Integrantes</th>
+                <th>Revela 1º</th>
+                <th style={{ textAlign: 'right' }}>Ações</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {pageItems.map((team) => (
+                <tr key={team.id}>
+                  <td>{team.revealOrder}</td>
+                  <td>{team.name}</td>
+                  <td>{byId.get(team.participant1Id)?.name ?? '?'} & {byId.get(team.participant2Id)?.name ?? '?'}</td>
+                  <td>{byId.get(team.firstRevealParticipantId)?.name ?? '?'}</td>
+                  <td style={{ textAlign: 'right' }}>
+                    <button
+                      className="op-btn ghost small"
+                      onClick={() => {
+                        setEditingId(team.id)
+                        setEditState({
+                          name: team.name,
+                          p1: team.participant1Id,
+                          p2: team.participant2Id,
+                          firstReveal: team.firstRevealParticipantId,
+                          order: team.revealOrder,
+                        })
+                      }}
+                    >
+                      Editar
+                    </button>{' '}
+                    <button className="op-btn danger small" onClick={() => onRemove(team.id)}>Desfazer</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       <Pagination page={page} pageCount={pageCount} total={sortedTeams.length} onChange={setPage} />
 
@@ -487,13 +494,13 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
 
   return (
     <div className="op-card" style={{ marginTop: 16, backgroundColor: '#f0f0f0', color: '#333' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 8 }}>
         <h3 style={{ margin: 0, color: '#333' }}>Configuração da Câmera</h3>
         <button className="op-btn ghost small" onClick={() => setIsOpen(false)}>Fechar</button>
       </div>
       <p className="op-subtitle" style={{ color: '#555' }}>Desenhe um retângulo sobre os dígitos do cronômetro para configurar a área de leitura (ROI).</p>
 
-      <div style={{ display: 'flex', gap: 8, marginBottom: 16, alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16, alignItems: 'center', flexWrap: 'wrap' }}>
         <label>Câmera:</label>
         <select
           value={cameraIndex}
@@ -515,7 +522,7 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
       </div>
 
       <div
-        style={{ position: 'relative', display: 'inline-block', border: '1px solid #ccc', cursor: 'crosshair', userSelect: 'none', backgroundColor: '#000', minWidth: 320, minHeight: 240 }}
+        style={{ position: 'relative', display: 'inline-block', maxWidth: '100%', border: '1px solid #ccc', cursor: 'crosshair', userSelect: 'none', backgroundColor: '#000', minWidth: 320, minHeight: 240 }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -533,7 +540,7 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
           }}
           onLoad={updateDisplaySize}
         />
-        <div style={{ display: 'none', width: 640, height: 480, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ddd', color: '#666', flexDirection: 'column' }}>
+        <div style={{ display: 'none', width: 640, height: 480, maxWidth: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: '#ddd', color: '#666', flexDirection: 'column' }}>
           <span style={{ fontSize: 24, marginBottom: 8 }}>📷</span>
           <span>Servidor de câmera offline.</span>
           <code style={{ marginTop: 8, padding: 4, backgroundColor: '#eee', borderRadius: 4 }}>Inicie o python server.py em timer-capture/</code>
@@ -633,23 +640,8 @@ export function OperatorApp() {
           <span className="op-status-pill">{store.persistenceLabel}</span>
         </div>
         <div className="op-topbar-actions">
-          <button className="op-btn ghost" onClick={store.undo}>Desfazer</button>
-          <button
-            className="op-btn ghost"
-            title="Carrega todos os 32 participantes reais com fotos/avatares e as 16 duplas oficiais"
-            onClick={() => {
-              if (
-                window.confirm(
-                  'Carregar o elenco oficial completo (32 participantes e 16 duplas)? O estado atual do campeonato será reiniciado.',
-                )
-              ) {
-                store.loadOfficialRoster()
-              }
-            }}
-          >
-            Elenco oficial (32/16)
-          </button>
           <a className="op-btn secondary" href="/telao" target="_blank" rel="noreferrer">Abrir telão</a>
+          <button className="op-btn ghost" onClick={store.undo}>Desfazer</button>
           <button
             className="op-btn ghost"
             onClick={async () => {
@@ -676,6 +668,21 @@ export function OperatorApp() {
               }}
             />
           </label>
+          <button
+            className="op-btn ghost"
+            title="Carrega todos os 32 participantes reais com fotos/avatares e as 16 duplas oficiais"
+            onClick={() => {
+              if (
+                window.confirm(
+                  'Carregar o elenco oficial completo (32 participantes e 16 duplas)? O estado atual do campeonato será reiniciado.',
+                )
+              ) {
+                store.loadOfficialRoster()
+              }
+            }}
+          >
+            Elenco oficial (32/16)
+          </button>
         </div>
       </header>
 
@@ -721,7 +728,7 @@ export function OperatorApp() {
             <div className="op-card" style={{ gridColumn: '1 / -1' }}>
               <h2>Iniciar campeonato</h2>
               <p className="op-subtitle">Exige 32 participantes titulares e 16 duplas cadastradas.</p>
-              <div className="op-form-row">
+              <div className="op-card-actions">
                 <button
                   className="op-btn ghost"
                   disabled={state.teams.length === 0}
@@ -746,19 +753,23 @@ export function OperatorApp() {
           <div className="op-card">
             <h2>Revelação das duplas</h2>
             <p className="op-subtitle">O operador vê a dupla real. O telão anima e termina no parceiro já cadastrado — nunca sorteia de novo.</p>
-            <button className="op-btn" onClick={store.revealNextWithCinematic}>Revelar próxima dupla</button>
-            <table className="op-table" style={{ marginTop: 16 }}>
-              <thead><tr><th>#</th><th>Dupla</th><th>Status</th></tr></thead>
-              <tbody>
-                {[...state.teams].sort((a, b) => a.revealOrder - b.revealOrder).map((team) => (
-                  <tr key={team.id}>
-                    <td>{team.revealOrder}</td>
-                    <td>{team.name}</td>
-                    <td>{team.status === 'registered' ? 'Aguardando' : 'Revelada'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="op-card-actions">
+              <button className="op-btn" onClick={store.revealNextWithCinematic}>Revelar próxima dupla</button>
+            </div>
+            <div className="op-table-wrap">
+              <table className="op-table" style={{ marginTop: 16 }}>
+                <thead><tr><th>#</th><th>Dupla</th><th>Status</th></tr></thead>
+                <tbody>
+                  {[...state.teams].sort((a, b) => a.revealOrder - b.revealOrder).map((team) => (
+                    <tr key={team.id}>
+                      <td>{team.revealOrder}</td>
+                      <td>{team.name}</td>
+                      <td>{team.status === 'registered' ? 'Aguardando' : 'Revelada'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         ) : null}
 
@@ -766,7 +777,7 @@ export function OperatorApp() {
           <div className="op-card">
             <h2>Sorteio real da chave</h2>
             <p className="op-subtitle">Este sorteio pode ser real e definirá os 8 confrontos das oitavas.</p>
-            <div className="op-form-row">
+            <div className="op-card-actions">
               <button className="op-btn" onClick={() => store.drawBracketWithCinematic()}>Sortear 8 confrontos</button>
               {state.status === 'bracket_drawn' ? (
                 <button className="op-btn" onClick={() => dispatch({ type: 'ConfirmBracket' })}>Confirmar chave</button>
@@ -785,15 +796,7 @@ export function OperatorApp() {
         {state.status === 'finished' ? (
           <div className="op-card">
             <h2>Campeonato encerrado</h2>
-            <p className="op-subtitle">
-              Campeã no telão:{' '}
-              <strong>
-                {state.teams.find((team) => team.id === state.championTeamId)?.name ?? '—'}
-              </strong>
-              . Domínio já está em <code>finished</code> — não há comando extra de confirmação.
-              Para novo torneio, reinicie com o elenco oficial (fluxo manual permanece disponível).
-            </p>
-            <div className="op-form-row">
+            <div className="op-card-actions">
               <button
                 className="op-btn"
                 onClick={() => {
@@ -824,6 +827,14 @@ export function OperatorApp() {
                 Exportar backup final
               </button>
             </div>
+            <p className="op-subtitle">
+              Campeã no telão:{' '}
+              <strong>
+                {state.teams.find((team) => team.id === state.championTeamId)?.name ?? '—'}
+              </strong>
+              . Domínio já está em <code>finished</code> — não há comando extra de confirmação.
+              Para novo torneio, reinicie com o elenco oficial (fluxo manual permanece disponível).
+            </p>
           </div>
         ) : null}
 
@@ -831,7 +842,7 @@ export function OperatorApp() {
           <div className="op-card">
             <h2>Chave</h2>
             {state.status === 'in_progress' ? (
-              <div className="op-form-row" style={{ marginBottom: 12 }}>
+              <div className="op-card-actions">
                 <button
                   className="op-btn ghost"
                   title="Atalho de ensaio: completa confrontos 2x0 (tempos manuais fixos) até a final ficar pronta"
@@ -896,6 +907,28 @@ export function OperatorApp() {
         {match ? (
           <div className="op-card">
             <h2>Confronto {match.stage} — {match.scoreA} x {match.scoreB}</h2>
+
+            {/* Ação principal sempre visível no topo do card, sem precisar rolar até o fim */}
+            {match.status === 'awaiting_confirmation' || roundControls.canResolveRound || roundControls.canStartTiebreaker ? (
+              <div className="op-card-actions">
+                {match.status === 'awaiting_confirmation' ? (
+                  <button className="op-btn" onClick={() => dispatch({ type: 'ConfirmMatchWinner' })}>
+                    Confirmar classificação
+                  </button>
+                ) : null}
+                {roundControls.canResolveRound ? (
+                  <button className="op-btn" onClick={() => dispatch({ type: 'ResolveRound' })}>
+                    Calcular, revelar e confirmar
+                  </button>
+                ) : null}
+                {roundControls.canStartTiebreaker ? (
+                  <button className="op-btn ghost" onClick={() => dispatch({ type: 'StartTiebreaker' })}>
+                    Desempate
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
+
             {view.eligibleR1 ? (
               <div className="op-form-row">
                 <select value={r1a} onChange={(e) => setR1a(e.target.value)}>
@@ -1075,38 +1108,7 @@ export function OperatorApp() {
                   </button>
                 </div>
                 {manualError ? <div className="op-field-error">{manualError}</div> : null}
-                <div className="op-form-row">
-                  <button
-                    className="op-btn"
-                    disabled={!roundControls.canResolveRound}
-                    onClick={() => dispatch({ type: 'ResolveRound' })}
-                    title={
-                      roundControls.canResolveRound
-                        ? 'Calcula o vencedor, revela tempos no telão e confirma a rodada'
-                        : 'Disponível somente com os dois tempos atribuídos'
-                    }
-                  >
-                    Calcular, revelar e confirmar
-                  </button>
-                  <button
-                    className="op-btn ghost"
-                    disabled={!roundControls.canStartTiebreaker}
-                    title={
-                      roundControls.canStartTiebreaker
-                        ? 'Nova tentativa sem alterar o placar'
-                        : 'Disponível somente após empate de diferença'
-                    }
-                    onClick={() => dispatch({ type: 'StartTiebreaker' })}
-                  >
-                    Desempate
-                  </button>
-                </div>
               </div>
-            ) : null}
-            {match.status === 'awaiting_confirmation' ? (
-              <button className="op-btn" style={{ marginTop: 12 }} onClick={() => dispatch({ type: 'ConfirmMatchWinner' })}>
-                Confirmar classificação
-              </button>
             ) : null}
           </div>
         ) : null}
@@ -1118,52 +1120,54 @@ export function OperatorApp() {
               Candidatos da webcam nunca pontuam sozinhos — o operador atribui. Entrada manual acima
               permanece sempre disponível.
             </p>
-            <div className="op-capture-status">
-              <span
-                className={
-                  captureOnline === true
-                    ? 'op-flag ok'
-                    : captureOnline === false
-                      ? 'op-flag pending'
-                      : 'op-flag'
-                }
-              >
-                Periférico localhost
-                {captureOnline === true ? ': online' : captureOnline === false ? ': offline' : ': verificando…'}
-              </span>
-              <TimerCaptureConfig candidates={view.pendingCandidates} />
+            <div className="op-card-actions" style={{ flexDirection: 'column', alignItems: 'stretch' }}>
+              <div className="op-capture-status" style={{ marginBottom: 0 }}>
+                <span
+                  className={
+                    captureOnline === true
+                      ? 'op-flag ok'
+                      : captureOnline === false
+                        ? 'op-flag pending'
+                        : 'op-flag'
+                  }
+                >
+                  Periférico localhost
+                  {captureOnline === true ? ': online' : captureOnline === false ? ': offline' : ': verificando…'}
+                </span>
+                <TimerCaptureConfig candidates={view.pendingCandidates} />
+              </div>
+              <div className="op-form-row" style={{ marginBottom: 0 }}>
+                <input
+                  value={sim}
+                  onChange={(e) => {
+                    setSim(e.target.value)
+                    setSimError(null)
+                  }}
+                  placeholder="Simular leitura MM:SS:CS"
+                  aria-invalid={Boolean(simError)}
+                />
+                <button
+                  className="op-btn secondary"
+                  onClick={() => {
+                    const result = validatePositiveRaceTimeInput(sim, parseRaceTime)
+                    if (result.seconds === null) {
+                      setSimError(result.error)
+                      return
+                    }
+                    setSimError(null)
+                    store.simulateTimer(result.seconds)
+                  }}
+                >
+                  Simular leitura
+                </button>
+              </div>
+              {simError ? <div className="op-field-error" style={{ margin: 0 }}>{simError}</div> : null}
             </div>
             <ol className="op-howto">
               <li>Com webcam + cronômetro prontos: <code>python server.py</code> em <code>timer-capture/</code>.</li>
               <li>Aponte a câmera ao display; leituras estáveis aparecem como candidatos abaixo.</li>
               <li>Atribua A ou B (ou descarte). Sem periférico, use <strong>Simular leitura</strong> ou o tempo manual.</li>
             </ol>
-            <div className="op-form-row">
-              <input
-                value={sim}
-                onChange={(e) => {
-                  setSim(e.target.value)
-                  setSimError(null)
-                }}
-                placeholder="Simular leitura MM:SS:CS"
-                aria-invalid={Boolean(simError)}
-              />
-              <button
-                className="op-btn secondary"
-                onClick={() => {
-                  const result = validatePositiveRaceTimeInput(sim, parseRaceTime)
-                  if (result.seconds === null) {
-                    setSimError(result.error)
-                    return
-                  }
-                  setSimError(null)
-                  store.simulateTimer(result.seconds)
-                }}
-              >
-                Simular leitura
-              </button>
-            </div>
-            {simError ? <div className="op-field-error">{simError}</div> : null}
             {view.pendingCandidates.length === 0 ? (
               <div className="op-empty">
                 Nenhum candidato pendente.

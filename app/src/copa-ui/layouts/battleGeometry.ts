@@ -212,9 +212,9 @@ export const BATTLE_HUD = {
 
     size: 'small' as const,
 
-    scale: 0.2,
+    scale: 0.7,
 
-    maxWidthRatio: 0.42,
+    maxWidthRatio: 0.3,
 
   },
 
@@ -224,7 +224,7 @@ export const BATTLE_HUD = {
 
     size: 'medium' as const,
 
-    scale: 0.22,
+    scale: 2.22,
 
     maxWidthRatio: 0.52,
 
@@ -329,7 +329,7 @@ export const BATTLE = {
    * TEMPO ALVO — mid-lower band just above the fighter head gap / under mezanino
    * railing, with local arcade plaque. Cleared from top crowd faces.
    */
-  target: { x: 700, y: 358, w: 520, h: 52 },
+  target: { x: 500, y: 200, w:920, h: 82 },
 
   leftTime: { x: 48, y: 180, w: 300, h: 72 },
 

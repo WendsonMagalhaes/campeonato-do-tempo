@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { subscribeScoreboard } from '../../adapters/display/broadcastChannel.ts'
 import { createIndexedDbPersistence } from '../../persistence/indexedDb.ts'
 import { projectScoreboard, type ScoreboardProjection } from '../../domain/projections.ts'
 import type { CinematicEvent } from '../../application/ports.ts'
@@ -27,7 +26,7 @@ import {
 } from './scoreboardLayers.ts'
 import { DuoRevealScene } from '../../copa-ui/runtime/DuoRevealScene.tsx'
 import { parsePrizeAmount } from '../../battle/prizeAssets.ts' // ajuste o caminho relativo se necessário
-
+import { subscribeScoreboardSupabase as subscribeScoreboard } from '../../adapters/display/supabaseChannel.ts'
 
 // Tempo que a tela da dupla ELIMINADA (com o prêmio da fase em que caiu)
 // fica em tela antes de trocar pra tela da dupla CLASSIFICADA (prêmio
