@@ -6,12 +6,17 @@ export function PlayerPortrait({
   focusY = 28,
   selected = false,
   className,
+  /** Caminho da moldura (PNG). Default mantém a moldura padrão usada nas
+   * outras telas (Round 3, Versus etc.) — só passe algo diferente quando
+   * quiser uma moldura específica pra uma tela (ex: DuoQualifiedScene). */
+  frameSrc = '/assets/ui/portrait_frame_base.png',
 }: {
   src?: string | null;
   alt: string;
   focusY?: number;
   selected?: boolean;
   className?: string;
+  frameSrc?: string;
 }) {
   const [failed, setFailed] = useState(false);
   const hasPhoto = Boolean(src) && !failed;
@@ -32,7 +37,7 @@ export function PlayerPortrait({
           </div>
         )}
       </div>
-      <img className="ce-fixed-portrait__frame" src="/assets/ui/portrait_frame_base.png" alt="" aria-hidden="true" />
+      <img className="ce-fixed-portrait__frame" src={frameSrc} alt="" aria-hidden="true" />
     </div>
   );
 }

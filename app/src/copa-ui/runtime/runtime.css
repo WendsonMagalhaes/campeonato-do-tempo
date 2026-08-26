@@ -887,3 +887,87 @@
 .ce-matchup-exit-right {
   transform: translateX(60px);
 }
+
+
+/* ============================================================
+   Duo Qualified — variante "eliminado" (adicionar ao final do
+   runtime.css). Fundo escurecido + painéis de destaque pro
+   agradecimento e pro valor do prêmio.
+   ============================================================ */
+
+/* Escurece a arte de fundo (mantém como silhueta, sem trocar asset) e
+   remove a cor -- tela do eliminado fica em preto e branco. */
+.ce-qualified-host.is-eliminated .ce-qualified-stage-bg{
+  filter:brightness(.32) saturate(.55) grayscale(1);
+}
+
+/* Camada extra de escurecimento por cima do fundo + vignette, garante
+   contraste alto pro texto mesmo em telões mais claros/refletivos. */
+.ce-qualified-eliminated-overlay{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:radial-gradient(ellipse at center, rgba(0,0,0,.55) 0%, rgba(0,0,0,.88) 100%);
+}
+
+/* Painel atrás do "OBRIGADO PELA CAMPANHA". */
+.ce-qualified-thanks-panel{
+  display:inline-block;
+  padding:14px 34px;
+  border-radius:10px;
+  background:rgba(0,0,0,.5);
+  box-shadow:0 0 26px rgba(255,255,255,.12);
+}
+
+/* Container do valor do prêmio -- sem fundo/borda, só centraliza a imagem
+   (o destaque agora vem só do tamanho da própria imagem do prêmio). */
+.ce-qualified-prize-panel{
+  display:inline-block;
+  padding:0;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+}
+.ce-qualified-prize-panel.is-eliminated{
+  padding:0;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  animation:none;
+}
+
+/* Fotos dos jogadores em preto e branco na tela do eliminado -- só a foto,
+   a moldura já vem de um asset "-off" próprio (ver AVATAR_FRAME_QUALIFIED_OFF). */
+.ce-qualified-portrait.is-dimmed .ce-fixed-portrait__content{
+  filter:grayscale(1) brightness(.75);
+}
+
+/* Sprites dos lutadores também em preto e branco na tela do eliminado. */
+.ce-qualified-host.is-eliminated .ce-qualified-fighter__sprite{
+  filter:grayscale(1);
+}
+
+/* Imagem do valor do prêmio (substitui o BitmapText). height:80% deixa
+   uma folga em vez de esticar até o limite da caixa -- ajuste esse valor
+   se quiser maior/menor. */
+.ce-qualified-prize-image{
+  display:block;
+  width:auto;
+  height:80%;
+  max-width:90%;
+  object-fit:contain;
+  image-rendering:pixelated;
+}
+
+/* Nameplate (fundo da placa do nome da dupla) também em preto e branco
+   na tela do eliminado. Só o loser.png (título) fica de fora -- ele não
+   recebe nenhuma dessas regras. */
+.ce-qualified-host.is-eliminated .ce-nameplate-art{
+  filter:grayscale(1);
+}
+
+/* Imagem do valor do prêmio também em preto e branco na tela do eliminado. */
+.ce-qualified-host.is-eliminated .ce-qualified-prize-image{
+  filter:grayscale(1);
+}

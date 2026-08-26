@@ -7,6 +7,7 @@ import { CHANNEL } from '../../domain/constants.ts'
 import { BattleScene } from '../../battle/BattleScene.tsx'
 import { ChampionScene } from '../../battle/ChampionScene.tsx'
 import { DuoQualifiedScene } from '../../battle/DuoQualifiedScene.tsx'
+import { prizeForLoser, prizeForWinner, type MatchStage } from '../../battle/prizeTable.ts'
 import { globalAudio } from '../../audio/singleton.ts'
 import { BracketScene, REVEAL_TOTAL_MS } from '../../copa-ui/runtime/BracketScene.tsx'
 import type { CursorAnimState } from '../../copa-ui/components/selectionCursorFrames.ts'
@@ -25,6 +26,13 @@ import {
   resolveScoreboardLayers,
 } from './scoreboardLayers.ts'
 import { DuoRevealScene } from '../../copa-ui/runtime/DuoRevealScene.tsx'
+import { parsePrizeAmount } from '../../battle/prizeAssets.ts' // ajuste o caminho relativo se necessário
+
+
+// Tempo que a tela da dupla ELIMINADA (com o prêmio da fase em que caiu)
+// fica em tela antes de trocar pra tela da dupla CLASSIFICADA (prêmio
+// garantido da próxima fase).
+const LOSER_PANEL_HOLD_MS = 8000
 
 function shuffleArray<T>(items: T[]): T[] {
   const arr = [...items]
@@ -571,6 +579,27 @@ export function ScoreboardApp() {
     return new Set([...persisted, ...usedParticipantIdsRef.current])
   }, [projection?.usedParticipantIds, phase, anchorId, destId])
 
+  // Sequência ao terminar um confronto: primeiro a dupla ELIMINADA (com o
+  // prêmio da fase em que caiu), depois a dupla CLASSIFICADA (prêmio
+  // garantido da próxima fase). `duoQualifiedArmedRef` garante que o timer
+  // só é armado uma vez por confronto -- reseta quando sai de match_win.
+  const [showWinnerPanel, setShowWinnerPanel] = useState(false)
+  const duoQualifiedArmedRef = useRef(false)
+  const showDuoQualifiedNow = projection?.screen === 'match_win' && !koHold && Boolean(projection?.versus)
+
+  useEffect(() => {
+    if (showDuoQualifiedNow && !duoQualifiedArmedRef.current) {
+      duoQualifiedArmedRef.current = true
+      setShowWinnerPanel(false)
+      const t = window.setTimeout(() => setShowWinnerPanel(true), LOSER_PANEL_HOLD_MS)
+      return () => window.clearTimeout(t)
+    }
+    if (!showDuoQualifiedNow) {
+      duoQualifiedArmedRef.current = false
+      setShowWinnerPanel(false)
+    }
+  }, [showDuoQualifiedNow])
+
   if (!projection) {
     return (
       <div className="scoreboard">
@@ -840,67 +869,52 @@ export function ScoreboardApp() {
             onDone={() => setRoundAnnounceHold(false)}
           />
         ) : null}
-        {layers.showDuoQualified && projection.versus ? (
-          <DuoQualifiedScene
-            teamName={
-              winnerSideBlue ? projection.versus.teamAName : projection.versus.teamBName
-            }
-            scoreA={projection.versus.scoreA}
-            scoreB={projection.versus.scoreB}
-            side={winnerSideBlue ? 'blue' : 'red'}
-            members={
-              winnerSideBlue
-                ? [
-                  {
-                    id: projection.versus.membersA[0].id,
-                    name: projection.versus.membersA[0].name,
-                    photoUrl:
-                      projection.versus.membersA[0].bodyImageUrl ||
-                      (projection.versus.membersA[0].photoAssetId &&
-                        getPhoto(projection.versus.membersA[0].photoAssetId)) ||
-                      projection.versus.membersA[0].avatarUrl ||
-                      null,
-                    fighterVariant: projection.versus.membersA[0].fighterVariant,
-                  },
-                  {
-                    id: projection.versus.membersA[1].id,
-                    name: projection.versus.membersA[1].name,
-                    photoUrl:
-                      projection.versus.membersA[1].bodyImageUrl ||
-                      (projection.versus.membersA[1].photoAssetId &&
-                        getPhoto(projection.versus.membersA[1].photoAssetId)) ||
-                      projection.versus.membersA[1].avatarUrl ||
-                      null,
-                    fighterVariant: projection.versus.membersA[1].fighterVariant,
-                  },
-                ]
-                : [
-                  {
-                    id: projection.versus.membersB[0].id,
-                    name: projection.versus.membersB[0].name,
-                    photoUrl:
-                      projection.versus.membersB[0].bodyImageUrl ||
-                      (projection.versus.membersB[0].photoAssetId &&
-                        getPhoto(projection.versus.membersB[0].photoAssetId)) ||
-                      projection.versus.membersB[0].avatarUrl ||
-                      null,
-                    fighterVariant: projection.versus.membersB[0].fighterVariant,
-                  },
-                  {
-                    id: projection.versus.membersB[1].id,
-                    name: projection.versus.membersB[1].name,
-                    photoUrl:
-                      projection.versus.membersB[1].bodyImageUrl ||
-                      (projection.versus.membersB[1].photoAssetId &&
-                        getPhoto(projection.versus.membersB[1].photoAssetId)) ||
-                      projection.versus.membersB[1].avatarUrl ||
-                      null,
-                    fighterVariant: projection.versus.membersB[1].fighterVariant,
-                  },
-                ]
-            }
-          />
-        ) : null}
+        {layers.showDuoQualified && projection.versus ? (() => {
+          const { versus } = projection
+          const stage = versus.stage as MatchStage
+          const winnerIsA = winnerSideBlue
+          const winnerMembers = winnerIsA ? versus.membersA : versus.membersB
+          const loserMembers = winnerIsA ? versus.membersB : versus.membersA
+          const winnerTeamName = winnerIsA ? versus.teamAName : versus.teamBName
+          const loserTeamName = winnerIsA ? versus.teamBName : versus.teamAName
+          const winnerSide: 'blue' | 'red' = winnerIsA ? 'blue' : 'red'
+          const loserSide: 'blue' | 'red' = winnerIsA ? 'red' : 'blue'
+
+          const toDisplayMembers = (
+            pair: typeof winnerMembers,
+          ): [
+              { id: string; name: string; photoUrl: string | null; fighterVariant: (typeof pair)[number]['fighterVariant'] },
+              { id: string; name: string; photoUrl: string | null; fighterVariant: (typeof pair)[number]['fighterVariant'] },
+            ] =>
+            pair.map((m) => ({
+              id: m.id,
+              name: m.name,
+              photoUrl: m.bodyImageUrl || (m.photoAssetId && getPhoto(m.photoAssetId)) || m.avatarUrl || null,
+              fighterVariant: m.fighterVariant,
+            })) as any
+
+          return showWinnerPanel ? (
+            <DuoQualifiedScene
+              teamName={winnerTeamName}
+              scoreA={versus.scoreA}
+              scoreB={versus.scoreB}
+              side={winnerSide}
+              outcome="classified"
+              prizeAmount={parsePrizeAmount(prizeForWinner(stage))}
+              members={toDisplayMembers(winnerMembers)}
+            />
+          ) : (
+            <DuoQualifiedScene
+              teamName={loserTeamName}
+              scoreA={versus.scoreA}
+              scoreB={versus.scoreB}
+              side={loserSide}
+              outcome="eliminated"
+              prizeAmount={parsePrizeAmount(prizeForLoser(stage))}
+              members={toDisplayMembers(loserMembers)}
+            />
+          )
+        })() : null}
         {projection.screen === 'champion' && projection.champion ? (
           <ChampionScene
             teamName={projection.champion.name}

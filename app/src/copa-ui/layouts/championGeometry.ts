@@ -31,6 +31,15 @@ export const QUALIFIED_HUD = {
     size: 'medium' as const,
     scale: 0.39,
   },
+  /**
+   * Tela do eliminado não tem arte dedicada (winner.png é só pro classificado),
+   * então o "OBRIGADO PELA CAMPANHA" precisa de mais destaque próprio —
+   * maior que o title padrão, já que carrega o peso visual da tela inteira.
+   */
+  titleEliminated: {
+    size: 'medium' as const,
+    scale: 0.5,
+  },
   duoName: {
     size: 'medium' as const,
     scale: 0.36,
@@ -44,6 +53,14 @@ export const QUALIFIED_HUD = {
   prize: {
     size: 'small' as const,
     scale: 0.35,
+  },
+  /**
+   * Prêmio em destaque máximo na tela do eliminado — é a informação
+   * principal ali, junto do agradecimento.
+   */
+  prizeEliminated: {
+    size: 'large' as const,
+    scale: 0.62,
   },
 } as const
 
@@ -60,18 +77,28 @@ export const DUO_QUALIFIED = {
    * `winner.png` title (~734×409). Slot ~760×200 → ~0.49 via object-fit:contain
    * (was ~0.88 in a 360px-tall slot that crushed the name crest). No CSS transform scale.
    */
-  title: { x: 580, y: 0, w: 760, h: 200 },
+  title: { x: 580, y: 50, w: 760, h: 200 },
+  /**
+   * Slot largo/alto pro BitmapText do agradecimento (tela do eliminado) —
+   * sem imagem pra encaixar, então ganha mais respiro que o slot do winner.png.
+   */
+  titleEliminated: { x: 310, y: 40, w: 1300, h: 220 },
   /** Aspect-matched nameplate — clear air below winner banner. */
-  teamName: namePlateBox(560, 248, 800),
+  teamName: namePlateBox(620, 250, 700),
   /** Below name crest with breathing room so ornate spikes do not mash WIN plate. */
-  score: scorePlateBox(760, 608, 400),
+  score: scorePlateBox(780, 558, 400),
   /** Victory fighter sprites (bonequinhos) — primary celebration focus. */
   fighter1: { x: 420, y: 470, w: 420, h: 420 },
   fighter2: { x: 1080, y: 470, w: 420, h: 420 },
-  /** Large framed photo portraits positioned on the flanks (left & right). */
-  portrait1: { x: 80, y: 230, w: 360, h: 360 },
-  portrait2: { x: 1480, y: 230, w: 360, h: 360 },
-  prize: { x: 560, y: 920, w: 800, h: 48 },
+  /** Large framed photo portraits positioned on the flanks (left & right).
+   * ~15% maior que o original (360 -> 420), mesmo centro. */
+  portrait1: { x: 50, y: 200, w: 390, h: 520 },
+  portrait2: { x: 1450, y: 200, w: 390, h: 520 },
+  /** Antes h:48 era pensado pra texto; agora o prêmio é imagem, então ganhou
+   * mais altura (mesmo centro vertical, y ajustado). */
+  prize: { x: 620, y: 850, w: 800, h: 80 },
+  /** Caixa maior/mais central pro valor em destaque na tela do eliminado. */
+  prizeEliminated: { x: 410, y: 880, w: 1100, h: 160 },
 } as const
 
 /**
