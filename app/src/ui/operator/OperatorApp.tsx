@@ -950,7 +950,7 @@ export function OperatorApp() {
                 <button className="op-btn" onClick={() => dispatch({ type: 'StartRound2' })}>Iniciar rodada 2</button>
               </div>
             ) : null}
-            {view.eligibleR3 ? (
+            {view.eligibleRepresentatives ? (
               <div className="op-form-row">
                 <select
                   value={r3a}
@@ -960,8 +960,8 @@ export function OperatorApp() {
                     publishRound3Draft(next || null, r3b || null)
                   }}
                 >
-                  <option value="">Representante A (rodada 3)</option>
-                  {view.eligibleR3.teamA.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+                  <option value="">{`Representante A (rodada ${view.eligibleRepresentatives.roundNumber})`}</option>
+                  {view.eligibleRepresentatives.teamA.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
                 </select>
                 <select
                   value={r3b}
@@ -971,14 +971,20 @@ export function OperatorApp() {
                     publishRound3Draft(r3a || null, next || null)
                   }}
                 >
-                  <option value="">Representante B (rodada 3)</option>
-                  {view.eligibleR3.teamB.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+                  <option value="">{`Representante B (rodada ${view.eligibleRepresentatives.roundNumber})`}</option>
+                  {view.eligibleRepresentatives.teamB.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
                 </select>
-                <button className="op-btn" disabled={!r3a || !r3b} onClick={() => dispatch({
-                  type: 'SelectRound3Representatives',
-                  participantAId: r3a,
-                  participantBId: r3b,
-                })}>Confirmar rodada 3</button>
+                <button
+                  className="op-btn"
+                  disabled={!r3a || !r3b}
+                  onClick={() => dispatch({
+                    type: 'SelectRepresentatives',
+                    participantAId: r3a,
+                    participantBId: r3b,
+                  })}
+                >
+                  {`Confirmar rodada ${view.eligibleRepresentatives.roundNumber}`}
+                </button>
               </div>
             ) : null}
             {round ? (

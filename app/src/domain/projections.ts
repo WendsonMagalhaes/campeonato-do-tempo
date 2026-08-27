@@ -1,6 +1,7 @@
 import { fakeShuffleDestination } from './teams.ts'
 import { formatDuoName, formatPrize, formatRaceTime } from './time.ts'
 import { getParticipantAvatar, getParticipantBodyImage } from './participants.ts'
+import { winsToTakeMatch, maxRoundsForMatch } from './constants.ts'
 import type {
   FighterVariant,
   Match,
@@ -107,7 +108,8 @@ export interface OperatorProjection {
   state: TournamentState
   eligibleR1: { teamA: PortraitView[]; teamB: PortraitView[] } | null
   automaticR2: { participantA: PortraitView | null; participantB: PortraitView | null } | null
-  eligibleR3: { teamA: PortraitView[]; teamB: PortraitView[] } | null
+  /** Representantes da próxima rodada decisiva (3, 4 ou 5, conforme a fase). */
+  eligibleRepresentatives: { roundNumber: number; teamA: PortraitView[]; teamB: PortraitView[] } | null
   canCalculate: boolean
   /** Same gate as canCalculate — enables unified calculate+reveal+confirm. */
   canResolveRound: boolean
@@ -163,6 +165,25 @@ function currentMatch(state: TournamentState): Match | undefined {
   return state.matches.find((match) => match.id === state.activeMatchId)
 }
 
+/**
+ * Número da próxima rodada decisiva (3, 4 ou 5) disponível para este
+ * confronto agora, ou null se nenhuma estiver disponível: placar já
+ * decidido, rodada anterior ainda não confirmada, ou limite de rodadas da
+ * fase já atingido. Em fases melhor-de-3 isso nunca passa de 3 -- o mesmo
+ * comportamento de antes.
+ */
+function nextDecisiveRoundNumber(state: TournamentState, match: Match): number | null {
+  const wins = winsToTakeMatch(match.stage)
+  if (match.scoreA >= wins || match.scoreB >= wins) return null
+  const rounds = state.rounds.filter((round) => round.matchId === match.id)
+  const nextNumber = rounds.length + 1
+  if (nextNumber < 3) return null
+  if (nextNumber > maxRoundsForMatch(match.stage)) return null
+  const previous = rounds.find((round) => round.number === nextNumber - 1)
+  if (!previous || previous.status !== 'confirmed') return null
+  return nextNumber
+}
+
 function screenFor(state: TournamentState): ScoreboardProjection['screen'] {
   if (state.status === 'setup') return 'opening'
   if (state.status === 'revealing_teams') return 'fake_shuffle'
@@ -173,15 +194,10 @@ function screenFor(state: TournamentState): ScoreboardProjection['screen'] {
   if (match?.status === 'awaiting_confirmation') return 'match_win'
   if (match && !round) return 'versus'
 
-  // Round 3 selection only (before SelectRound3Representatives creates the round).
-  if (
-    match &&
-    match.scoreA === 1 &&
-    match.scoreB === 1 &&
-    !state.rounds.some((item) => item.matchId === match.id && item.number === 3)
-  ) {
-    const r2 = state.rounds.find((item) => item.matchId === match.id && item.number === 2)
-    if (r2?.status === 'confirmed') return 'round3'
+  // Seleção de representantes (rodada decisiva 3/4/5), antes de
+  // SelectRepresentatives criar a rodada.
+  if (match && nextDecisiveRoundNumber(state, match) !== null) {
+    return 'round3'
   }
 
   if (round) return 'round'
@@ -205,7 +221,7 @@ export function projectScoreboard(state: TournamentState): ScoreboardProjection 
     if (round.winnerTeamId === match.teamAId) roundWinnerSide = 'left'
     else if (round.winnerTeamId === match.teamBId) roundWinnerSide = 'right'
   }
-  // Round 3 selection: active round may still be confirmed R2 — keep its winner side for UI hold punch.
+  // Round de seleção seguinte: rodada ativa pode ainda ser a última confirmada — mantém o lado vencedor para o hold visual.
   if (!roundWinnerSide && match) {
     const lastConfirmed = [...state.rounds]
       .filter((item) => item.matchId === match.id && item.status === 'confirmed' && item.winnerTeamId)
@@ -221,9 +237,10 @@ export function projectScoreboard(state: TournamentState): ScoreboardProjection 
     if (round.winnerTeamId === match.teamAId) projectedA += 1
     if (round.winnerTeamId === match.teamBId) projectedB += 1
   }
+  const winsNeeded = match ? winsToTakeMatch(match.stage) : 2
   let finalScoreLabel: '2-0' | '2-1' | null = null
-  if (projectedA === 2 || projectedB === 2) {
-    const loserScore = projectedA === 2 ? projectedB : projectedA
+  if (projectedA >= winsNeeded || projectedB >= winsNeeded) {
+    const loserScore = projectedA >= winsNeeded ? projectedB : projectedA
     finalScoreLabel = loserScore === 0 ? '2-0' : '2-1'
   }
 
@@ -235,7 +252,7 @@ export function projectScoreboard(state: TournamentState): ScoreboardProjection 
     matchWinnerSide = projectedA > projectedB ? 'left' : 'right'
   }
 
-  // Prefer confirmed match scores for presentation once a side has 2 wins (incl. awaiting_confirmation).
+  // Prefer confirmed match scores for presentation once a side has reached the required wins (incl. awaiting_confirmation).
   const displayScoreA =
     match?.status === 'awaiting_confirmation' || match?.status === 'completed'
       ? (match.scoreA)
@@ -392,18 +409,20 @@ export function projectOperator(state: TournamentState, persistenceLabel: string
             participantB: view(teamB.participant1Id === r1.participantBId ? teamB.participant2Id : teamB.participant1Id),
           }
         : null,
-    eligibleR3:
-      match && teamA && teamB && match.scoreA === 1 && match.scoreB === 1
-        && !state.rounds.some((item) => item.matchId === match.id && item.number === 3)
-        ? {
-            teamA: [view(teamA.participant1Id), view(teamA.participant2Id)].filter(
-              (item): item is PortraitView => Boolean(item),
-            ),
-            teamB: [view(teamB.participant1Id), view(teamB.participant2Id)].filter(
-              (item): item is PortraitView => Boolean(item),
-            ),
-          }
-        : null,
+    eligibleRepresentatives: (() => {
+      if (!match || !teamA || !teamB) return null
+      const roundNumber = nextDecisiveRoundNumber(state, match)
+      if (roundNumber === null) return null
+      return {
+        roundNumber,
+        teamA: [view(teamA.participant1Id), view(teamA.participant2Id)].filter(
+          (item): item is PortraitView => Boolean(item),
+        ),
+        teamB: [view(teamB.participant1Id), view(teamB.participant2Id)].filter(
+          (item): item is PortraitView => Boolean(item),
+        ),
+      }
+    })(),
     canCalculate: round?.status === 'ready_to_calculate',
     canResolveRound: round?.status === 'ready_to_calculate',
     canStartTiebreaker: round?.status === 'tie',

@@ -84,7 +84,8 @@ export interface AssignedAttempt {
 export interface Round {
   id: RoundId
   matchId: MatchId
-  number: 1 | 2 | 3
+  /** Final é melhor de 5: rodadas 4 e 5 só ocorrem lá. Demais fases usam no máximo 3. */
+  number: 1 | 2 | 3 | 4 | 5
   targetTimeMs: number | null
   participantAId: ParticipantId | null
   participantBId: ParticipantId | null

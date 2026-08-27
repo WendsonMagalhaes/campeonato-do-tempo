@@ -98,7 +98,7 @@ describe('invariantes de domínio', () => {
     expect(match?.status).toBe('awaiting_confirmation')
     expect(() =>
       handleCommand(next, {
-        type: 'SelectRound3Representatives',
+        type: 'SelectRepresentatives',
         participantAId: teamA.participant1Id,
         participantBId: teamB.participant1Id,
       }, d),
@@ -121,7 +121,7 @@ describe('invariantes de domínio', () => {
     expect(match?.scoreA).toBe(1)
     expect(match?.scoreB).toBe(1)
     next = handleCommand(next, {
-      type: 'SelectRound3Representatives',
+      type: 'SelectRepresentatives',
       participantAId: teamA.participant1Id,
       participantBId: teamB.participant2Id,
     }, d)

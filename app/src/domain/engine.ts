@@ -5,7 +5,8 @@ import {
   OITAVAS_MATCH_COUNT,
   PARTICIPANT_COUNT,
   TEAM_COUNT,
-  WINS_TO_TAKE_MATCH,
+  maxRoundsForMatch,
+  winsToTakeMatch,
 } from './constants.ts'
 import { DomainError } from './errors.ts'
 import { partnerOf, teamHasParticipant } from './teams.ts'
@@ -412,10 +413,11 @@ function handleSelectRound1(
 
 function handleStartRound2(state: TournamentState, deps: EngineDeps): void {
   const match = requireMatch(state)
+  const wins = winsToTakeMatch(match.stage)
   const r1 = state.rounds.find((round) => round.matchId === match.id && round.number === 1)
   if (!r1 || r1.status !== 'confirmed') fail('R1_NOT_DONE', 'Rodada 2 só após confirmar a rodada 1.')
-  if (match.scoreA >= WINS_TO_TAKE_MATCH || match.scoreB >= WINS_TO_TAKE_MATCH) {
-    fail('MATCH_ALREADY_WON', 'Confronto já encerrado em 2x0.')
+  if (match.scoreA >= wins || match.scoreB >= wins) {
+    fail('MATCH_ALREADY_WON', 'Confronto já encerrado.')
   }
   if (state.rounds.some((round) => round.matchId === match.id && round.number === 2)) {
     fail('R2_EXISTS', 'Rodada 2 já existe.')
@@ -448,23 +450,40 @@ function handleStartRound2(state: TournamentState, deps: EngineDeps): void {
   state.activeRoundId = round.id
 }
 
-function handleSelectRound3(
+/**
+ * Rodada decisiva (3, 4 ou 5, conforme a fase e o placar). O número da
+ * rodada é sempre `existing.length + 1` -- nunca escolhido pelo chamador --
+ * então não há como pedir a rodada errada por engano. Válido apenas quando
+ * o confronto ainda não foi decidido pelo placar e a rodada anterior está
+ * confirmada. Em fases melhor-de-3 (`winsToTakeMatch === 2`), isso só
+ * libera a rodada 3, exatamente como antes. Na final (melhor-de-5), também
+ * libera as rodadas 4 e 5 quando necessário.
+ */
+function handleSelectRepresentatives(
   state: TournamentState,
   participantAId: string,
   participantBId: string,
   deps: EngineDeps,
 ): void {
   const match = requireMatch(state)
-  if (match.scoreA !== 1 || match.scoreB !== 1) {
-    fail('R3_NOT_ALLOWED', 'Rodada 3 só existe em 1x1.')
+  const wins = winsToTakeMatch(match.stage)
+  if (match.scoreA >= wins || match.scoreB >= wins) {
+    fail('MATCH_ALREADY_DECIDED', 'Confronto já foi decidido pelo placar.')
   }
-  if (match.scoreA >= WINS_TO_TAKE_MATCH || match.scoreB >= WINS_TO_TAKE_MATCH) {
-    fail('R3_AFTER_2X0', 'Rodada 3 é impossível após 2x0.')
+  const existing = state.rounds.filter((round) => round.matchId === match.id)
+  const nextNumber = existing.length + 1
+  if (nextNumber < 3) {
+    fail('WRONG_FLOW', 'Use os fluxos de Rodada 1 e Rodada 2 antes desta etapa.')
   }
-  const r2 = state.rounds.find((round) => round.matchId === match.id && round.number === 2)
-  if (!r2 || r2.status !== 'confirmed') fail('R2_NOT_DONE', 'Rodada 3 só após a rodada 2.')
-  if (state.rounds.some((round) => round.matchId === match.id && round.number === 3)) {
-    fail('R3_EXISTS', 'Rodada 3 já existe.')
+  if (nextNumber > maxRoundsForMatch(match.stage)) {
+    fail('MAX_ROUNDS_REACHED', 'Este confronto já atingiu o limite de rodadas.')
+  }
+  const previous = existing.find((round) => round.number === nextNumber - 1)
+  if (!previous || previous.status !== 'confirmed') {
+    fail('PREVIOUS_ROUND_NOT_DONE', `Conclua a rodada ${nextNumber - 1} antes de escolher os representantes.`)
+  }
+  if (existing.some((round) => round.number === nextNumber)) {
+    fail('ROUND_EXISTS', 'Esta rodada já existe.')
   }
   if (!match.teamAId || !match.teamBId) fail('TEAMS_PENDING', 'Confrontos sem duplas.')
   participantOnTeam(state, match.teamAId, participantAId)
@@ -472,7 +491,7 @@ function handleSelectRound3(
   const round: Round = {
     id: deps.ids.next('r'),
     matchId: match.id,
-    number: 3,
+    number: nextNumber as Round['number'],
     targetTimeMs: null,
     participantAId,
     participantBId,
@@ -608,9 +627,10 @@ function handleConfirmRound(state: TournamentState): void {
   if (round.winnerTeamId === match.teamAId) match.scoreA += 1
   if (round.winnerTeamId === match.teamBId) match.scoreB += 1
   round.status = 'confirmed'
-  if (match.scoreA >= WINS_TO_TAKE_MATCH || match.scoreB >= WINS_TO_TAKE_MATCH) {
+  const wins = winsToTakeMatch(match.stage)
+  if (match.scoreA >= wins || match.scoreB >= wins) {
     match.status = 'awaiting_confirmation'
-    match.winnerTeamId = match.scoreA >= WINS_TO_TAKE_MATCH ? match.teamAId : match.teamBId
+    match.winnerTeamId = match.scoreA >= wins ? match.teamAId : match.teamBId
   }
 }
 
@@ -682,16 +702,30 @@ function simulatePlayRound(
   handleResolveRound(state)
 }
 
+function resetRoundForSim(round: Round): void {
+  round.attemptA = null
+  round.attemptB = null
+  round.differenceAMs = null
+  round.differenceBMs = null
+  round.winnerTeamId = null
+  round.targetTimeMs = null
+  round.status = 'awaiting_target'
+}
+
 /**
- * Finish the active match as a clean 2–0 for team A via the normal round path
- * (manual times + ResolveRound). Aborts an in-flight unfinished round by
- * completing remaining steps with the same deterministic times.
+ * Finish the active match as a clean deterministic sweep for team A via the
+ * normal round path (manual times + ResolveRound). Aborts an in-flight
+ * unfinished round by completing remaining steps with the same
+ * deterministic times. Continues into decisive rounds (3, 4, 5…) as many
+ * times as `winsToTakeMatch(match.stage)` requires — na final isso pode
+ * chegar até a rodada 5.
  */
 function simulateActiveMatchToAwaiting(state: TournamentState, deps: EngineDeps): void {
   const match = requireMatch(state)
   if (!match.teamAId || !match.teamBId) fail('TEAMS_PENDING', 'Confrontos sem duplas.')
   const teamA = requireTeam(state, match.teamAId)
   const teamB = requireTeam(state, match.teamBId)
+  const wins = winsToTakeMatch(match.stage)
 
   let r1 = state.rounds.find((round) => round.matchId === match.id && round.number === 1)
   if (!r1) {
@@ -702,18 +736,12 @@ function simulateActiveMatchToAwaiting(state: TournamentState, deps: EngineDeps)
     fail('R1_PLAYERS_MISSING', 'Rodada 1 sem jogadores para simular.')
   }
   if (r1.status !== 'confirmed') {
-    r1.attemptA = null
-    r1.attemptB = null
-    r1.differenceAMs = null
-    r1.differenceBMs = null
-    r1.winnerTeamId = null
-    r1.targetTimeMs = null
-    r1.status = 'awaiting_target'
+    resetRoundForSim(r1)
     state.activeRoundId = r1.id
     simulatePlayRound(state, deps, r1.participantAId, r1.participantBId)
   }
 
-  if (match.scoreA >= WINS_TO_TAKE_MATCH || match.scoreB >= WINS_TO_TAKE_MATCH) return
+  if (match.scoreA >= wins || match.scoreB >= wins) return
 
   let r2 = state.rounds.find((round) => round.matchId === match.id && round.number === 2)
   if (!r2) {
@@ -724,20 +752,36 @@ function simulateActiveMatchToAwaiting(state: TournamentState, deps: EngineDeps)
     fail('R2_PLAYERS_MISSING', 'Rodada 2 sem jogadores para simular.')
   }
   if (r2.status !== 'confirmed') {
-    r2.attemptA = null
-    r2.attemptB = null
-    r2.differenceAMs = null
-    r2.differenceBMs = null
-    r2.winnerTeamId = null
-    r2.targetTimeMs = null
-    r2.status = 'awaiting_target'
+    resetRoundForSim(r2)
     state.activeRoundId = r2.id
     simulatePlayRound(state, deps, r2.participantAId, r2.participantBId)
+  }
+
+  // Rodadas decisivas (3, 4, 5…): só entram quando o placar ainda não decidiu.
+  while (match.scoreA < wins && match.scoreB < wins) {
+    const existing = state.rounds.filter((round) => round.matchId === match.id)
+    const nextNumber = existing.length + 1
+    if (nextNumber > maxRoundsForMatch(match.stage)) {
+      fail('SIMULATE_STUCK', 'Confronto excedeu o limite de rodadas na simulação.')
+    }
+    let round = existing.find((item) => item.number === nextNumber)
+    if (!round) {
+      handleSelectRepresentatives(state, teamA.participant1Id, teamB.participant1Id, deps)
+      round = state.rounds.find((item) => item.matchId === match.id && item.number === nextNumber)
+    }
+    if (!round?.participantAId || !round.participantBId) {
+      fail('REPRESENTATIVES_MISSING', 'Rodada de representantes sem jogadores para simular.')
+    }
+    if (round.status !== 'confirmed') {
+      resetRoundForSim(round)
+      state.activeRoundId = round.id
+      simulatePlayRound(state, deps, round.participantAId, round.participantBId)
+    }
   }
 }
 
 /**
- * Operator rehearsal: auto-advance the bracket with deterministic 2–0 wins for
+ * Operator rehearsal: auto-advance the bracket with deterministic sweeps for
  * team A until the final is ready to start, or until a champion is crowned.
  */
 function handleSimulateBracketProgress(
@@ -854,8 +898,8 @@ export function handleCommand(
     case 'StartRound2':
       handleStartRound2(state, deps)
       break
-    case 'SelectRound3Representatives':
-      handleSelectRound3(state, command.participantAId, command.participantBId, deps)
+    case 'SelectRepresentatives':
+      handleSelectRepresentatives(state, command.participantAId, command.participantBId, deps)
       break
     case 'RegisterTargetTime':
       handleRegisterTarget(state, command.seconds)

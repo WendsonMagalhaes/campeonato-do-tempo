@@ -53,7 +53,12 @@ export type Command =
     }
   | { type: 'StartRound2' }
   | {
-      type: 'SelectRound3Representatives'
+      /**
+       * Rodada decisiva (3, 4 ou 5 — conforme a fase). O motor calcula o
+       * número da rodada sozinho a partir do histórico do confronto; o
+       * operador só escolhe os representantes.
+       */
+      type: 'SelectRepresentatives'
       participantAId: ParticipantId
       participantBId: ParticipantId
     }
@@ -78,7 +83,7 @@ export type Command =
   | { type: 'ClearCameraCandidates' }
   /**
    * Operator-only rehearsal shortcut: auto-complete pending matches with
-   * deterministic manual times (team A wins 2–0) until the final is ready
-   * or the champion is crowned. Does not touch Timer Capture.
+   * deterministic manual times (team A wins the necessary rounds) until the
+   * final is ready or the champion is crowned. Does not touch Timer Capture.
    */
   | { type: 'SimulateBracketProgress'; until: 'final' | 'champion' }
