@@ -60,6 +60,56 @@ function Pagination({ page, pageCount, onChange, total }: { page: number; pageCo
   )
 }
 
+/** Formata uma sequência de dígitos como MM:SS:CS, inserindo ":" nas posições certas. */
+function maskRaceTimeDigits(digits: string) {
+  const d = digits.slice(0, 6)
+  let out = ''
+  for (let i = 0; i < d.length; i++) {
+    if (i === 2 || i === 4) out += ':'
+    out += d[i]
+  }
+  return out
+}
+
+/**
+ * Input com máscara MM:SS:CS (ex.: 00:01:56). Aceita apenas dígitos,
+ * insere os ":" automaticamente e abre teclado numérico no celular.
+ */
+function RaceTimeInput({
+  value,
+  onChange,
+  placeholder,
+  ariaInvalid,
+}: {
+  value: string
+  onChange: (next: string) => void
+  placeholder?: string
+  ariaInvalid?: boolean
+}) {
+  return (
+    <input
+      value={value}
+      inputMode="numeric"
+      autoComplete="off"
+      placeholder={placeholder ?? '00:00:00'}
+      aria-invalid={ariaInvalid}
+      onChange={(e) => {
+        const digits = e.target.value.replace(/\D/g, '')
+        onChange(maskRaceTimeDigits(digits))
+      }}
+      onKeyDown={(e) => {
+        // apaga o ":" junto com o dígito anterior ao dar backspace
+        if (e.key === 'Backspace' && value.endsWith(':')) {
+          e.preventDefault()
+          const digits = value.replace(/\D/g, '').slice(0, -1)
+          onChange(maskRaceTimeDigits(digits))
+        }
+      }}
+      maxLength={8}
+    />
+  )
+}
+
 function ParticipantsPanel({
   participants,
   photoOf,
@@ -145,15 +195,15 @@ function ParticipantsPanel({
             <tbody>
               {pageItems.map((person) => (
                 <tr key={person.id}>
-                  <td><Thumb src={photoOf(person)} name={person.name} /></td>
-                  <td>
+                  <td data-label="Perfil"><Thumb src={photoOf(person)} name={person.name} /></td>
+                  <td data-label="Nome">
                     {editingId === person.id ? (
                       <input value={editingName} onChange={(e) => setEditingName(e.target.value)} />
                     ) : (
                       person.name
                     )}
                   </td>
-                  <td>
+                  <td data-label="Variante">
                     {editingId === person.id ? (
                       <select
                         value={editingVariant}
@@ -176,7 +226,7 @@ function ParticipantsPanel({
                       </span>
                     )}
                   </td>
-                  <td>
+                  <td data-label="Foto">
                     <label className="op-file-label">
                       Trocar
                       <input
@@ -192,7 +242,7 @@ function ParticipantsPanel({
                       />
                     </label>
                   </td>
-                  <td>
+                  <td data-label="Avatar de luta">
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <Thumb src={fightPhotoOf(person)} name={person.name} />
                       <label className="op-file-label">
@@ -211,7 +261,7 @@ function ParticipantsPanel({
                       </label>
                     </div>
                   </td>
-                  <td style={{ textAlign: 'right' }}>
+                  <td data-label="Ações" style={{ textAlign: 'right' }}>
                     {editingId === person.id ? (
                       <>
                         <button
@@ -335,11 +385,11 @@ function TeamsPanel({
             <tbody>
               {pageItems.map((team) => (
                 <tr key={team.id}>
-                  <td>{team.revealOrder}</td>
-                  <td>{team.name}</td>
-                  <td>{byId.get(team.participant1Id)?.name ?? '?'} & {byId.get(team.participant2Id)?.name ?? '?'}</td>
-                  <td>{byId.get(team.firstRevealParticipantId)?.name ?? '?'}</td>
-                  <td style={{ textAlign: 'right' }}>
+                  <td data-label="Ordem">{team.revealOrder}</td>
+                  <td data-label="Dupla">{team.name}</td>
+                  <td data-label="Integrantes">{byId.get(team.participant1Id)?.name ?? '?'} & {byId.get(team.participant2Id)?.name ?? '?'}</td>
+                  <td data-label="Revela 1º">{byId.get(team.firstRevealParticipantId)?.name ?? '?'}</td>
+                  <td data-label="Ações" style={{ textAlign: 'right' }}>
                     <button
                       className="op-btn ghost small"
                       onClick={() => {
@@ -762,9 +812,9 @@ export function OperatorApp() {
                 <tbody>
                   {[...state.teams].sort((a, b) => a.revealOrder - b.revealOrder).map((team) => (
                     <tr key={team.id}>
-                      <td>{team.revealOrder}</td>
-                      <td>{team.name}</td>
-                      <td>{team.status === 'registered' ? 'Aguardando' : 'Revelada'}</td>
+                      <td data-label="#">{team.revealOrder}</td>
+                      <td data-label="Dupla">{team.name}</td>
+                      <td data-label="Status">{team.status === 'registered' ? 'Aguardando' : 'Revelada'}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -1003,14 +1053,11 @@ export function OperatorApp() {
                   </span>
                 </div>
                 <div className="op-form-row">
-                  <input
+                  <RaceTimeInput
                     value={target}
-                    onChange={(e) => {
-                      setTarget(e.target.value)
-                      setTargetError(null)
-                    }}
+                    onChange={(v) => { setTarget(v); setTargetError(null) }}
                     placeholder="Tempo-alvo MM:SS:CS"
-                    aria-invalid={Boolean(targetError)}
+                    ariaInvalid={Boolean(targetError)}
                   />
                   <button
                     className="op-btn ghost"
@@ -1049,14 +1096,11 @@ export function OperatorApp() {
                 </div>
                 {targetError ? <div className="op-field-error">{targetError}</div> : null}
                 <div className="op-form-row">
-                  <input
+                  <RaceTimeInput
                     value={manual}
-                    onChange={(e) => {
-                      setManual(e.target.value)
-                      setManualError(null)
-                    }}
+                    onChange={(v) => { setManual(v); setManualError(null) }}
                     placeholder="Tempo manual MM:SS:CS"
-                    aria-invalid={Boolean(manualError)}
+                    ariaInvalid={Boolean(manualError)}
                   />
                   <button
                     className="op-btn secondary"
@@ -1143,14 +1187,11 @@ export function OperatorApp() {
                 <TimerCaptureConfig candidates={view.pendingCandidates} />
               </div>
               <div className="op-form-row" style={{ marginBottom: 0 }}>
-                <input
+                <RaceTimeInput
                   value={sim}
-                  onChange={(e) => {
-                    setSim(e.target.value)
-                    setSimError(null)
-                  }}
+                  onChange={(v) => { setSim(v); setSimError(null) }}
                   placeholder="Simular leitura MM:SS:CS"
-                  aria-invalid={Boolean(simError)}
+                  ariaInvalid={Boolean(simError)}
                 />
                 <button
                   className="op-btn secondary"

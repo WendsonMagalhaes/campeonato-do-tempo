@@ -491,6 +491,12 @@
 
   .op-card-actions { top: calc(var(--op-topbar-h) + 8px); }
 
+  /* Ações principais em coluna cheia, mais fáceis de tocar */
+  .op-card-actions .op-btn {
+    flex: 1 1 auto;
+    min-width: 45%;
+  }
+
   .op-form-row { flex-direction: column; align-items: stretch; }
 
   .op-form-row input,
@@ -510,6 +516,67 @@
   .op-candidate > span:last-child { display: flex; flex-wrap: wrap; gap: 6px; }
   .op-candidate > span:last-child .op-btn { flex: 1 1 auto; }
 
-  .op-table th:nth-child(1),
-  .op-table td:nth-child(1) { padding-left: 4px; }
+  /* Alvo de toque maior (recomendação Apple/Google ~44px) e sem zoom
+     automático do iOS ao focar campos (que exige font-size >= 16px). */
+  .op-topbar-actions .op-btn,
+  .op-file-label {
+    min-height: 44px;
+  }
+
+  .operator-app input,
+  .operator-app select {
+    font-size: 16px;
+    min-height: 44px;
+  }
+
+  /* Tabelas viram cards empilhados no celular: cada <tr> é um cartão,
+     cada <td> mostra seu rótulo (data-label) à esquerda e o valor à direita. */
+  .op-table thead { display: none; }
+
+  .op-table,
+  .op-table tbody,
+  .op-table tr,
+  .op-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .op-table tr {
+    border: 1px solid var(--op-border);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: var(--op-surface);
+  }
+
+  .op-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #eef1f6;
+    padding: 8px 2px;
+    text-align: right;
+  }
+
+  .op-table td:last-child { border-bottom: none; }
+
+  .op-table td::before {
+    content: attr(data-label);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--op-muted);
+    text-align: left;
+    margin-right: auto;
+  }
+
+  .op-table td[data-label="Ações"] {
+    justify-content: flex-end;
+  }
+
+  .op-table td[data-label="Ações"]::before {
+    content: none;
+  }
 }
