@@ -1,10 +1,10 @@
 import type { ScoreboardProjection } from '../../domain/projections.ts'
 
 /** Match-finish walk-in + KO timeline ends ~4220ms; hold battle before duo-qualified UI. */
-export const MATCH_KO_HOLD_MS = 4500
+export const MATCH_KO_HOLD_MS = 2500
 
 /** Round-win walk-in + hit timeline ends ~3140ms; hold battle before Round 3 selection. */
-export const ROUND_WIN_HOLD_MS = 3300
+export const ROUND_WIN_HOLD_MS = 1300
 
 export type ScoreboardLayerFlags = {
   showBattle: boolean

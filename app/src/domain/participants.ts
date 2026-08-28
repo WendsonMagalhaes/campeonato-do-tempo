@@ -244,6 +244,15 @@ export const OFFICIAL_PARTICIPANTS: ReadonlyArray<ParticipantDefinition> = [
     fighterVariant: 'female',
     sourceStatus: 'ready',
   },
+   {
+    id: 'regina',
+    slug: 'regina',
+    displayName: 'Regina',
+    avatar: '/assets/participants/regina/face_master_360_v2.webp',
+    bodyImage: '/assets/participants/regina/body_master_v2.webp',
+    fighterVariant: 'female',
+    sourceStatus: 'ready',
+  },
   {
     id: 'rhussiana',
     slug: 'rhussiana',
