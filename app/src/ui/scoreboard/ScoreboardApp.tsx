@@ -41,7 +41,6 @@ const LOSER_PANEL_HOLD_MS = 8000
 // projection.participants[].name (inclua sobrenome se houver mais de uma
 // pessoa com o mesmo primeiro nome no elenco).
 const PRE_EXCLUDED_PARTICIPANT_NAMES = new Set<string>([
-  'João',
   'Hiago',
   'Kelvin',
   'Fernando',
