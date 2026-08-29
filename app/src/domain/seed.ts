@@ -60,7 +60,7 @@ const OFFICIAL_TEAM_PAIRS: ReadonlyArray<readonly [string, string]> = [
   ['Mona', 'David'], 
   ['Alexandre', 'Wesley'],
   ['Neto', 'Ana'], 
-  ['Adriel', 'Erikson'],
+  ['Rikelmi', 'Erikson'],
   ['Fábio', 'Dinarte'],
   ['Fatinha', 'Leandro'], 
   ['Joemerson', 'Evyllyn'], 
