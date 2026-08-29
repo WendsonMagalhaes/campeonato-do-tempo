@@ -6,7 +6,6 @@ import { FixedCanvas } from '../copa-ui/components/FixedCanvas.tsx'
 import {
   BATTLE,
   BATTLE_HUD,
-  PLATE_ASPECT,
   absoluteBox,
   battleTextMaxWidth,
   fighterPlacement,
@@ -16,7 +15,7 @@ import {
   type FighterVariant,
 } from './battle-assets.ts'
 import { APPROACH_PX, WALK_IN_MS } from './battle-timeline.ts'
-import { ScorePanel, TimePanel } from './CanonicalHud.tsx'
+import { ScorePanel } from './CanonicalHud.tsx'
 import { FighterSprite } from './FighterSprite.tsx'
 import { globalAudio } from '../audio/singleton.ts'
 import { useBattleDirector } from './useBattleDirector.ts'
