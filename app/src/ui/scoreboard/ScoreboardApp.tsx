@@ -45,7 +45,7 @@ const PRE_EXCLUDED_PARTICIPANT_NAMES = new Set<string>([
   'Kelvin',
   'Fernando',
   'Hadassa',
-  'Ester',
+  'Ester','Adriel',
 ])
 
 function shuffleArray<T>(items: T[]): T[] {
