@@ -113,9 +113,9 @@ export function BattleScene({
     ? null
     : forceMatchFinish
       ? versus.finalScoreLabel ??
-        (versus.scoreA === 2 || versus.scoreB === 2
-          ? (Math.min(versus.scoreA, versus.scoreB) === 0 ? '2-0' : '2-1')
-          : '2-1')
+      (versus.scoreA === 2 || versus.scoreB === 2
+        ? (Math.min(versus.scoreA, versus.scoreB) === 0 ? '2-0' : '2-1')
+        : '2-1')
       : versus.finalScoreLabel
 
   const holdSuffix = forceMatchFinish ? '-ko-hold' : forceRoundWin ? '-r3-hold' : ''
@@ -126,11 +126,11 @@ export function BattleScene({
 
   const introKey =
     !forceMatchFinish &&
-    !forceRoundWin &&
-    versus.roundNumber &&
-    versus.activeAId &&
-    versus.activeBId &&
-    (screen === 'round' || screen === 'round3')
+      !forceRoundWin &&
+      versus.roundNumber &&
+      versus.activeAId &&
+      versus.activeBId &&
+      (screen === 'round' || screen === 'round3')
       ? `${versus.stage}-r${versus.roundNumber}-intro`
       : null
 
@@ -384,34 +384,7 @@ export function BattleScene({
           </div>
         ) : null}
 
-        {!versus.timesHidden && versus.timeA ? (
-          <div style={{ ...absoluteBox(BATTLE.leftTime), zIndex: 4 }}>
-            <TimePanel
-              text={versus.timeA}
-              className="ce-battle-name-fill"
-              maxWidth={battleTextMaxWidth(
-                BATTLE.leftTime,
-                BATTLE_HUD.timeText.maxWidthRatio,
-                PLATE_ASPECT.name,
-              )}
-              scale={BATTLE_HUD.timeText.scale}
-            />
-          </div>
-        ) : null}
-        {!versus.timesHidden && versus.timeB ? (
-          <div style={{ ...absoluteBox(BATTLE.rightTime), zIndex: 4 }}>
-            <TimePanel
-              text={versus.timeB}
-              className="ce-battle-name-fill"
-              maxWidth={battleTextMaxWidth(
-                BATTLE.rightTime,
-                BATTLE_HUD.timeText.maxWidthRatio,
-                PLATE_ASPECT.name,
-              )}
-              scale={BATTLE_HUD.timeText.scale}
-            />
-          </div>
-        ) : null}
+
 
         {/* Corner times: pinned bottom L/R — do NOT follow walk-in translateX */}
         {showCornerTimes && versus.timeA ? (
@@ -419,10 +392,26 @@ export function BattleScene({
             style={{
               ...absoluteBox(BATTLE.leftFighterTime),
               zIndex: 5,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 1,
             }}
             className="ce-battle-fighter-time ce-battle-fighter-time--left"
             data-testid="fighter-time-left"
           >
+            <BitmapText
+              text={left.name.toUpperCase()}
+              size="small"
+              scale={BATTLE_HUD.fighterTime.scale * 0.99}
+              align="center"
+              maxWidth={battleTextMaxWidth(
+                BATTLE.leftFighterTime,
+                BATTLE_HUD.fighterTime.maxWidthRatio,
+                12,
+              )}
+            />
             <BitmapText
               text={versus.timeA}
               size={BATTLE_HUD.fighterTime.size}
@@ -441,10 +430,26 @@ export function BattleScene({
             style={{
               ...absoluteBox(BATTLE.rightFighterTime),
               zIndex: 5,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 1,
             }}
             className="ce-battle-fighter-time ce-battle-fighter-time--right"
             data-testid="fighter-time-right"
           >
+            <BitmapText
+              text={right.name.toUpperCase()}
+              size="small"
+              scale={BATTLE_HUD.fighterTime.scale * 0.99}
+              align="center"
+              maxWidth={battleTextMaxWidth(
+                BATTLE.rightFighterTime,
+                BATTLE_HUD.fighterTime.maxWidthRatio,
+                12,
+              )}
+            />
             <BitmapText
               text={versus.timeB}
               size={BATTLE_HUD.fighterTime.size}

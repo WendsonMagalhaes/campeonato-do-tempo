@@ -350,6 +350,24 @@ export const RESERVE_PARTICIPANTS: ReadonlyArray<ParticipantDefinition> = [
     fighterVariant: 'male',
     sourceStatus: 'ready',
   },
+  {
+    id: 'ester',
+    slug: 'ester',
+    displayName: 'Ester',
+    avatar: '/assets/participants/ester/face_master_360_v2.webp',
+    bodyImage: '/assets/participants/ester/body_master_v2.webp',
+    fighterVariant: 'female',
+    sourceStatus: 'ready',
+  },
+  {
+    id: 'hadassa',
+    slug: 'hadassa',
+    displayName: 'Hadassa',
+    avatar: '/assets/participants/hadassa/face_master_360_v2.webp',
+    bodyImage: '/assets/participants/hadassa/body_master_v2.webp',
+    fighterVariant: 'female',
+    sourceStatus: 'ready',
+  },
 ]
 
 /**

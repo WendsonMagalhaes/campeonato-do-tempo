@@ -1314,9 +1314,9 @@ export function OperatorAppIndividual() {
                                 (item) => (
                                     <div
                                         className={`op-match-card ${item.id ===
-                                                state.activeMatchId
-                                                ? 'active-match'
-                                                : ''
+                                            state.activeMatchId
+                                            ? 'active-match'
+                                            : ''
                                             }`}
                                         key={
                                             item.id
