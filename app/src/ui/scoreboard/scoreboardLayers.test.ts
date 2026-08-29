@@ -9,6 +9,7 @@ describe('resolveScoreboardLayers', () => {
       koHold: false,
       round3Hold: true,
     })
+
     expect(holding.showBattle).toBe(true)
     expect(holding.showRound3Selection).toBe(false)
     expect(holding.forceRoundWin).toBe(true)
@@ -21,6 +22,7 @@ describe('resolveScoreboardLayers', () => {
       koHold: false,
       round3Hold: false,
     })
+
     expect(after.showBattle).toBe(false)
     expect(after.showRound3Selection).toBe(true)
     expect(after.forceRoundWin).toBe(false)
@@ -33,6 +35,7 @@ describe('resolveScoreboardLayers', () => {
       koHold: true,
       round3Hold: false,
     })
+
     expect(holding.showBattle).toBe(true)
     expect(holding.showDuoQualified).toBe(false)
     expect(holding.forceMatchFinish).toBe(true)
@@ -44,19 +47,22 @@ describe('resolveScoreboardLayers', () => {
       koHold: false,
       round3Hold: false,
     })
+
     expect(after.showBattle).toBe(false)
     expect(after.showDuoQualified).toBe(true)
   })
 
-  it('keeps VersusScene on versus and BattleScene on round (tempos ocultos)', () => {
-    const versus = resolveScoreboardLayers({
+  it('shows Round 1 selection directly on versus, without VersusScene', () => {
+    const round1 = resolveScoreboardLayers({
       screen: 'versus',
       hasVersus: true,
       koHold: false,
       round3Hold: false,
     })
-    expect(versus.showVersus).toBe(true)
-    expect(versus.showBattle).toBe(false)
+
+    expect(round1.showRound1Selection).toBe(true)
+    expect(round1.showBattle).toBe(false)
+    expect(round1.showRound3Selection).toBe(false)
 
     const round = resolveScoreboardLayers({
       screen: 'round',
@@ -64,8 +70,10 @@ describe('resolveScoreboardLayers', () => {
       koHold: false,
       round3Hold: false,
     })
-    expect(round.showVersus).toBe(false)
+
+    expect(round.showRound1Selection).toBe(false)
     expect(round.showBattle).toBe(true)
     expect(round.showRound3Selection).toBe(false)
   })
 })
+

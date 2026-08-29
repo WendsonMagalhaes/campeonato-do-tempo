@@ -52,7 +52,7 @@ export function formatRaceTime(ms: number): string {
 export const RACE_TIME_PLACEHOLDER = '--:--:--' as const
 
 /** Inclusive lower bound for operator "Aleatório" race target (~1m20s). */
-export const RANDOM_TARGET_MIN_MS = 80_000
+export const RANDOM_TARGET_MIN_MS = 60_000
 
 /** Inclusive upper bound for operator "Aleatório" race target (~2m40s). */
 export const RANDOM_TARGET_MAX_MS = 160_000

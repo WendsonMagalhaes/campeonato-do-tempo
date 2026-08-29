@@ -26,6 +26,11 @@ type Props = {
   draftAId: string | null
   draftBId: string | null
   backgroundSrc?: string
+  /**
+   * Reaproveita a mesma tela pra outras seleções (ex: Rodada 1 -- escolha
+   * de quem abre o confronto). Default mantém o texto original do round 3.
+   */
+  title?: string
 }
 
 /** Candidate name under the photo — BitmapText only (no decorative name_plate PNG). */
@@ -44,17 +49,20 @@ function CandidateName({ box, name }: { box: Box; name: string }) {
 }
 
 /**
- * Round 3 representative selection — layered per EXACT / SCREEN_LAYOUTS.
+ * Seleção de representante da dupla — layout compartilhado.
+ * Usada tanto na Rodada 3 (escolha do representante decisivo) quanto na
+ * Rodada 1 (escolha de quem abre o confronto), via prop `title`.
  * Baked `round3_selection_screen.png` is reference only.
  * Selection state = CSS border/glow on the chosen top slots (no sprite cursor, no bottom row).
  * No score banner / duo labels — names live under each large PlayerPortrait.
  */
-export function Round3SelectionScene({
+export function DuoSelectionScene({
   membersA,
   membersB,
   draftAId,
   draftBId,
   backgroundSrc,
+  title = 'RODADA 3 - ESCOLHA O REPRESENTANTE',
 }: Props) {
   const hasPreferredBg = useRealImageAsset(ROUND3_BG_PREFERRED)
   const bgSrc =
@@ -67,35 +75,35 @@ export function Round3SelectionScene({
     player: 'p1' | 'p2'
     selected: boolean
   }> = [
-    {
-      person: membersA[0],
-      photo: ROUND3.leftCandidate1,
-      name: ROUND3.leftName1,
-      player: 'p1',
-      selected: draftAId === membersA[0].id,
-    },
-    {
-      person: membersA[1],
-      photo: ROUND3.leftCandidate2,
-      name: ROUND3.leftName2,
-      player: 'p1',
-      selected: draftAId === membersA[1].id,
-    },
-    {
-      person: membersB[0],
-      photo: ROUND3.rightCandidate1,
-      name: ROUND3.rightName1,
-      player: 'p2',
-      selected: draftBId === membersB[0].id,
-    },
-    {
-      person: membersB[1],
-      photo: ROUND3.rightCandidate2,
-      name: ROUND3.rightName2,
-      player: 'p2',
-      selected: draftBId === membersB[1].id,
-    },
-  ]
+      {
+        person: membersA[0],
+        photo: ROUND3.leftCandidate1,
+        name: ROUND3.leftName1,
+        player: 'p1',
+        selected: draftAId === membersA[0].id,
+      },
+      {
+        person: membersA[1],
+        photo: ROUND3.leftCandidate2,
+        name: ROUND3.leftName2,
+        player: 'p1',
+        selected: draftAId === membersA[1].id,
+      },
+      {
+        person: membersB[0],
+        photo: ROUND3.rightCandidate1,
+        name: ROUND3.rightName1,
+        player: 'p2',
+        selected: draftBId === membersB[0].id,
+      },
+      {
+        person: membersB[1],
+        photo: ROUND3.rightCandidate2,
+        name: ROUND3.rightName2,
+        player: 'p2',
+        selected: draftBId === membersB[1].id,
+      },
+    ]
 
   return (
     <FixedCanvas className="ce-scene-host ce-r3-host">
@@ -104,7 +112,7 @@ export function Round3SelectionScene({
 
       <div style={absoluteBox(ROUND3.title)} className="ce-center">
         <BitmapText
-          text="RODADA 3 - ESCOLHA O REPRESENTANTE"
+          text={title}
           size={ROUND3_HUD.title.size}
           align="center"
           scale={ROUND3_HUD.title.scale}
@@ -135,3 +143,6 @@ export function Round3SelectionScene({
     </FixedCanvas>
   )
 }
+
+/** Alias — mantém compatibilidade com quem já importa `Round3SelectionScene`. */
+export const Round3SelectionScene = DuoSelectionScene

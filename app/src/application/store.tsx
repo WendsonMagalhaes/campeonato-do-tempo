@@ -20,6 +20,8 @@ interface Store {
   error: string | null
   dispatch: (command: Command) => void
   undo: () => void
+  /** true enquanto ainda houver estados anteriores no histórico para desfazer. */
+  canUndo: boolean
   loadOfficialRoster: () => void
   seedDemo: () => void
   uploadPhoto: (participantId: string, dataUrl: string) => Promise<void>
@@ -32,6 +34,8 @@ interface Store {
   drawBracketWithCinematic: () => void
   /** Embaralha a ordem de revelação das duplas (state.teams[].revealOrder). Pode ser chamado várias vezes antes de iniciar a revelação. Empilha no histórico de undo. */
   shuffleTeamRevealOrder: () => void
+  /** Live draft highlight on scoreboard before SelectRound1Fighters confirm. */
+  publishRound1Draft: (participantAId: string | null, participantBId: string | null) => void
   /** Live draft highlight on scoreboard before SelectRound3Representatives confirm. */
   publishRound3Draft: (participantAId: string | null, participantBId: string | null) => void
 }
@@ -79,10 +83,24 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
   const [photos, setPhotos] = useState<Record<string, string>>({})
   const [persistenceLabel, setPersistenceLabel] = useState('carregando…')
   const [error, setError] = useState<string | null>(null)
+  // Espelha history.current.length em estado React só para poder
+  // desabilitar o botão "Desfazer" na UI quando não há mais nada para
+  // desfazer. A pilha "de verdade" continua sendo o ref (history.current);
+  // isto aqui é só um contador para renderização.
+  const [historyLength, setHistoryLength] = useState(0)
+  const syncHistoryLength = useCallback(() => {
+    setHistoryLength(history.current.length)
+  }, [])
   // Evita disparar uma segunda cinemática de fake-shuffle (e um segundo
   // RevealNextTeam) enquanto a animação da dupla atual ainda está rodando
   // no telão -- ver revealNextWithCinematic() abaixo.
   const revealInFlightRef = useRef(false)
+  // Handle do setTimeout que dispara o RevealNextTeam ao fim da cinemática.
+  // Guardado para poder ser cancelado se o operador clicar "Desfazer"
+  // antes da animação terminar -- senão o RevealNextTeam agendado dispara
+  // depois, em cima do estado já desfeito, e reintroduz a dupla fora de
+  // ordem (ou revela uma dupla que o operador já tinha voltado atrás).
+  const revealTimeoutRef = useRef<number | null>(null)
 
   const commit = useCallback((next: TournamentState, sound?: string) => {
     stateRef.current = next
@@ -98,6 +116,7 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
     setError(null)
     try {
       history.current.push(structuredClone(stateRef.current))
+      syncHistoryLength()
       const next = handleCommand(stateRef.current, command, depsRef.current)
       const active = next.rounds.find((round) => round.id === next.activeRoundId)
       const sound =
@@ -113,10 +132,11 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
       commit(next, sound)
     } catch (err) {
       history.current.pop()
+      syncHistoryLength()
       audio.play('error')
       setError(err instanceof DomainError ? err.message : 'Falha no comando.')
     }
-  }, [audio, commit])
+  }, [audio, commit, syncHistoryLength])
 
   useEffect(() => {
     void persistence.load().then(async (loaded) => {
@@ -149,6 +169,11 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
       frameId?: string | null
     }) => {
       // Remover retorno sonoro a pedido do usuário (audio.play('timer_detected'))
+      // Proposital: leituras de câmera NÃO entram no histórico de undo.
+      // Elas são candidatos passivos (o operador ainda precisa atribuir A/B
+      // manualmente) e nunca devem contar como um "passo" desfazível --
+      // desfazer não deve precisar "consumir" uma leitura de câmera que o
+      // operador nem chegou a usar.
       try {
         const next = handleCommand(stateRef.current, {
           type: 'ReceiveTimerCandidate',
@@ -175,8 +200,19 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
     persistenceLabel,
     error,
     dispatch,
+    canUndo: historyLength > 0,
     undo() {
+      // Se havia uma revelação cinemática agendada para disparar depois
+      // (RevealNextTeam via setTimeout em revealNextWithCinematic), cancela
+      // agora -- senão ela dispararia mais tarde em cima do estado que
+      // acabamos de restaurar, reintroduzindo a dupla fora de ordem.
+      if (revealTimeoutRef.current !== null) {
+        window.clearTimeout(revealTimeoutRef.current)
+        revealTimeoutRef.current = null
+        revealInFlightRef.current = false
+      }
       const previous = history.current.pop()
+      syncHistoryLength()
       if (!previous) {
         setError('Nada para desfazer.')
         return
@@ -186,10 +222,12 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
     },
     loadOfficialRoster() {
       history.current = []
+      syncHistoryLength()
       commit(applyOfficialSetup(depsRef.current))
     },
     seedDemo() {
       history.current = []
+      syncHistoryLength()
       commit(applyOfficialSetup(depsRef.current))
     },
     async uploadPhoto(participantId, dataUrl) {
@@ -210,6 +248,7 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
     async importBackup(json) {
       const next = await persistence.importBackup(json)
       history.current = []
+      syncHistoryLength()
       commit(next, 'ui_confirm')
     },
     simulateTimer(seconds) {
@@ -248,8 +287,9 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
       // senão o estado persistido chega adiantado via display.publish() e a
       // dupla aparece cinza antes mesmo de ser sorteada/exibida.
       revealInFlightRef.current = true
-      window.setTimeout(() => {
+      revealTimeoutRef.current = window.setTimeout(() => {
         revealInFlightRef.current = false
+        revealTimeoutRef.current = null
         dispatch({ type: 'RevealNextTeam' })
       }, FAKE_SHUFFLE_ANIMATION_MS)
     },
@@ -272,6 +312,7 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
     },
     shuffleTeamRevealOrder() {
       history.current.push(structuredClone(stateRef.current))
+      syncHistoryLength()
       const shuffled = [...stateRef.current.teams]
       for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
@@ -283,6 +324,13 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
       }
       commit(next, 'ui_select')
     },
+    publishRound1Draft(participantAId, participantBId) {
+      display.publishCinematic({
+        type: 'round1_draft',
+        participantAId,
+        participantBId,
+      })
+    },
     publishRound3Draft(participantAId, participantBId) {
       display.publishCinematic({
         type: 'round3_draft',
@@ -290,7 +338,7 @@ export function TournamentProvider({ children }: { children: ReactNode }) {
         participantBId,
       })
     },
-  }), [commit, dispatch, display, error, mockTimer, persistence, persistenceLabel, photos, state])
+  }), [commit, dispatch, display, error, historyLength, mockTimer, persistence, persistenceLabel, photos, state, syncHistoryLength])
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }

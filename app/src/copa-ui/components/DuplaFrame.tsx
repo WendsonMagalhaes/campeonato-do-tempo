@@ -42,6 +42,8 @@ type Props = {
     duplaName: string
     memberAAlt?: string
     memberBAlt?: string
+    /** Tamanho do texto do nome (repassado pro BitmapText). Padrão: 0.13 */
+    nameScale?: number
     /** className opcional pro pai controlar largura/posição (ex: width: 100%) */
     className?: string
     style?: CSSProperties
@@ -54,6 +56,7 @@ export function DuplaFrame({
     duplaName,
     memberAAlt = '',
     memberBAlt = '',
+    nameScale = 0.13,
     className,
     style,
 }: Props) {
@@ -104,7 +107,7 @@ export function DuplaFrame({
             />
 
             <div style={BANNER}>
-                <BitmapText text={duplaName.toUpperCase()} size="small" scale={0.13} maxWidth={220} align="center" />
+                <BitmapText text={duplaName.toUpperCase()} size="small" scale={nameScale} maxWidth={220} align="center" />
             </div>
         </div>
     )

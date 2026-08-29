@@ -628,7 +628,7 @@ function TimerCaptureConfig({ candidates }: { candidates: { id: string; valueMs:
 
 export function OperatorApp() {
   const store = useOperatorView()
-  const { state, view, photos, dispatch, publishRound3Draft } = store
+  const { state, view, photos, dispatch, publishRound1Draft, publishRound3Draft } = store
   const [target, setTarget] = useState('00:01:50')
   const [manual, setManual] = useState('00:01:56')
   const [sim, setSim] = useState('00:01:56')
@@ -691,7 +691,8 @@ export function OperatorApp() {
         </div>
         <div className="op-topbar-actions">
           <a className="op-btn secondary" href="/telao" target="_blank" rel="noreferrer">Abrir telão</a>
-          <button className="op-btn ghost" onClick={store.undo}>Desfazer</button>
+          <a className="op-btn ghost" href="/operador-individual">Modo individual</a>
+          <button className="op-btn ghost" disabled={!store.canUndo} onClick={store.undo}>Desfazer</button>
           <button
             className="op-btn ghost"
             onClick={async () => {
@@ -738,6 +739,7 @@ export function OperatorApp() {
 
       <main className="op-main">
         {store.error ? <div className="op-banner error">{store.error}</div> : null}
+
 
         {state.status === 'setup' ? (
           <div className="op-grid-2">
@@ -981,15 +983,33 @@ export function OperatorApp() {
 
             {view.eligibleR1 ? (
               <div className="op-form-row">
-                <select value={r1a} onChange={(e) => setR1a(e.target.value)}>
+                <select
+                  value={r1a}
+                  onChange={(e) => {
+                    const next = e.target.value
+                    setR1a(next)
+                    publishRound1Draft(next || null, r1b || null)
+                  }}
+                >
                   <option value="">Jogador A — rodada 1</option>
                   {view.eligibleR1.teamA.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
                 </select>
-                <select value={r1b} onChange={(e) => setR1b(e.target.value)}>
+                <select
+                  value={r1b}
+                  onChange={(e) => {
+                    const next = e.target.value
+                    setR1b(next)
+                    publishRound1Draft(r1a || null, next || null)
+                  }}
+                >
                   <option value="">Jogador B — rodada 1</option>
                   {view.eligibleR1.teamB.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
                 </select>
-                <button className="op-btn" disabled={!r1a || !r1b} onClick={() => dispatch({ type: 'SelectRound1Players', participantAId: r1a, participantBId: r1b })}>
+                <button
+                  className="op-btn"
+                  disabled={!r1a || !r1b}
+                  onClick={() => dispatch({ type: 'SelectRound1Players', participantAId: r1a, participantBId: r1b })}
+                >
                   Confirmar rodada 1
                 </button>
               </div>

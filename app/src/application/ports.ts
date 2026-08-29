@@ -44,6 +44,16 @@ export type CinematicEvent =
       participantAId: string | null
       participantBId: string | null
     }
+  | {
+      /**
+       * Escolha de quem abre a Rodada 1 (mesmo papel do round3_draft, mas
+       * antes de existir round -- alimenta o highlight na tela de seleção
+       * que aparece logo após o anúncio das duplas / VersusScene).
+       */
+      type: 'round1_draft'
+      participantAId: string | null
+      participantBId: string | null
+    }
 
 export interface PublicDisplayPort {
   publish: (projectionJson: string) => void

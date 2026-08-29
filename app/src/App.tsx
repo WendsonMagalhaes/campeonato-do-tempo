@@ -8,6 +8,9 @@ import { DuoQualifiedDebug } from './battle/DuoQualifiedDebug.tsx'
 import { ChampionDebug } from './battle/ChampionDebug.tsx'
 import { VersusDebug } from './copa-ui/runtime/VersusDebug.tsx'
 import { Round3Debug } from './copa-ui/runtime/Round3Debug.tsx'
+import { IndividualTournamentProvider } from './application/individualStore.tsx'
+import { OperatorAppIndividual } from './ui/operator/OperatorAppIndividual.tsx'
+import { ScoreboardAppIndividual } from './ui/scoreboard/ScoreboardAppIndividual.tsx'
 import '@fontsource/press-start-2p'
 import '@fontsource/vt323'
 import './ui/theme/arcade.css'
@@ -22,7 +25,15 @@ export default function App() {
   if (path.startsWith('/debug/champion')) return <ChampionDebug />
   if (path.startsWith('/debug/versus')) return <VersusDebug />
   if (path.startsWith('/debug/round3')) return <Round3Debug />
+  if (path.startsWith('/telao-individual')) return <ScoreboardAppIndividual />
   if (path.startsWith('/telao')) return <ScoreboardApp />
+  if (path.startsWith('/operador-individual')) {
+    return (
+      <IndividualTournamentProvider>
+        <OperatorAppIndividual />
+      </IndividualTournamentProvider>
+    )
+  }
   return (
     <TournamentProvider>
       <OperatorApp />

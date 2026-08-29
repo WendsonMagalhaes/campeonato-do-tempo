@@ -26,7 +26,9 @@ import type { CinematicEvent, PublicDisplayPort } from '../../application/ports.
 const CHANNEL_NAME = 'esperanca-scoreboard'
 
 let clientSingleton: ReturnType<typeof createClient> | null = null
-function getClient() {
+/** Exportado para outros canais (ex: freeBattleChannel.ts) reaproveitarem o
+ *  mesmo client/singleton em vez de abrir uma segunda conexão websocket. */
+export function getClient() {
   if (clientSingleton) return clientSingleton
   const url = import.meta.env.VITE_SUPABASE_URL
   const key = import.meta.env.VITE_SUPABASE_ANON_KEY

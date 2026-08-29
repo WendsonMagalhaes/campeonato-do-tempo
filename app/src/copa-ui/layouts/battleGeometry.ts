@@ -361,7 +361,7 @@ export const BATTLE = {
    * Primary BitmapText status (VENCE A RODADA / PERFECT / EMPATE) — between
    * shrunk score and lowered TEMPO ALVO. No "tempos ocultos" banner.
    */
-  roundTitle: { x: 560, y: 248, w: 800, h: 88 },
+  roundTitle: { x: 560, y: 290, w: 800, h: 88 },
 
   /**
    * Large PNG announcer callouts (ROUND / FIGHT / KO) — ~750px-wide assets at ~0.85 scale.

@@ -163,8 +163,8 @@ function stageAccentClass(slotKey: string): string {
 // Timings/escala da animação de revelação: aparece grande no centro do
 // canvas, segura um tempo, e depois "voa" até a posição real do slot.
 const REVEAL_CENTER_SCALE = 3.2
-const REVEAL_HOLD_MS = 2000 // quanto tempo fica grande no centro
-const REVEAL_FLY_MS = 1800 // duração do voo até o slot
+const REVEAL_HOLD_MS = 1000 // quanto tempo fica grande no centro
+const REVEAL_FLY_MS = 800 // duração do voo até o slot
 
 // Duração total de uma revelação (hold + voo). O ScoreboardApp usa isso pra
 // espaçar as duplas — se o intervalo entre elas for menor que isso, a

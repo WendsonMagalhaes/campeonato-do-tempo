@@ -16,12 +16,12 @@ import {
   type FormationParticipant,
 } from '../../copa-ui/runtime/TeamFormationScene.tsx'
 import { OpeningScene } from '../../copa-ui/runtime/OpeningScene.tsx'
-import { Round3SelectionScene } from '../../copa-ui/runtime/Round3SelectionScene.tsx'
-import { VersusScene } from '../../copa-ui/runtime/VersusScene.tsx'
+import { DuoSelectionScene } from '../../copa-ui/runtime/Round3SelectionScene.tsx'
 import { RoundAnnounceScene } from '../../copa-ui/runtime/RoundAnnounceScene.tsx'
 import {
   MATCH_KO_HOLD_MS,
   ROUND_WIN_HOLD_MS,
+  ROUND_RESULT_HOLD_MS,
   resolveScoreboardLayers,
 } from './scoreboardLayers.ts'
 import { DuoRevealScene } from '../../copa-ui/runtime/DuoRevealScene.tsx'
@@ -32,6 +32,20 @@ import { subscribeScoreboardSupabase as subscribeScoreboard } from '../../adapte
 // fica em tela antes de trocar pra tela da dupla CLASSIFICADA (prêmio
 // garantido da próxima fase).
 const LOSER_PANEL_HOLD_MS = 8000
+
+// Personagens que não devem participar do sorteio de duplas -- ficam
+// "off"/cinza na grade do TeamFormationScene desde o início, sem passar
+// pelo fluxo de "revelado" do domínio (não mexe em bracket, undo,
+// persistência etc. -- é puramente visual, só na tela de sorteio).
+// IMPORTANTE: os nomes abaixo precisam bater EXATAMENTE com
+// projection.participants[].name (inclua sobrenome se houver mais de uma
+// pessoa com o mesmo primeiro nome no elenco).
+const PRE_EXCLUDED_PARTICIPANT_NAMES = new Set<string>([
+  'João',
+  'Hiago',
+  'Kelvin',
+  'Fernando',
+])
 
 function shuffleArray<T>(items: T[]): T[] {
   const arr = [...items]
@@ -119,6 +133,10 @@ function useProjection() {
   const [spinningId1, setSpinningId1] = useState<string | null>(null)
   const [spinningId2, setSpinningId2] = useState<string | null>(null)
   const [phase, setPhase] = useState<'idle' | 'spin1' | 'spin2' | 'landed'>('idle')
+  const [round1Draft, setRound1Draft] = useState<{ a: string | null; b: string | null }>({
+    a: null,
+    b: null,
+  })
   const [round3Draft, setRound3Draft] = useState<{ a: string | null; b: string | null }>({
     a: null,
     b: null,
@@ -145,6 +163,10 @@ function useProjection() {
       (json) => setProjection(JSON.parse(json) as ScoreboardProjection),
       (event) => {
         setCinematic(event)
+        if (event.type === 'round1_draft') {
+          setRound1Draft({ a: event.participantAId, b: event.participantBId })
+          return
+        }
         if (event.type === 'round3_draft') {
           setRound3Draft({ a: event.participantAId, b: event.participantBId })
           return
@@ -224,7 +246,18 @@ function useProjection() {
     )
     return unsubscribe
   }, [])
-  return { projection, cinematic, spinningId1, spinningId2, phase, round3Draft, setRound3Draft, bracketReveal }
+  return {
+    projection,
+    cinematic,
+    spinningId1,
+    spinningId2,
+    phase,
+    round1Draft,
+    setRound1Draft,
+    round3Draft,
+    setRound3Draft,
+    bracketReveal,
+  }
 }
 
 /**
@@ -339,7 +372,18 @@ function FakeShuffleScreen({
 }
 
 export function ScoreboardApp() {
-  const { projection, cinematic, spinningId1, spinningId2, phase, round3Draft, setRound3Draft, bracketReveal } = useProjection()
+  const {
+    projection,
+    cinematic,
+    spinningId1,
+    spinningId2,
+    phase,
+    round1Draft,
+    setRound1Draft,
+    round3Draft,
+    setRound3Draft,
+    bracketReveal,
+  } = useProjection()
   const getPhoto = usePhotoCache()
   const playedOpeningRef = useRef(false)
   const lastScreenRef = useRef<string | undefined>(undefined)
@@ -432,6 +476,48 @@ export function ScoreboardApp() {
     prevMatchesRef.current = projection.matches
   }, [projection?.matches])
 
+  // ---------------------------------------------------------------------
+  // FIX: Rodada N -> N+1 dentro do MESMO confronto (screen continua
+  // 'round' o tempo todo). O operador pode confirmar/avançar a rodada
+  // antes da animação de resultado (walk-in -> soco -> impacto -> hurt ->
+  // walk-back -> score-reveal) terminar. Isso derruba `versus.timesHidden`
+  // de volta pra `true` assim que `activeRoundId` muda, o que zera o
+  // `resultKey` dentro do BattleScene e cancela o timeline no meio
+  // (sintoma: "anda um pouco e para", só funciona certo na Rodada 1
+  // porque lá o operador demora mais pra confirmar).
+  //
+  // Solução: assim que uma rodada é revelada e NÃO decide o confronto
+  // (matchPoint === false -- essas já são cobertas por koHold), tira um
+  // snapshot desse `versus` e continua entregando ele pro BattleScene por
+  // ROUND_RESULT_HOLD_MS, ignorando o que a projection real já avançou.
+  // ---------------------------------------------------------------------
+  const revealedVersusRef = useRef<ScoreboardProjection['versus']>(null)
+  const revealedRoundKeyRef = useRef<string | null>(null)
+  const [roundResultHoldDone, setRoundResultHoldDone] = useState(true)
+
+  useEffect(() => {
+    if (projection?.screen !== 'round') {
+      revealedRoundKeyRef.current = null
+      setRoundResultHoldDone(true)
+      return
+    }
+    const v = projection.versus
+    if (!v || v.timesHidden || !v.roundWinner || v.matchPoint) return
+
+    const key = `${v.stage}-r${v.roundNumber}-${v.roundWinnerSide}-${v.scoreA}-${v.scoreB}`
+    if (revealedRoundKeyRef.current === key) return
+
+    revealedRoundKeyRef.current = key
+    revealedVersusRef.current = v
+    setRoundResultHoldDone(false)
+    const t = window.setTimeout(() => setRoundResultHoldDone(true), ROUND_RESULT_HOLD_MS)
+    return () => window.clearTimeout(t)
+  }, [projection?.screen, projection?.versus])
+
+  const roundResultHold = projection?.screen === 'round' && !roundResultHoldDone
+  const versusForBattle =
+    roundResultHold && revealedVersusRef.current ? revealedVersusRef.current : projection?.versus
+
   // Anúncio da rodada: dispara sempre que a chave entra em 'round' com os
   // dois participantes ativos já definidos (cobre Rodada 1 manual e Rodada 2
   // automática — ambas passam por screen === 'round' com activeAId/activeBId
@@ -498,6 +584,11 @@ export function ScoreboardApp() {
       if (projection.screen === 'round3') {
         setRound3Draft({ a: null, b: null })
       }
+      // Nova janela de "versus" começando -- limpa o draft da seleção da
+      // Rodada 1 pra não herdar highlight de um confronto anterior.
+      if (projection.screen === 'versus' && lastScreenRef.current !== 'versus') {
+        setRound1Draft({ a: null, b: null })
+      }
       // New fake-shuffle run starting -- clear the "already paired" tracker.
       if (projection.screen === 'fake_shuffle' && lastScreenRef.current !== 'fake_shuffle') {
         usedParticipantIdsRef.current = new Set()
@@ -549,7 +640,7 @@ export function ScoreboardApp() {
     if (projection.versus?.tie) {
       globalAudio.play('tie')
     }
-  }, [projection, koHold, round3Hold, setRound3Draft])
+  }, [projection, koHold, round3Hold, setRound1Draft, setRound3Draft])
 
   const anchorId = cinematic?.type === 'fake_shuffle' ? cinematic.firstParticipantId : null
   const destId = cinematic?.type === 'fake_shuffle' ? cinematic.destinationParticipantId : null
@@ -571,12 +662,23 @@ export function ScoreboardApp() {
   // Merge the durable, persisted "revealed" participants (survives a screen
   // refresh, since it's derived straight from `state.teams` on every
   // projection) with the ephemeral in-run tracker above (covers the instant
-  // a duo lands, ahead of the operator's confirm round-tripping back here).
+  // a duo lands, ahead of the operator's confirm round-tripping back here)
+  // and with the fixed pre-exclusion list (participants who must never be
+  // drawn, marked "off" from the start -- see PRE_EXCLUDED_PARTICIPANT_NAMES).
   const usedParticipantIds = useMemo(() => {
     const persisted = projection?.usedParticipantIds ?? []
-    if (persisted.length === 0 && usedParticipantIdsRef.current.size === 0) return usedParticipantIdsRef.current
-    return new Set([...persisted, ...usedParticipantIdsRef.current])
-  }, [projection?.usedParticipantIds, phase, anchorId, destId])
+    const preExcluded = (projection?.participants ?? [])
+      .filter((p) => PRE_EXCLUDED_PARTICIPANT_NAMES.has(p.name))
+      .map((p) => p.id)
+    if (
+      persisted.length === 0 &&
+      preExcluded.length === 0 &&
+      usedParticipantIdsRef.current.size === 0
+    ) {
+      return usedParticipantIdsRef.current
+    }
+    return new Set([...persisted, ...preExcluded, ...usedParticipantIdsRef.current])
+  }, [projection?.usedParticipantIds, projection?.participants, phase, anchorId, destId])
 
   // Sequência ao terminar um confronto: primeiro a dupla ELIMINADA (com o
   // prêmio da fase em que caiu), depois a dupla CLASSIFICADA (prêmio
@@ -733,19 +835,9 @@ export function ScoreboardApp() {
             revealOverride={bracketReveal}
           />
         ) : null}
-        {layers.showVersus && projection.versus ? (
-          <VersusScene
-            phaseLabel={
-              projection.versus.stage === 'final'
-                ? 'FINAL'
-                : projection.versus.stage === 'semifinais'
-                  ? 'SEMIFINAIS'
-                  : projection.versus.stage === 'quartas'
-                    ? 'QUARTAS'
-                    : 'OITAVAS'
-            }
-            teamAName={projection.versus.teamAName}
-            teamBName={projection.versus.teamBName}
+        {layers.showRound1Selection && projection.versus ? (
+          <DuoSelectionScene
+            title="RODADA 1 - ESCOLHA QUEM ABRE O CONFRONTO"
             membersA={[
               {
                 id: projection.versus.membersA[0].id,
@@ -786,11 +878,12 @@ export function ScoreboardApp() {
                   null,
               },
             ]}
-            targetLabel={projection.versus.targetLabel}
+            draftAId={round1Draft.a}
+            draftBId={round1Draft.b}
           />
         ) : null}
         {layers.showRound3Selection && projection.versus ? (
-          <Round3SelectionScene
+          <DuoSelectionScene
             membersA={[
               {
                 id: projection.versus.membersA[0].id,
@@ -835,9 +928,9 @@ export function ScoreboardApp() {
             draftBId={round3Draft.b}
           />
         ) : null}
-        {layers.showBattle && projection.versus ? (
+        {layers.showBattle && versusForBattle ? (
           <BattleScene
-            versus={projection.versus}
+            versus={versusForBattle}
             screen={layers.battleScreen}
             getPhoto={getPhoto}
             forceMatchFinish={layers.forceMatchFinish}

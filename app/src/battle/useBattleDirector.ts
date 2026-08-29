@@ -84,6 +84,10 @@ export function useBattleDirector(input: BattleDirectorInput): BattleVisualState
     }
 
     if (!input.introKey || !input.roundNumber) {
+      console.log('[battle][intro] SEM introKey/roundNumber -> clear', {
+        introKey: input.introKey,
+        roundNumber: input.roundNumber,
+      })
       clearIntro()
       lastIntroRef.current = null
       return clearIntro
@@ -91,6 +95,7 @@ export function useBattleDirector(input: BattleDirectorInput): BattleVisualState
 
     // Always (re)schedule on effect entry. React Strict Mode runs mount→cleanup→mount;
     // skipping when lastIntroRef already matches left ROUND stuck with no FIGHT/clear.
+    console.log('[battle][intro] AGENDANDO intro pra', input.introKey, 'round', input.roundNumber)
     clearIntro()
     lastIntroRef.current = input.introKey
     const plan = buildRoundIntroPlan(input.roundNumber)
@@ -105,6 +110,7 @@ export function useBattleDirector(input: BattleDirectorInput): BattleVisualState
     audioRef.current.play(plan.roundEvent)
 
     const fightId = window.setTimeout(() => {
+      console.log('[battle][intro] FIGHT callout pra', input.introKey)
       setVisual((prev) => ({
         ...prev,
         calloutSrc: plan.fightCalloutSrc,
@@ -114,6 +120,7 @@ export function useBattleDirector(input: BattleDirectorInput): BattleVisualState
     introTimersRef.current.push(fightId)
 
     const clearId = window.setTimeout(() => {
+      console.log('[battle][intro] clear intro pra', input.introKey, '-> waiting-result')
       setVisual((prev) => ({
         ...prev,
         phase: 'waiting-result',
@@ -122,7 +129,10 @@ export function useBattleDirector(input: BattleDirectorInput): BattleVisualState
     }, plan.clearAtMs)
     introTimersRef.current.push(clearId)
 
-    return clearIntro
+    return () => {
+      console.log('[battle][intro] CLEANUP intro de', input.introKey)
+      clearIntro()
+    }
   }, [input.introKey, input.roundNumber])
 
   useEffect(() => {
@@ -132,6 +142,10 @@ export function useBattleDirector(input: BattleDirectorInput): BattleVisualState
     }
 
     if (!input.resultKey || !input.winnerSide) {
+      console.log('[battle][result] SEM resultKey/winnerSide -> reset', {
+        resultKey: input.resultKey,
+        winnerSide: input.winnerSide,
+      })
       clearTimers()
       lastKeyRef.current = null
       // Preserve intro callout when resetting between results; only wipe timeline fields.
@@ -145,6 +159,11 @@ export function useBattleDirector(input: BattleDirectorInput): BattleVisualState
 
     // Always (re)schedule on effect entry. React Strict Mode runs mount→cleanup→mount;
     // skipping when lastKeyRef already matches left the timeline cancelled forever.
+    console.log('[battle][result] AGENDANDO timeline pra', input.resultKey, {
+      winnerSide: input.winnerSide,
+      matchPoint: input.matchPoint,
+      finalScore: input.finalScore,
+    })
     clearTimers()
     lastKeyRef.current = input.resultKey
     setVisual(initialBattleVisualState)
@@ -154,14 +173,20 @@ export function useBattleDirector(input: BattleDirectorInput): BattleVisualState
         ? buildMatchFinishTimeline(input.winnerSide, input.finalScore)
         : buildRoundWinTimeline(input.winnerSide)
 
+    console.log('[battle][result] cues geradas para', input.resultKey, ':', cues)
+
     for (const cue of cues) {
       const id = window.setTimeout(() => {
+        console.log('[battle][result] disparando cue', input.resultKey, cue)
         setVisual((prev) => applyCue(prev, cue, audioRef.current, loserVariantRef.current))
       }, cue.at)
       timersRef.current.push(id)
     }
 
-    return clearTimers
+    return () => {
+      console.log('[battle][result] CLEANUP/cancelando timeline de', input.resultKey)
+      clearTimers()
+    }
   }, [input.resultKey, input.winnerSide, input.matchPoint, input.finalScore])
 
   return visual

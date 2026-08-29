@@ -124,6 +124,7 @@ export function MatchupRevealScene({ matches, getPhoto, onDone, stepMs = 2500 }:
                         memberBPhoto={m1a ? (m1a.photoAssetId ? getPhoto(m1a.photoAssetId) : m1a.avatarUrl ?? null) : null}
                         memberAAlt={m0a?.name ?? ''}
                         memberBAlt={m1a?.name ?? ''}
+                        nameScale={0.35}
                     />
                 </div>
 
@@ -145,6 +146,7 @@ export function MatchupRevealScene({ matches, getPhoto, onDone, stepMs = 2500 }:
                         memberBPhoto={m1b ? (m1b.photoAssetId ? getPhoto(m1b.photoAssetId) : m1b.avatarUrl ?? null) : null}
                         memberAAlt={m0b?.name ?? ''}
                         memberBAlt={m1b?.name ?? ''}
+                        nameScale={0.35}
                     />
                 </div>
             </div>
